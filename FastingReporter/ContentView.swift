@@ -6,11 +6,53 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct ContentView: View {
+    private var healthStore: HealthStore?
+    @State private var carbs: [CarbModel] = [CarbModel]()
+    
+    init() {
+        healthStore = HealthStore()
+    }
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            List(carbs, id: \.id) { carb in
+                HStack(alignment: .center) {
+                    Text("\(carb.carbs)")
+                    Spacer()
+                    Text(carb.date, style: .date)
+                        .opacity(0.5)
+                }
+                .accessibility(identifier: "carbsListLabel")
+            }
+            .navigationBarTitle("Carbs List")
+            .onAppear {
+                if let healthStore = healthStore {
+                    healthStore.requestAuthorization { success in
+                        if success {
+                            healthStore.calculateCarbs { statisticsCollection in
+                                if let statisticsCollection = statisticsCollection {
+                                    print(statisticsCollection)     // FIXME: TODO: Change to logging.
+                                    updateUIFromStatistics(statisticsCollection)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func updateUIFromStatistics(_ statisticsCollection: HKStatisticsCollection) {
+        let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        let endDate = Date()
+        statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
+            let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
+            let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
+            carbs.append(carb)
+        }
     }
 }
 

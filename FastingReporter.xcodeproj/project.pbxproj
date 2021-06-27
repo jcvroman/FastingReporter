@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C6626867CF800BFA3FB /* CarbModel.swift */; };
+		99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C692687EE1A00BFA3FB /* HealthStore.swift */; };
+		99346C6E2687F3D900BFA3FB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99346C6D2687F3D900BFA3FB /* HealthKit.framework */; };
 		99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACC266D949F003230CA /* FastingReporterApp.swift */; };
 		99DE2ACF266D949F003230CA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACE266D949F003230CA /* ContentView.swift */; };
 		99DE2AD1266D94A0003230CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE2AD0266D94A0003230CA /* Assets.xcassets */; };
 		99DE2AD4266D94A0003230CA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE2AD3266D94A0003230CA /* Preview Assets.xcassets */; };
-		99DE2ADF266D94A0003230CA /* FastingReporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ADE266D94A0003230CA /* FastingReporterTests.swift */; };
+		99DE2ADF266D94A0003230CA /* ReportListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ADE266D94A0003230CA /* ReportListViewModelTests.swift */; };
 		99DE2AEA266D94A0003230CA /* FastingReporterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */; };
+		99DE2AF9266D97D4003230CA /* ReportListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AF8266D97D4003230CA /* ReportListUITests.swift */; };
+		99F7F6E02686653C0092FFF7 /* ReportListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F7F6DF2686653C0092FFF7 /* ReportListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		99346C6626867CF800BFA3FB /* CarbModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbModel.swift; sourceTree = "<group>"; };
+		99346C692687EE1A00BFA3FB /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
+		99346C6B2687F3D900BFA3FB /* FastingReporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FastingReporter.entitlements; sourceTree = "<group>"; };
+		99346C6D2687F3D900BFA3FB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		99DE2AC9266D949F003230CA /* FastingReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastingReporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99DE2ACC266D949F003230CA /* FastingReporterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterApp.swift; sourceTree = "<group>"; };
 		99DE2ACE266D949F003230CA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,11 +49,13 @@
 		99DE2AD3266D94A0003230CA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		99DE2AD5266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99DE2ADA266D94A0003230CA /* FastingReporterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FastingReporterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		99DE2ADE266D94A0003230CA /* FastingReporterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterTests.swift; sourceTree = "<group>"; };
+		99DE2ADE266D94A0003230CA /* ReportListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListViewModelTests.swift; sourceTree = "<group>"; };
 		99DE2AE0266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99DE2AE5266D94A0003230CA /* FastingReporterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FastingReporterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterUITests.swift; sourceTree = "<group>"; };
 		99DE2AEB266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99DE2AF8266D97D4003230CA /* ReportListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListUITests.swift; sourceTree = "<group>"; };
+		99F7F6DF2686653C0092FFF7 /* ReportListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99346C6E2687F3D900BFA3FB /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +84,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		99346C682687EDF500BFA3FB /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				99346C692687EE1A00BFA3FB /* HealthStore.swift */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		99346C6C2687F3D900BFA3FB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99346C6D2687F3D900BFA3FB /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9987FFDA26851642009B8F2F /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				99DE2ADE266D94A0003230CA /* ReportListViewModelTests.swift */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
 		99DE2AC0266D949F003230CA = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +115,7 @@
 				99DE2ADD266D94A0003230CA /* FastingReporterTests */,
 				99DE2AE8266D94A0003230CA /* FastingReporterUITests */,
 				99DE2ACA266D949F003230CA /* Products */,
+				99346C6C2687F3D900BFA3FB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +132,11 @@
 		99DE2ACB266D949F003230CA /* FastingReporter */ = {
 			isa = PBXGroup;
 			children = (
+				99346C6B2687F3D900BFA3FB /* FastingReporter.entitlements */,
+				99346C682687EDF500BFA3FB /* Stores */,
+				99F7F6DE268665040092FFF7 /* Models */,
+				99F7F6DD268664F90092FFF7 /* ViewModels */,
+				99F7F6DC268664EE0092FFF7 /* Views */,
 				99DE2ACC266D949F003230CA /* FastingReporterApp.swift */,
 				99DE2ACE266D949F003230CA /* ContentView.swift */,
 				99DE2AD0266D94A0003230CA /* Assets.xcassets */,
@@ -115,7 +157,7 @@
 		99DE2ADD266D94A0003230CA /* FastingReporterTests */ = {
 			isa = PBXGroup;
 			children = (
-				99DE2ADE266D94A0003230CA /* FastingReporterTests.swift */,
+				9987FFDA26851642009B8F2F /* UnitTests */,
 				99DE2AE0266D94A0003230CA /* Info.plist */,
 			);
 			path = FastingReporterTests;
@@ -124,10 +166,42 @@
 		99DE2AE8266D94A0003230CA /* FastingReporterUITests */ = {
 			isa = PBXGroup;
 			children = (
+				99DE2AF7266D9659003230CA /* AcceptanceTests */,
 				99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */,
 				99DE2AEB266D94A0003230CA /* Info.plist */,
 			);
 			path = FastingReporterUITests;
+			sourceTree = "<group>";
+		};
+		99DE2AF7266D9659003230CA /* AcceptanceTests */ = {
+			isa = PBXGroup;
+			children = (
+				99DE2AF8266D97D4003230CA /* ReportListUITests.swift */,
+			);
+			path = AcceptanceTests;
+			sourceTree = "<group>";
+		};
+		99F7F6DC268664EE0092FFF7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		99F7F6DD268664F90092FFF7 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				99F7F6DF2686653C0092FFF7 /* ReportListViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		99F7F6DE268665040092FFF7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				99346C6626867CF800BFA3FB /* CarbModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -260,7 +334,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				99DE2ACF266D949F003230CA /* ContentView.swift in Sources */,
+				99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */,
 				99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */,
+				99F7F6E02686653C0092FFF7 /* ReportListViewModel.swift in Sources */,
+				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99DE2ADF266D94A0003230CA /* FastingReporterTests.swift in Sources */,
+				99DE2ADF266D94A0003230CA /* ReportListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99DE2AF9266D97D4003230CA /* ReportListUITests.swift in Sources */,
 				99DE2AEA266D94A0003230CA /* FastingReporterUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +495,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FastingReporter/FastingReporter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"FastingReporter/Preview Content\"";
 				DEVELOPMENT_TEAM = Y5GZW77V34;
@@ -439,6 +518,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FastingReporter/FastingReporter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"FastingReporter/Preview Content\"";
 				DEVELOPMENT_TEAM = Y5GZW77V34;
