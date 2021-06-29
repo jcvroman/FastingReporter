@@ -35,7 +35,7 @@ struct ContentView: View {
                             healthStore.calculateCarbs { statisticsCollection in
                                 if let statisticsCollection = statisticsCollection {
                                     print(statisticsCollection)     // FIXME: TODO: Change to logging.
-                                    updateUIFromStatistics(statisticsCollection)
+                                    fetchCarbsFromStatistics(statisticsCollection)
                                 }
                             }
                         }
@@ -45,7 +45,7 @@ struct ContentView: View {
         }
     }
     
-    private func updateUIFromStatistics(_ statisticsCollection: HKStatisticsCollection) {
+    private func fetchCarbsFromStatistics(_ statisticsCollection: HKStatisticsCollection) {
         let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
         let endDate = Date()
         statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
