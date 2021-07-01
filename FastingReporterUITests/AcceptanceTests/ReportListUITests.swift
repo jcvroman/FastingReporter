@@ -5,6 +5,11 @@
 //  Created by Jimmy Vroman on 6/6/21.
 //
 
+// NOTE: Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
+//          Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection
+//          Acceptance Cycle: Acceptance Tests, Deployment Tests, Data Migration Tests, Performance Tests.
+//          Release Cycle: Smoke Tests (Health Check), Monitoring.
+//          Product Cycle: Monitoring, Performance Verification, Security Verification.
 // NOTE: Behavior Driven Development (BDD): TDD + Behavior. Focuses on behavioral apsects. Transparency between user expectations & developers tests. Can be a superset of TDD.
 // NOTE: BDD: Red (write test to fail), Green (write code to pass test), Yellow (refactor) and iterate process.
 // NOTE: BDD: BDD Reference: https://cucumber.io/docs/bdd/
