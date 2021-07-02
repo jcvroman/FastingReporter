@@ -44,8 +44,11 @@ jobs:
     - name: Show Available Destinations
       run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
 
+    - name: Show SwiftLint Version
+      run: swiftlint version
+      
     - name: Run SwiftLint
-      run: swiftlint version lint
+      run: swiftlint lint
       #run: swift format lint --configuration .swift-format-config -r .
 
     - name: Build and Commit Cycle Test
