@@ -14,10 +14,10 @@
 		99DE2ACF266D949F003230CA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACE266D949F003230CA /* ContentView.swift */; };
 		99DE2AD1266D94A0003230CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE2AD0266D94A0003230CA /* Assets.xcassets */; };
 		99DE2AD4266D94A0003230CA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE2AD3266D94A0003230CA /* Preview Assets.xcassets */; };
-		99DE2ADF266D94A0003230CA /* ReportListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ADE266D94A0003230CA /* ReportListViewModelTests.swift */; };
+		99DE2ADF266D94A0003230CA /* CarbsDailyListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ADE266D94A0003230CA /* CarbsDailyListViewModelTests.swift */; };
 		99DE2AEA266D94A0003230CA /* FastingReporterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */; };
-		99DE2AF9266D97D4003230CA /* ReportListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AF8266D97D4003230CA /* ReportListUITests.swift */; };
-		99F7F6E02686653C0092FFF7 /* ReportListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F7F6DF2686653C0092FFF7 /* ReportListViewModel.swift */; };
+		99DE2AF9266D97D4003230CA /* CarbsDailyListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AF8266D97D4003230CA /* CarbsDailyListUITests.swift */; };
+		99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,13 +49,13 @@
 		99DE2AD3266D94A0003230CA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		99DE2AD5266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99DE2ADA266D94A0003230CA /* FastingReporterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FastingReporterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		99DE2ADE266D94A0003230CA /* ReportListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListViewModelTests.swift; sourceTree = "<group>"; };
+		99DE2ADE266D94A0003230CA /* CarbsDailyListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListViewModelTests.swift; sourceTree = "<group>"; };
 		99DE2AE0266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99DE2AE5266D94A0003230CA /* FastingReporterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FastingReporterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterUITests.swift; sourceTree = "<group>"; };
 		99DE2AEB266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		99DE2AF8266D97D4003230CA /* ReportListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListUITests.swift; sourceTree = "<group>"; };
-		99F7F6DF2686653C0092FFF7 /* ReportListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListViewModel.swift; sourceTree = "<group>"; };
+		99DE2AF8266D97D4003230CA /* CarbsDailyListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListUITests.swift; sourceTree = "<group>"; };
+		99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +103,7 @@
 		9987FFDA26851642009B8F2F /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				99DE2ADE266D94A0003230CA /* ReportListViewModelTests.swift */,
+				99DE2ADE266D94A0003230CA /* CarbsDailyListViewModelTests.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -176,7 +176,7 @@
 		99DE2AF7266D9659003230CA /* AcceptanceTests */ = {
 			isa = PBXGroup;
 			children = (
-				99DE2AF8266D97D4003230CA /* ReportListUITests.swift */,
+				99DE2AF8266D97D4003230CA /* CarbsDailyListUITests.swift */,
 			);
 			path = AcceptanceTests;
 			sourceTree = "<group>";
@@ -191,7 +191,7 @@
 		99F7F6DD268664F90092FFF7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				99F7F6DF2686653C0092FFF7 /* ReportListViewModel.swift */,
+				99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -336,7 +336,7 @@
 				99DE2ACF266D949F003230CA /* ContentView.swift in Sources */,
 				99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */,
 				99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */,
-				99F7F6E02686653C0092FFF7 /* ReportListViewModel.swift in Sources */,
+				99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */,
 				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,7 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99DE2ADF266D94A0003230CA /* ReportListViewModelTests.swift in Sources */,
+				99DE2ADF266D94A0003230CA /* CarbsDailyListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99DE2AF9266D97D4003230CA /* ReportListUITests.swift in Sources */,
+				99DE2AF9266D97D4003230CA /* CarbsDailyListUITests.swift in Sources */,
 				99DE2AEA266D94A0003230CA /* FastingReporterUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

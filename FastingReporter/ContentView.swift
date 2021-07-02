@@ -25,9 +25,9 @@ struct ContentView: View {
                     Text(carb.date, style: .date)
                         .opacity(0.5)
                 }
-                .accessibility(identifier: "carbsListLabel")
+                .accessibility(identifier: "carbsDailyListLabel")
             }
-            .navigationBarTitle("Carbs List")
+            .navigationBarTitle("Carbs Daily List")
             .onAppear {
                 if let healthStore = healthStore {
                     healthStore.requestAuthorization { success in
