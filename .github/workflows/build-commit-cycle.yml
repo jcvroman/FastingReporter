@@ -1,6 +1,10 @@
 name: build-commit-cycle
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -40,8 +44,9 @@ jobs:
     - name: Show Available Destinations
       run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
 
-    #- name: lint
+    - name: Run SwiftLint
+      run: swiftlint version lint
       #run: swift format lint --configuration .swift-format-config -r .
 
-    - name: build and test
+    - name: Build and Commit Cycle Test
       run: xcodebuild clean test -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -showBuildTimingSummary
