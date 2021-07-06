@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "1AF66F59-0208-484C-88C7-CE94A6CC55C1",
+      "name" : "English (US)",
+      "options" : {
+        "language" : "en",
+        "region" : "US"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "selectedTests" : [
+        "CarbsDailyListUITests\/test_when_no_carbs_then_report_list_empty()",
+        "FastingReporterUITests\/testExample()",
+        "FastingReporterUITests\/testLaunchPerformance()"
+      ],
+      "target" : {
+        "containerPath" : "container:FastingReporter.xcodeproj",
+        "identifier" : "99DE2AE4266D94A0003230CA",
+        "name" : "FastingReporterUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
