@@ -1,4 +1,4 @@
-name: build-commit-cycle
+name: ci-commit-cycle
 
 on:
   push:
@@ -51,5 +51,5 @@ jobs:
       run: swiftlint lint
       #run: swift format lint --configuration .swift-format-config -r .
 
-    - name: Build and Commit Cycle Test
+    - name: Build and Commit Cycle Test per Config Matrix
       run: xcodebuild clean test -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -testPlan '${{ matrix.run-config['testPlan'] }}' -showBuildTimingSummary
