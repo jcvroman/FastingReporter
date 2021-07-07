@@ -1,6 +1,6 @@
-name: ci-commit-cycle
+name: ci-acceptance-cycle
     # Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-    #   Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection.
+    #   Acceptance Cycle: Acceptance Tests, Deployment Tests, Data Migration Tests, Performance Tests.
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         run-config:
-          - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'CommitCycle_iOS' }
+          - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'AcceptanceCycle_iOS' }
 
     steps:
     - name: Checkout Project
@@ -38,20 +38,12 @@ jobs:
       
     - name: Show Build Settings
       run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
-      #run: xcodebuild -project FastingReporter.xcodeproj -scheme 'FastingReporter' -showBuildSettings
 
     - name: Show Build SDK
       run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
 
     - name: Show Available Destinations
       run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
-
-    - name: Show SwiftLint Version
-      run: swiftlint version
-      
-    - name: Run SwiftLint
-      run: swiftlint lint
-      #run: swift format lint --configuration .swift-format-config -r .
 
     - name: Build and Commit Cycle Test per Config Matrix
       run: xcodebuild clean test -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -testPlan '${{ matrix.run-config['testPlan'] }}' -showBuildTimingSummary

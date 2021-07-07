@@ -6,7 +6,7 @@
 //
 
 // NOTE: Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-//          Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection
+//          Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection.
 //          Acceptance Cycle: Acceptance Tests, Deployment Tests, Data Migration Tests, Performance Tests.
 //          Release Cycle: Smoke Tests (Health Check), Monitoring.
 //          Product Cycle: Monitoring, Performance Verification, Security Verification.
