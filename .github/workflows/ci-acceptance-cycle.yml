@@ -39,5 +39,11 @@ jobs:
     - name: Show Available Destinations
       run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
 
-    - name: Build and Acceptance Cycle Test per Config Matrix
-      run: xcodebuild clean test -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -testPlan '${{ matrix.run-config['testPlan'] }}' -showBuildTimingSummary
+    - name: Build and Test per Config Matrix
+      run: |
+        xcodebuild clean test \
+            -project FastingReporter.xcodeproj \
+            -scheme '${{ matrix.run-config['scheme'] }}' \
+            -destination '${{ matrix.run-config['destination'] }}' \
+            -testPlan '${{ matrix.run-config['testPlan'] }}' \
+            -showBuildTimingSummary

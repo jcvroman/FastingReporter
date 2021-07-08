@@ -53,7 +53,7 @@ jobs:
       run: swiftlint lint
       #run: swift format lint --configuration .swift-format-config -r .
 
-    - name: Build and Commit Cycle Test per Config Matrix
+    - name: Build and Test per Config Matrix
       run: |
         xcodebuild clean test \
             -project FastingReporter.xcodeproj \
