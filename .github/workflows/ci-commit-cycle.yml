@@ -54,9 +54,10 @@ jobs:
       #run: swift format lint --configuration .swift-format-config -r .
 
     - name: Build and Commit Cycle Test per Config Matrix
-      run: xcodebuild clean test \
-                -project FastingReporter.xcodeproj \
-                -scheme '${{ matrix.run-config['scheme'] }}' \
-                -destination '${{ matrix.run-config['destination'] }}' \
-                -testPlan '${{ matrix.run-config['testPlan'] }}' \
-                -showBuildTimingSummary
+      run: |
+        xcodebuild clean test \
+            -project FastingReporter.xcodeproj \
+            -scheme '${{ matrix.run-config['scheme'] }}' \
+            -destination '${{ matrix.run-config['destination'] }}' \
+            -testPlan '${{ matrix.run-config['testPlan'] }}' \
+            -showBuildTimingSummary
