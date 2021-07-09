@@ -3,70 +3,95 @@ name: ci-commit-cycle
     #   Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection.
 
 env:
-  XC_VERSION: ${{ '12.4' }}
-  XC_PROJECT: ${{ 'FastingReporter.xcodeproj' }}
-  XC_CONFIGURATION: ${{ 'Debug' }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    XC_VERSION: ${{ '12.4' }}
+    XC_PROJECT: ${{ 'FastingReporter.xcodeproj' }}
+    XC_CONFIGURATION: ${{ 'Debug' }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
 
 jobs:
-  build:
+    # SwiftLint: Check Swift style and conventions on ubuntu
+    SwiftLint:
+        runs-on: ubuntu-latest
 
-    runs-on: macOS-latest
-    strategy:
-      matrix:
-        run-config:
-          - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'CommitCycle_iOS' }
-
-    steps:
-    - name: Checkout Project
-      uses: actions/checkout@v2
-
-    #- name: Homebrew build helpers install
-    #   run: brew bundle
-
-    - name: Show the currently detailed version of Xcode for CLI
-      run: xcode-select -p
-
-    - name: Show what's in Applications
-      run: ls -al /Applications
-
-    #- name: Select Xcode
-    #    run: |
-    #        sudo xcode-select -switch /Applications/Xcode_$XC_VERSION.app
-    #        xcodebuild -version
-
-    - name: Show Build Version
-      run: xcodebuild -version
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
       
-    - name: Show Build Settings
-      run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
-      #run: xcodebuild -project FastingReporter.xcodeproj -scheme 'FastingReporter' -showBuildSettings
+        - name: SwiftLint Scan
+          uses: norio-nomura/action-swiftlint@3.1.0
 
-    - name: Show Build SDK
-      run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
+    # SonarCloud: Detect bugs, vulnerabilities and code smells on ubuntu
+    #SonarCloud:
+    #    runs-on: ubuntu-latest
+    #
+    #    steps:
+    #    - name: Checkout repository
+    #      uses: actions/checkout@v2
+    #      with:
+    #        # Disabling shallow clone is recommended for improving relevancy of reporting
+    #        fetch-depth: 0
+    #
+    #    - name: SonarCloud Scan
+    #      uses: sonarsource/sonarcloud-github-action@master
 
-    - name: Show Available Destinations
-      run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
+    # Build: Build and Test per Config Matrix
+    Build:
+        runs-on: macOS-latest
+        strategy:
+            matrix:
+                run-config:
+                    - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'CommitCycle_iOS' }
 
-    - name: Show SwiftLint Version
-      run: swiftlint version
-      
-    - name: Run SwiftLint
-      run: swiftlint lint
+        steps:
+        - name: Checkout Project
+          uses: actions/checkout@v2
 
-    - name: Build and Test per Config Matrix
-      run: |
-        xcodebuild clean test \
-            -project "$XC_PROJECT" \
-            -scheme '${{ matrix.run-config['scheme'] }}' \
-            -configuration "$XC_CONFIGURATION" \
-            -destination '${{ matrix.run-config['destination'] }}' \
-            -testPlan '${{ matrix.run-config['testPlan'] }}' \
-            -showBuildTimingSummary
+        #- name: Homebrew build helpers install
+        #  run: brew bundle
+
+        - name: Show the currently detailed version of Xcode for CLI
+          run: xcode-select -p
+
+        - name: Show what's in Applications
+          run: ls -al /Applications
+
+        #- name: Select Xcode
+        #  run: |
+        #       sudo xcode-select -switch /Applications/Xcode_$XC_VERSION.app
+        #       xcodebuild -version
+
+        - name: Show Build Version
+          run: xcodebuild -version
+          
+        - name: Show Build Settings
+          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
+          #run: xcodebuild -project FastingReporter.xcodeproj -scheme 'FastingReporter' -showBuildSettings
+
+        - name: Show Build SDK
+          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
+
+        - name: Show Available Destinations
+          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
+
+        - name: Show SwiftLint Version
+          run: swiftlint version
+          
+        - name: Check Swift style and conventions on macOS
+          run: swiftlint lint
+
+        - name: Build and Test per Config Matrix
+          run: |
+            xcodebuild clean test \
+                -project "$XC_PROJECT" \
+                -scheme '${{ matrix.run-config['scheme'] }}' \
+                -configuration "$XC_CONFIGURATION" \
+                -destination '${{ matrix.run-config['destination'] }}' \
+                -testPlan '${{ matrix.run-config['testPlan'] }}' \
+                -showBuildTimingSummary
