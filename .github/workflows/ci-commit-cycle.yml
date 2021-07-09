@@ -2,6 +2,13 @@ name: ci-commit-cycle
     # Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
     #   Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection.
 
+env:
+  XC_VERSION: ${{ '12.4' }}
+  XC_PROJECT: ${{ 'FastingReporter.xcodeproj' }}
+  XC_CONFIGURATION: ${{ 'Debug' }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  
 on:
   push:
     branches: [ main ]
@@ -22,7 +29,7 @@ jobs:
       uses: actions/checkout@v2
 
     #- name: Homebrew build helpers install
-      #run: brew bundle
+    #   run: brew bundle
 
     - name: Show the currently detailed version of Xcode for CLI
       run: xcode-select -p
@@ -30,34 +37,36 @@ jobs:
     - name: Show what's in Applications
       run: ls -al /Applications
 
-    #- name: Switch to Xcode 12
-      #run: sudo xcode-select -s /Applications/Xcode_12.5.1.app
+    #- name: Select Xcode
+    #    run: |
+    #        sudo xcode-select -switch /Applications/Xcode_$XC_VERSION.app
+    #        xcodebuild -version
 
     - name: Show Build Version
       run: xcodebuild -version
       
     - name: Show Build Settings
-      run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
+      run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
       #run: xcodebuild -project FastingReporter.xcodeproj -scheme 'FastingReporter' -showBuildSettings
 
     - name: Show Build SDK
-      run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
+      run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
 
     - name: Show Available Destinations
-      run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
+      run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
 
     - name: Show SwiftLint Version
       run: swiftlint version
       
     - name: Run SwiftLint
       run: swiftlint lint
-      #run: swift format lint --configuration .swift-format-config -r .
 
     - name: Build and Test per Config Matrix
       run: |
         xcodebuild clean test \
-            -project FastingReporter.xcodeproj \
+            -project "$XC_PROJECT" \
             -scheme '${{ matrix.run-config['scheme'] }}' \
+            -configuration "$XC_CONFIGURATION" \
             -destination '${{ matrix.run-config['destination'] }}' \
             -testPlan '${{ matrix.run-config['testPlan'] }}' \
             -showBuildTimingSummary
