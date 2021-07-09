@@ -48,7 +48,7 @@ jobs:
         strategy:
             matrix:
                 run-config:
-                    - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'CommitCycle_iOS' }
+                - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'CommitCycle_iOS' }
 
         steps:
         - name: Checkout Project
@@ -81,11 +81,11 @@ jobs:
         - name: Show Available Destinations
           run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
 
-        # NOTE: Double checking SwiftLint on macOS.
+        # NOTE: Double checking SwiftLint Scan on macOS.
         - name: Show SwiftLint Version
           run: swiftlint version
           
-        - name: Check Swift style and conventions on macOS
+        - name: SwiftLint Scan
           run: swiftlint lint
 
         - name: Build and Test per Config Matrix

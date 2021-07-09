@@ -2,6 +2,12 @@ name: ci-acceptance-cycle
     # Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
     #   Acceptance Cycle: Acceptance Tests, Deployment Tests, Data Migration Tests, Performance Tests.
 
+env:
+    XC_VERSION: ${{ '12.4' }}
+    XC_PROJECT: ${{ 'FastingReporter.xcodeproj' }}
+    XC_CONFIGURATION: ${{ 'Debug' }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
 on:
   push:
     branches: [ main ]
@@ -9,41 +15,42 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+    # Build: Build and Test per Config Matrix
+    Build:
+        runs-on: macOS-latest
+        strategy:
+            matrix:
+                run-config:
+                - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'AcceptanceCycle_iOS' }
 
-    runs-on: macOS-latest
-    strategy:
-      matrix:
-        run-config:
-          - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 8', testPlan: 'AcceptanceCycle_iOS' }
+        steps:
+        - name: Checkout Project
+          uses: actions/checkout@v2
 
-    steps:
-    - name: Checkout Project
-      uses: actions/checkout@v2
+        - name: Show the currently detailed version of Xcode for CLI
+          run: xcode-select -p
 
-    - name: Show the currently detailed version of Xcode for CLI
-      run: xcode-select -p
+        - name: Show what's in Applications
+          run: ls -al /Applications
 
-    - name: Show what's in Applications
-      run: ls -al /Applications
+        - name: Show Build Version
+          run: xcodebuild -version
+          
+        - name: Show Build Settings
+          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
 
-    - name: Show Build Version
-      run: xcodebuild -version
-      
-    - name: Show Build Settings
-      run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
+        - name: Show Build SDK
+          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
 
-    - name: Show Build SDK
-      run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
+        - name: Show Available Destinations
+          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
 
-    - name: Show Available Destinations
-      run: xcodebuild -project FastingReporter.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
-
-    - name: Build and Test per Config Matrix
-      run: |
-        xcodebuild clean test \
-            -project FastingReporter.xcodeproj \
-            -scheme '${{ matrix.run-config['scheme'] }}' \
-            -destination '${{ matrix.run-config['destination'] }}' \
-            -testPlan '${{ matrix.run-config['testPlan'] }}' \
-            -showBuildTimingSummary
+        - name: Build and Test per Config Matrix
+          run: |
+            xcodebuild clean test \
+                -project "$XC_PROJECT" \
+                -scheme '${{ matrix.run-config['scheme'] }}' \
+                -configuration "$XC_CONFIGURATION" \
+                -destination '${{ matrix.run-config['destination'] }}' \
+                -testPlan '${{ matrix.run-config['testPlan'] }}' \
+                -showBuildTimingSummary
