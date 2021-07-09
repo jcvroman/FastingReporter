@@ -17,6 +17,7 @@ on:
 
 jobs:
     # SwiftLint: Check Swift style and conventions on ubuntu
+    #   NOTE: Gives annotations on Jobs page.
     SwiftLint:
         runs-on: ubuntu-latest
 
@@ -80,6 +81,7 @@ jobs:
         - name: Show Available Destinations
           run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
 
+        # NOTE: Double checking SwiftLint on macOS.
         - name: Show SwiftLint Version
           run: swiftlint version
           
