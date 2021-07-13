@@ -8,11 +8,41 @@ on:
         - v*
 
 jobs:
+    # calc-version
+    calc-version:
+        runs-on: ubuntu-latest
+        outputs:
+            packageSemVer: ${{ env.PACKAGE_SEMVER }}
+            
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+
+        # Use gitversion to determine next version based on git tag.
+        - name: Install GitVersion
+          uses: gittools/actions/gitversion/setup@v0.9.9
+          with:
+            versionSpec: 'x.x.x'
+              
+        - name: Determine Version
+            id:   gitversion
+          uses: gittools/actions/gitversion/execute@v0.9.9
+          with:
+            useConfigFile: false
+              
+        - name: Display SemVer
+          run: |
+            echo "SemVer: $GITVERSION_SEMVER"
+          
     # Release: Build and Release to App Store.
     Release:
         runs-on: macOS-latest
+        needs: calc-version
 
         env:
+            PACKAGE_SEMVER: ${{ needs.calc-version.outputs.packageSemVer }}
             XC_VERSION: ${{ '12.4' }}
             XC_PROJECT: ${{ 'FastingReporter.xcodeproj' }}
             XC_SCHEME: ${{ 'FastingReporter' }}
@@ -38,6 +68,10 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v2
 
+        - name: Display SemVer
+          run: |
+            echo "SemVer: $PACKAGE_SEMVER"
+        
         - name: Bump version
           uses: yanamura/ios-bump-version@v1
 
