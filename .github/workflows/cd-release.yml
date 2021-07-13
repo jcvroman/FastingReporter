@@ -34,10 +34,10 @@ jobs:
           run: |
             echo "SemVer: $GITVERSION_SEMVER"
             
-        #- name: Set envs
-        #  run: |
-        #    echo PACKAGE_SEMVER=${{ steps.gitversion.outputs.semVer }} >> ${GITHUB_ENV}
-          
+        - name: Set envs
+          run: |
+            echo PACKAGE_SEMVER=${{ steps.gitversion.outputs.semVer }} >> ${GITHUB_ENV}
+
     # Release: Build and Release to App Store.
     Release:
         runs-on: macOS-latest
