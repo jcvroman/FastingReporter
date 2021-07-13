@@ -33,6 +33,10 @@ jobs:
         - name: Display SemVer
           run: |
             echo "SemVer: $GITVERSION_SEMVER"
+            
+        #- name: Set envs
+        #  run: |
+        #    echo PACKAGE_SEMVER=${{ steps.gitversion.outputs.semVer }} >> ${GITHUB_ENV}
           
     # Release: Build and Release to App Store.
     Release:
@@ -68,8 +72,8 @@ jobs:
 
         - name: Display SemVer
           run: |
-            echo "SemVer: $PACKAGE_SEMVER"
-        
+            echo "SemVer: ${{ env.PACKAGE_SEMVER }}"
+
         - name: Bump version
           uses: yanamura/ios-bump-version@v1
 
