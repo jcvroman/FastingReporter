@@ -84,7 +84,7 @@ jobs:
         #  run: |
         #    git add .
         #    git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{github.run_number}}."
-        #    git push origin master
+        #    git push origin main
 
         - name: Commit bumped version to repository
           run: |
@@ -94,10 +94,10 @@ jobs:
             git add .
             git commit -m "Bump version"
             git fetch
-            git checkout master
+            git checkout main
             git merge temp
             git branch -d temp
-            git push origin master
+            git push origin main
 
         #- name: Set up Xcode signing
         #  run: |
