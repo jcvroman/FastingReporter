@@ -20,7 +20,7 @@ jobs:
           with:
             fetch-depth: 0
 
-        # Use gitversion to determine next version based on git tag.
+        # Use gitversion to determine next version (e.g. based on git tag for this release).
         - name: Install GitVersion
           uses: gittools/actions/gitversion/setup@v0.9.9
           with:
@@ -76,7 +76,16 @@ jobs:
 
         - name: Bump version
           uses: yanamura/ios-bump-version@v1
+          with:
+            version: ${{ env.PACKAGE_SEMVER }}
+            build-number: ${{github.run_number}}
 
+        - name: Commit bumped version to repository
+          run: |
+            git add .
+            git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{github.run_number}}."
+            git push origin HEAD
+        
         #- name: Commit bumped version to repository
         #  run: |
         #    git config user.name github-actions
