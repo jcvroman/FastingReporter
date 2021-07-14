@@ -93,8 +93,8 @@ jobs:
             git switch -c temp
             #FIXME: xcodeproj file corrupted after bump verion.
             #git add .
-            git add {{ $XC_SCHEME }}/
-            git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{github.run_number}}."
+            git add "$XC_SCHEME/"
+            git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{ github.run_number }}."
             git fetch
             git checkout main
             git merge temp
