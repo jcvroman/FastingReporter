@@ -80,24 +80,24 @@ jobs:
             version: ${{ env.PACKAGE_SEMVER }}
             build-number: ${{github.run_number}}
 
-        - name: Commit bumped version to repository
-          run: |
-            git add .
-            git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{github.run_number}}."
-            git push origin master
-        
         #- name: Commit bumped version to repository
         #  run: |
-        #    git config user.name github-actions
-        #    git config user.email github-actions@github.com
-        #    git switch -c temp
         #    git add .
-        #    git commit -m "Bump version"
-        #    git fetch
-        #    git checkout master
-        #    git merge temp
-        #    git branch -d temp
+        #    git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{github.run_number}}."
         #    git push origin master
+
+        - name: Commit bumped version to repository
+          run: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git switch -c temp
+            git add .
+            git commit -m "Bump version"
+            git fetch
+            git checkout master
+            git merge temp
+            git branch -d temp
+            git push origin master
 
         #- name: Set up Xcode signing
         #  run: |
