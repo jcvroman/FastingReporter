@@ -11,11 +11,11 @@ import HealthKit
 struct ContentView: View {
     private var healthStore: HealthStore?
     @State private var carbs: [CarbModel] = [CarbModel]()
-    
+
     init() {
         healthStore = HealthStore()
     }
-    
+
     var body: some View {
         NavigationView {
             List(carbs, id: \.id) { carb in
@@ -44,7 +44,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     private func fetchCarbsFromStatistics(_ statisticsCollection: HKStatisticsCollection) {
         let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
         let endDate = Date()

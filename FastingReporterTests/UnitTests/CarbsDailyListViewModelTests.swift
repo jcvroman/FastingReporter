@@ -5,11 +5,14 @@
 //  Created by Jimmy Vroman on 6/6/21.
 //
 
-// NOTE: Test Driven Development (TDD): Test, code, refactor. Focuses on implmentation apsects. Transparency factor might be missing. Subset of BDD.
+// NOTE: Test Driven Development (TDD): Test, code, refactor. Focuses on implmentation apsects. Transparency factor
+//       might be missing. Subset of BDD.
 // NOTE: TDD: Red (write test to fail), Green (write code to pass test), Yellow (refactor) and iterate process.
-// NOTE: Write testable code in order to avoid Mocks, Fakes, Stubs, Spies as much as possible. But, use simple Mocks, Fakes, Stubs, Spies when needed.
+// NOTE: Write testable code in order to avoid Mocks, Fakes, Stubs, Spies as much as possible. But, use simple Mocks,
+//       Fakes, Stubs, Spies when needed.
 // NOTE: Use the iOS Unit Tests across all OSes via setting the target membership for these test files.
-// NOTE: macOS: Set the Signing Certificate to Development (i.e. from target Racket (macOS) / Signing & Capabilities / Signing) for all tests.
+// NOTE: macOS: Set the Signing Certificate to Development (i.e. from target Racket (macOS) / Signing &
+//       Capabilities / Signing) for all tests.
 
 import XCTest
 @testable import FastingReporter
