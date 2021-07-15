@@ -16,6 +16,24 @@ on:
         branches: [ main ]
 
 jobs:
+    # YamlLint: Check Yaml style and conventions on ubuntu
+    YamlLint:
+        name: Lint by yamllint
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        # use pre-installed yamllint
+        # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
+
+        - name: Display yamllint
+          run: yamllint --version
+
+        - name: Run yamllint
+          run: yamllint --strict .
+
     # SwiftLint: Check Swift style and conventions on ubuntu
     #   NOTE: Gives annotations on Jobs page.
     SwiftLint:
