@@ -25,7 +25,7 @@ jobs:
           uses: gittools/actions/gitversion/setup@v0.9.9
           with:
             versionSpec: 'x.x.x'
-              
+
         - name: Determine Version
           id:   gitversion
           uses: gittools/actions/gitversion/execute@v0.9.9
@@ -60,7 +60,7 @@ jobs:
             PROVISION_ENCRYPTION_PWD: ${{ secrets.DEPLOY_PASSWORD }}
             CERTS_EXPORT_PWD: ${{ secrets.DEPLOY_PASSWORD }}
             KEYCHAIN: ${{ 'build.keychain' }}
-    
+
         steps:
         - name: Select Xcode
           run: |
