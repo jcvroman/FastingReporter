@@ -18,7 +18,7 @@ on:
 jobs:
     # YamlLint: Check Yaml style and conventions on ubuntu
     YamlLint:
-        name: Lint by yamllint
+        name: YamlLint
         runs-on: ubuntu-latest
         timeout-minutes: 5
         steps:
