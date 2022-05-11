@@ -1,9 +1,10 @@
 name: ci-acceptance-cycle
     # Continuous Delivery (CD):
-    #   Testing Strategy for DevOps:
-    #       Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-    #   Acceptance Cycle:
-    #       Acceptance Tests, Deployment Tests, Data Migration Tests, Performance Tests.
+    #     Testing Strategy for DevOps:
+    #         Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
+    #     Acceptance Cycle:
+    #         Acceptance Tests, Deployment Tests, Data Migration Tests,
+    #         Performance Tests.
 
 env:
     XC_VERSION: ${{ '12.4' }}
@@ -11,7 +12,7 @@ env:
     XC_CONFIGURATION: ${{ 'Debug' }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-on:
+on: true
     push:
         branches: [main]
     pull_request:
@@ -24,7 +25,9 @@ jobs:
         strategy:
             matrix:
                 run-config:
-                - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 8', testPlan: 'AcceptanceCycle_iOS' }
+                - {scheme: 'FastingReporter',
+                   destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 8',
+                   testPlan: 'AcceptanceCycle_iOS'}
 
         steps:
         - name: Checkout Project
@@ -38,15 +41,21 @@ jobs:
 
         - name: Show Build Version
           run: xcodebuild -version
-          
+
         - name: Show Build Settings
-          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showBuildSettings
+          run: xcodebuild -project "$XC_PROJECT"
+                          -scheme '${{ matrix.run-config['scheme'] }}'
+                          -showBuildSettings
 
         - name: Show Build SDK
-          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showsdks
+          run: xcodebuild -project "$XC_PROJECT"
+                          -scheme '${{ matrix.run-config['scheme'] }}'
+                          -showsdks
 
         - name: Show Available Destinations
-          run: xcodebuild -project "$XC_PROJECT" -scheme '${{ matrix.run-config['scheme'] }}' -showdestinations
+          run: xcodebuild -project "$XC_PROJECT"
+                          -scheme '${{ matrix.run-config['scheme'] }}'
+                          -showdestinations
 
         - name: Build and Test per Config Matrix
           run: |
