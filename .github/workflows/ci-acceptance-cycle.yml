@@ -12,10 +12,10 @@ env:
     XC_CONFIGURATION: ${{ 'Debug' }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-on: true
-    push:
+on:
+    push: true
         branches: [main]
-    pull_request:
+    pull_request: true
         branches: [main]
 
 jobs:
