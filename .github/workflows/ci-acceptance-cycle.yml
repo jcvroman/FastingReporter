@@ -1,18 +1,21 @@
 name: ci-acceptance-cycle
-    # Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-    #   Acceptance Cycle: Acceptance Tests, Deployment Tests, Data Migration Tests, Performance Tests.
+    # Continuous Delivery (CD):
+    #   Testing Strategy for DevOps:
+    #       Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
+    #   Acceptance Cycle:
+    #       Acceptance Tests, Deployment Tests, Data Migration Tests, Performance Tests.
 
 env:
     XC_VERSION: ${{ '12.4' }}
     XC_PROJECT: ${{ 'FastingReporter.xcodeproj' }}
     XC_CONFIGURATION: ${{ 'Debug' }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
 
 jobs:
     # Build: Build and Test per Config Matrix
