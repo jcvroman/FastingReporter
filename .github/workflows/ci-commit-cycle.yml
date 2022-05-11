@@ -13,9 +13,9 @@ env:
     # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 on:
-    push: true
+    push:
         branches: [main]
-    pull_request: true
+    pull_request:
         branches: [main]
 
 jobs:
