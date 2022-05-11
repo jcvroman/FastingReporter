@@ -45,7 +45,7 @@ jobs:
         steps:
         - name: Checkout repository
           uses: actions/checkout@v2
-      
+
         - name: SwiftLint Scan
           uses: norio-nomura/action-swiftlint@3.1.0
 
@@ -69,7 +69,9 @@ jobs:
         strategy:
             matrix:
                 run-config:
-                - { scheme: 'FastingReporter', destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 8', testPlan: 'CommitCycle_iOS' }
+                - {scheme: 'FastingReporter',
+                   destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 8',
+                   testPlan: 'CommitCycle_iOS'}
 
         steps:
         - name: Checkout Project
