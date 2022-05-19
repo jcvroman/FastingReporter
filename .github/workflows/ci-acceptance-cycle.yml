@@ -58,11 +58,11 @@ jobs:
                               -showdestinations
 
             - name: Build and Test per Config Matrix
-            run: |
-                xcodebuild clean test \
-                    -project "$XC_PROJECT" \
-                    -scheme '${{ matrix.run-config['scheme'] }}' \
-                    -configuration "$XC_CONFIGURATION" \
-                    -destination '${{ matrix.run-config['destination'] }}' \
-                    -testPlan '${{ matrix.run-config['testPlan'] }}' \
-                    -showBuildTimingSummary
+              run: |
+                  xcodebuild clean test \
+                      -project "$XC_PROJECT" \
+                      -scheme '${{ matrix.run-config['scheme'] }}' \
+                      -configuration "$XC_CONFIGURATION" \
+                      -destination '${{ matrix.run-config['destination'] }}' \
+                      -testPlan '${{ matrix.run-config['testPlan'] }}' \
+                      -showBuildTimingSummary
