@@ -25,17 +25,17 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 5
         steps:
-        - name: Checkout
-          uses: actions/checkout@v2
+            - name: Checkout
+              uses: actions/checkout@v2
 
-        # use pre-installed yamllint
-        # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
+            # use pre-installed yamllint
+            # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
 
-        - name: Display yamllint
-          run: yamllint --version
+            - name: Display yamllint
+              run: yamllint --version
 
-        - name: Run yamllint
-          run: yamllint --strict .
+            - name: Run yamllint
+              run: yamllint --strict .
 
     # SwiftLint: Check Swift style and conventions on ubuntu
     #   NOTE: Gives annotations on Jobs page.
@@ -43,11 +43,11 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-        - name: Checkout repository
-          uses: actions/checkout@v2
+            - name: Checkout repository
+              uses: actions/checkout@v2
 
-        - name: SwiftLint Scan
-          uses: norio-nomura/action-swiftlint@3.1.0
+            - name: SwiftLint Scan
+              uses: norio-nomura/action-swiftlint@3.1.0
 
     # SonarCloud: Detect bugs, vulnerabilities and code smells on ubuntu
     # SonarCloud:
@@ -69,62 +69,62 @@ jobs:
         strategy:
             matrix:
                 run-config:
-                - {scheme: 'FastingReporter',
-                   destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 8',
-                   testPlan: 'CommitCycle_iOS'}
+                    - {scheme: 'FastingReporter',
+                       destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 8',
+                       testPlan: 'CommitCycle_iOS'}
 
         steps:
-        - name: Checkout Project
-          uses: actions/checkout@v2
+            - name: Checkout Project
+              uses: actions/checkout@v2
 
-        # - name: Homebrew build helpers install
-        #  run: brew bundle
+            # - name: Homebrew build helpers install
+            #   run: brew bundle
 
-        - name: Show the currently detailed version of Xcode for CLI
-          run: xcode-select -p
+            - name: Show the currently detailed version of Xcode for CLI
+              run: xcode-select -p
 
-        - name: Show what's in Applications
-          run: ls -al /Applications
+            - name: Show what's in Applications
+              run: ls -al /Applications
 
-        # - name: Select Xcode
-        #  run: |
-        #       sudo xcode-select -switch /Applications/Xcode_$XC_VERSION.app
-        #       xcodebuild -version
+            # - name: Select Xcode
+            #   run: |
+            #       sudo xcode-select -switch /Applications/Xcode_$XC_VERSION.app
+            #       xcodebuild -version
 
-        - name: Show Build Version
-          run: xcodebuild -version
-          
-        - name: Show Build Settings
-          run: xcodebuild
-                   -project "$XC_PROJECT"
-                   -scheme '${{ matrix.run-config['scheme'] }}'
-                   -showBuildSettings
+            - name: Show Build Version
+              run: xcodebuild -version
 
-        - name: Show Build SDK
-          run: xcodebuild
-                   -project "$XC_PROJECT"
-                   -scheme '${{ matrix.run-config['scheme'] }}'
-                   -showsdks
+            - name: Show Build Settings
+              run: xcodebuild
+                       -project "$XC_PROJECT"
+                       -scheme '${{ matrix.run-config['scheme'] }}'
+                       -showBuildSettings
 
-        - name: Show Available Destinations
-          run: xcodebuild
-                   -project "$XC_PROJECT"
-                   -scheme '${{ matrix.run-config['scheme'] }}'
-                   -showdestinations
+            - name: Show Build SDK
+              run: xcodebuild
+                       -project "$XC_PROJECT"
+                       -scheme '${{ matrix.run-config['scheme'] }}'
+                       -showsdks
 
-        # NOTE: Double checking SwiftLint Scan on macOS.
-        - name: Show SwiftLint Version
-          run: swiftlint version
-          
-        - name: SwiftLint Scan
-          run: swiftlint lint
+            - name: Show Available Destinations
+              run: xcodebuild
+                       -project "$XC_PROJECT"
+                       -scheme '${{ matrix.run-config['scheme'] }}'
+                       -showdestinations
 
-        - name: Build and Test per Config Matrix
-          run: |
-            xcodebuild clean test \
-                -project "$XC_PROJECT" \
-                -scheme '${{ matrix.run-config['scheme'] }}' \
-                -configuration "$XC_CONFIGURATION" \
-                -destination '${{ matrix.run-config['destination'] }}' \
-                -testPlan '${{ matrix.run-config['testPlan'] }}' \
-                -showBuildTimingSummary
+            # NOTE: Double checking SwiftLint Scan on macOS.
+            - name: Show SwiftLint Version
+              run: swiftlint version
+
+            - name: SwiftLint Scan
+              run: swiftlint lint
+
+            - name: Build and Test per Config Matrix
+              run: |
+                  xcodebuild clean test \
+                      -project "$XC_PROJECT" \
+                      -scheme '${{ matrix.run-config['scheme'] }}' \
+                      -configuration "$XC_CONFIGURATION" \
+                      -destination '${{ matrix.run-config['destination'] }}' \
+                      -testPlan '${{ matrix.run-config['testPlan'] }}' \
+                      -showBuildTimingSummary
