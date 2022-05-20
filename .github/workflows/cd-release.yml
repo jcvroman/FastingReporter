@@ -1,6 +1,6 @@
 name: cd-release
     # Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-    #   Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection.
+    #     Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection.
 
 on:
     push:
@@ -95,62 +95,62 @@ jobs:
                   git branch -d temp
                   git push origin main
 
-            #- name: Set up Xcode signing
-            #  run: |
-            #      security create-keychain -p "" "$KEYCHAIN"
-            #      security list-keychains -s "$KEYCHAIN"
-            #      security default-keychain -s "$KEYCHAIN"
-            #      security unlock-keychain -p "" "$KEYCHAIN"
-            #      security set-keychain-settings
-            #      security list-keychains
-            #      gpg -d -o "$DECRYPTED_CERTS_FILE_PATH" \
-            #          --pinentry-mode=loopback --passphrase "$CERTS_ENCRYPTION_PWD" "$ENCRYPTED_CERTS_FILE_PATH"
-            #      gpg -d -o "$DECRYPTED_PROVISION_FILE_PATH" \
-            #          --pinentry-mode=loopback --passphrase "$PROVISION_ENCRYPTION_PWD" "$ENCRYPTED_PROVISION_FILE_PATH"
-            #      security import "$DECRYPTED_CERTS_FILE_PATH" -k "$KEYCHAIN" -P "$CERTS_EXPORT_PWD" -A
-            #      security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN"
-            #      tar xzvf $DECRYPTED_PROVISION_FILE_PATH
-            #      mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
-            #      for PROVISION in `ls ./*.mobileprovision`
-            #      do
-            #          UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
-            #          cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
-            #      done
+            # - name: Set up Xcode signing
+            #   run: |
+            #       security create-keychain -p "" "$KEYCHAIN"
+            #       security list-keychains -s "$KEYCHAIN"
+            #       security default-keychain -s "$KEYCHAIN"
+            #       security unlock-keychain -p "" "$KEYCHAIN"
+            #       security set-keychain-settings
+            #       security list-keychains
+            #       gpg -d -o "$DECRYPTED_CERTS_FILE_PATH" \
+            #           --pinentry-mode=loopback --passphrase "$CERTS_ENCRYPTION_PWD" "$ENCRYPTED_CERTS_FILE_PATH"
+            #       gpg -d -o "$DECRYPTED_PROVISION_FILE_PATH" \
+            #           --pinentry-mode=loopback --passphrase "$PROVISION_ENCRYPTION_PWD" "$ENCRYPTED_PROVISION_FILE_PATH"
+            #       security import "$DECRYPTED_CERTS_FILE_PATH" -k "$KEYCHAIN" -P "$CERTS_EXPORT_PWD" -A
+            #       security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN"
+            #       tar xzvf $DECRYPTED_PROVISION_FILE_PATH
+            #       mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+            #       for PROVISION in `ls ./*.mobileprovision`
+            #       do
+            #           UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
+            #           cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+            #       done
 
-            #- name: Build archive
-            #  run: |
-            #      mkdir -p artifacts
-            #      xcodebuild archive \
-            #          -project "$XC_PROJECT" \
-            #          -scheme "$XC_SCHEME" \
-            #          -configuration "$XC_CONFIGURATION" \
-            #          -archivePath "$XC_ARCHIVE_PATH" \
-            #          "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
+            # - name: Build archive
+            #   run: |
+            #       mkdir -p artifacts
+            #       xcodebuild archive \
+            #           -project "$XC_PROJECT" \
+            #           -scheme "$XC_SCHEME" \
+            #           -configuration "$XC_CONFIGURATION" \
+            #           -archivePath "$XC_ARCHIVE_PATH" \
+            #           "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
 
-            #- name: Export archive for App Store
-            #  run: |
-            #      xcodebuild \
-            #          -exportArchive \
-            #          -archivePath "$XC_ARCHIVE_PATH" \
-            #          -exportOptionsPlist "$XC_EXPORT_OPTIONS_FILE_PATH" \
-            #          -exportPath "$XC_EXPORT_PATH"
+            # - name: Export archive for App Store
+            #   run: |
+            #       xcodebuild \
+            #           -exportArchive \
+            #           -archivePath "$XC_ARCHIVE_PATH" \
+            #           -exportOptionsPlist "$XC_EXPORT_OPTIONS_FILE_PATH" \
+            #           -exportPath "$XC_EXPORT_PATH"
 
-            #- name: Upload artifacts to GitHub
-            #  uses: actions/upload-artifact@v2
-            #  with:
-            #      name: IPA
-            #      path: ./artifacts/*.ipa
-            #      if-no-files-found: error
+            # - name: Upload artifacts to GitHub
+            #   uses: actions/upload-artifact@v2
+            #   with:
+            #       name: IPA
+            #       path: ./artifacts/*.ipa
+            #       if-no-files-found: error
 
-            #- name: Upload app to App Store
-            #  env:
-            #      APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
-            #      APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
-            #  run: |
-            #      xcrun altool \
-            #          --upload-app \
-            #          --type ios \
-            #          --file "$XC_EXPORT_PATH/$XC_SCHEME.ipa" \
-            #          --username "$APP_STORE_CONNECT_USERNAME" \
-            #          --password "$APP_STORE_CONNECT_PASSWORD" \
-            #          --verbose
+            # - name: Upload app to App Store
+            #   env:
+            #       APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
+            #       APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
+            #   run: |
+            #       xcrun altool \
+            #           --upload-app \
+            #           --type ios \
+            #           --file "$XC_EXPORT_PATH/$XC_SCHEME.ipa" \
+            #           --username "$APP_STORE_CONNECT_USERNAME" \
+            #           --password "$APP_STORE_CONNECT_PASSWORD" \
+            #           --verbose
