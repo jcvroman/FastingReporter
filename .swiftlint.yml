@@ -1,6 +1,13 @@
 # Configuration file for swiftlint.
 # It extends the default conf by adjusting some options.
 
+# Configure opt in rules.
+opt_in_rules:
+    - force_unwrapping
+
+# Configure force unwrapping as error (not warning).
+force_unwrapping: error
+
 # Configure identifier name min length to 3 with excluded.
 identifier_name:
     min_length:
