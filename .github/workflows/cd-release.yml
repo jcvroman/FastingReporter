@@ -5,7 +5,7 @@ name: cd-release
 on:
     push:
         tags:
-        - v*
+            - v*
 
 jobs:
     # calc-version
@@ -13,30 +13,30 @@ jobs:
         runs-on: ubuntu-latest
         outputs:
             packageSemVer: ${{ env.PACKAGE_SEMVER }}
-            
+
         steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
 
-        # Use gitversion to determine next version (e.g. based on git tag for this release).
-        - name: Install GitVersion
-          uses: gittools/actions/gitversion/setup@v0.9.9
-          with:
-            versionSpec: 'x.x.x'
+            # Use gitversion to determine next version (e.g. based on git tag for this release).
+            - name: Install GitVersion
+              uses: gittools/actions/gitversion/setup@v0.9.9
+              with:
+                  versionSpec: 'x.x.x'
 
-        - name: Determine Version
-          id:   gitversion
-          uses: gittools/actions/gitversion/execute@v0.9.9
-              
-        - name: Display SemVer
-          run: |
-            echo "SemVer: $GITVERSION_SEMVER"
-            
-        - name: Set envs
-          run: |
-            echo PACKAGE_SEMVER=${{ steps.gitversion.outputs.semVer }} >> ${GITHUB_ENV}
+            - name: Determine Version
+              id: gitversion
+              uses: gittools/actions/gitversion/execute@v0.9.9
+
+            - name: Display SemVer
+              run: |
+                  echo "SemVer: $GITVERSION_SEMVER"
+
+            - name: Set envs
+              run: |
+                  echo PACKAGE_SEMVER=${{ steps.gitversion.outputs.semVer }} >> ${GITHUB_ENV}
 
     # Release: Build and Release to App Store.
     Release:
@@ -62,93 +62,93 @@ jobs:
             KEYCHAIN: ${{ 'build.keychain' }}
 
         steps:
-        - name: Select Xcode
-          run: |
-            sudo xcode-select -switch /Applications/Xcode_$XC_VERSION.app
-            xcodebuild -version
+            - name: Select Xcode
+              run: |
+                  sudo xcode-select -switch /Applications/Xcode_$XC_VERSION.app
+                  xcodebuild -version
 
-        - name: Checkout repository
-          uses: actions/checkout@v2
+            - name: Checkout repository
+              uses: actions/checkout@v2
 
-        - name: Display SemVer
-          run: |
-            echo "SemVer: ${{ env.PACKAGE_SEMVER }}"
+            - name: Display SemVer
+              run: |
+                  echo "SemVer: ${{ env.PACKAGE_SEMVER }}"
 
-        - name: Bump version
-          uses: yanamura/ios-bump-version@v1
-          with:
-            version: ${{ env.PACKAGE_SEMVER }}
-            build-number: ${{github.run_number}}
+            - name: Bump version
+              uses: yanamura/ios-bump-version@v1
+              with:
+                  version: ${{ env.PACKAGE_SEMVER }}
+                  build-number: ${{github.run_number}}
 
-        - name: Commit bumped version to repository
-          run: |
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git switch -c temp
-            # FIXME: xcodeproj file corrupted after bump verion, so don't commit it for now.
-            #git add .
-            git add "$XC_SCHEME/" "$XC_SCHEME""UITests/" "$XC_SCHEME""Tests/"
-            git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{ github.run_number }}."
-            git fetch
-            git checkout main
-            git merge temp
-            git branch -d temp
-            git push origin main
+            - name: Commit bumped version to repository
+              run: |
+                  git config user.name github-actions
+                  git config user.email github-actions@github.com
+                  git switch -c temp
+                  # FIXME: xcodeproj file corrupted after bump verion, so don't commit it for now.
+                  #git add .
+                  git add "$XC_SCHEME/" "$XC_SCHEME""UITests/" "$XC_SCHEME""Tests/"
+                  git commit -m "Bump version to ${{ env.PACKAGE_SEMVER }} ${{ github.run_number }}."
+                  git fetch
+                  git checkout main
+                  git merge temp
+                  git branch -d temp
+                  git push origin main
 
-        #- name: Set up Xcode signing
-        #  run: |
-        #    security create-keychain -p "" "$KEYCHAIN"
-        #    security list-keychains -s "$KEYCHAIN"
-        #    security default-keychain -s "$KEYCHAIN"
-        #    security unlock-keychain -p "" "$KEYCHAIN"
-        #    security set-keychain-settings
-        #    security list-keychains
-        #    gpg -d -o "$DECRYPTED_CERTS_FILE_PATH" --pinentry-mode=loopback --passphrase "$CERTS_ENCRYPTION_PWD" "$ENCRYPTED_CERTS_FILE_PATH"
-        #    gpg -d -o "$DECRYPTED_PROVISION_FILE_PATH" --pinentry-mode=loopback --passphrase "$PROVISION_ENCRYPTION_PWD" "$ENCRYPTED_PROVISION_FILE_PATH"
-        #    security import "$DECRYPTED_CERTS_FILE_PATH" -k "$KEYCHAIN" -P "$CERTS_EXPORT_PWD" -A
-        #    security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN"
-        #    tar xzvf $DECRYPTED_PROVISION_FILE_PATH
-        #    mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
-        #    for PROVISION in `ls ./*.mobileprovision`
-        #    do
-        #      UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
-        #      cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
-        #    done
+            #- name: Set up Xcode signing
+            #  run: |
+            #      security create-keychain -p "" "$KEYCHAIN"
+            #      security list-keychains -s "$KEYCHAIN"
+            #      security default-keychain -s "$KEYCHAIN"
+            #      security unlock-keychain -p "" "$KEYCHAIN"
+            #      security set-keychain-settings
+            #      security list-keychains
+            #      gpg -d -o "$DECRYPTED_CERTS_FILE_PATH" --pinentry-mode=loopback --passphrase "$CERTS_ENCRYPTION_PWD" "$ENCRYPTED_CERTS_FILE_PATH"
+            #      gpg -d -o "$DECRYPTED_PROVISION_FILE_PATH" --pinentry-mode=loopback --passphrase "$PROVISION_ENCRYPTION_PWD" "$ENCRYPTED_PROVISION_FILE_PATH"
+            #      security import "$DECRYPTED_CERTS_FILE_PATH" -k "$KEYCHAIN" -P "$CERTS_EXPORT_PWD" -A
+            #      security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN"
+            #      tar xzvf $DECRYPTED_PROVISION_FILE_PATH
+            #      mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+            #      for PROVISION in `ls ./*.mobileprovision`
+            #      do
+            #          UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
+            #          cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+            #      done
 
-        #- name: Build archive
-        #  run: |
-        #    mkdir -p artifacts
-        #    xcodebuild archive \
-        #      -project "$XC_PROJECT" \
-        #      -scheme "$XC_SCHEME" \
-        #      -configuration "$XC_CONFIGURATION" \
-        #      -archivePath "$XC_ARCHIVE_PATH" \
-        #      "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
+            #- name: Build archive
+            #  run: |
+            #      mkdir -p artifacts
+            #      xcodebuild archive \
+            #          -project "$XC_PROJECT" \
+            #          -scheme "$XC_SCHEME" \
+            #          -configuration "$XC_CONFIGURATION" \
+            #          -archivePath "$XC_ARCHIVE_PATH" \
+            #          "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
 
-        #- name: Export archive for App Store
-        #  run: |
-        #    xcodebuild \
-        #      -exportArchive \
-        #      -archivePath "$XC_ARCHIVE_PATH" \
-        #      -exportOptionsPlist "$XC_EXPORT_OPTIONS_FILE_PATH" \
-        #      -exportPath "$XC_EXPORT_PATH"
+            #- name: Export archive for App Store
+            #  run: |
+            #      xcodebuild \
+            #          -exportArchive \
+            #          -archivePath "$XC_ARCHIVE_PATH" \
+            #          -exportOptionsPlist "$XC_EXPORT_OPTIONS_FILE_PATH" \
+            #          -exportPath "$XC_EXPORT_PATH"
 
-        #- name: Upload artifacts to GitHub
-        #  uses: actions/upload-artifact@v2
-        #  with:
-        #   name: IPA
-        #   path: ./artifacts/*.ipa
-        #   if-no-files-found: error
+            #- name: Upload artifacts to GitHub
+            #  uses: actions/upload-artifact@v2
+            #  with:
+            #      name: IPA
+            #      path: ./artifacts/*.ipa
+            #      if-no-files-found: error
 
-        #- name: Upload app to App Store
-        #  env:
-        #    APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
-        #    APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
-        #  run: |
-        #    xcrun altool \
-        #      --upload-app \
-        #      --type ios \
-        #      --file "$XC_EXPORT_PATH/$XC_SCHEME.ipa" \
-        #      --username "$APP_STORE_CONNECT_USERNAME" \
-        #      --password "$APP_STORE_CONNECT_PASSWORD" \
-        #      --verbose
+            #- name: Upload app to App Store
+            #  env:
+            #      APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
+            #      APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
+            #  run: |
+            #      xcrun altool \
+            #          --upload-app \
+            #          --type ios \
+            #          --file "$XC_EXPORT_PATH/$XC_SCHEME.ipa" \
+            #          --username "$APP_STORE_CONNECT_USERNAME" \
+            #          --password "$APP_STORE_CONNECT_PASSWORD" \
+            #          --verbose
