@@ -1,0 +1,9 @@
+# Configuration file for swiftlint.
+# It extends the default conf by adjusting some options.
+
+# Configure identifier name min length to 3 with excluded.
+identifier_name:
+    min_length:
+        error: 3
+    excluded:
+        - id
