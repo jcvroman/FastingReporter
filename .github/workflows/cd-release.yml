@@ -1,6 +1,9 @@
+# Continuous Delivery (CD):
+#     Testing Strategy for DevOps:
+#         Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
+#     Commit Cycle:
+#         Unit Test, Coding Standards Asserted, Common Error Detection.
 name: cd-release
-    # Continuous Delivery (CD): Testing Strategy for DevOps: Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-    #     Commit Cycle: Unit Test, Coding Standards Asserted, Common Error Detection.
 
 on:
     push:

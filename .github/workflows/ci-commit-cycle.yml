@@ -1,9 +1,9 @@
+# Continuous Delivery (CD):
+#     Testing Strategy for DevOps:
+#         Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
+#     Commit Cycle:
+#         Unit Test, Coding Standards Asserted, Common Error Detection.
 name: ci-commit-cycle
-    # Continuous Delivery (CD):
-    #     Testing Strategy for DevOps:
-    #         Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-    #     Commit Cycle:
-    #         Unit Test, Coding Standards Asserted, Common Error Detection.
 
 env:
     XC_VERSION: ${{ '12.4' }}

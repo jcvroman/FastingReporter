@@ -1,10 +1,10 @@
+# Continuous Delivery (CD):
+#     Testing Strategy for DevOps:
+#         Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
+#     Acceptance Cycle:
+#         Acceptance Tests, Deployment Tests, Data Migration Tests,
+#         Performance Tests.
 name: ci-acceptance-cycle
-    # Continuous Delivery (CD):
-    #     Testing Strategy for DevOps:
-    #         Commit Cyle, Acceptance Cycle, Release Cycle, Product Cycle.
-    #     Acceptance Cycle:
-    #         Acceptance Tests, Deployment Tests, Data Migration Tests,
-    #         Performance Tests.
 
 env:
     XC_VERSION: ${{ '12.4' }}
