@@ -3,7 +3,10 @@
 extends: default
 
 rules:
-  # 132 chars should be enough, so fail if a line is longer.
-  line-length:
-    max: 132
-    level: error
+    # No document start '---' missing warnings.
+    document-start: disable
+
+    # 132 chars should be enough, so fail if a line is longer.
+    line-length:
+        max: 132
+        level: error
