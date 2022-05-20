@@ -5,8 +5,8 @@
 opt_in_rules:
     - force_unwrapping
 
-# Configure force unwrapping as error (not warning).
-force_unwrapping: error
+# Configure force unwrapping as warning.
+force_unwrapping: warning
 
 # Configure identifier name min length to 3 with excluded.
 identifier_name:
