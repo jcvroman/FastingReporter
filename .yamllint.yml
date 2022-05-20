@@ -10,3 +10,6 @@ rules:
     line-length:
         max: 132
         level: error
+
+    # No truthy warnings.
+    truthy: disable
