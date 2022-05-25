@@ -7,10 +7,12 @@
 
 import Foundation
 import HealthKit
+import UIKit
 
 class HealthStore {
     var healthStore: HKHealthStore?
     var query: HKStatisticsCollectionQuery?
+    var sampleQuery: HKSampleQuery?
 
     init() {
         if HKHealthStore.isHealthDataAvailable() {
@@ -41,6 +43,33 @@ class HealthStore {
         if let healthStore = healthStore, let query = self.query {
             healthStore.execute(query)
         }
+    }
+    
+    func calculateCurrentFast(completion: @escaping ([HKSample]) -> Void) {
+        let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)
+        let today = Date()
+        let startDate = Calendar.current.date(byAdding: .day, value: -3, to: today)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: today, options: HKQueryOptions.strictEndDate)
+        
+        let sampleQuery = HKSampleQuery.init(sampleType: sampleType!,
+                                       predicate: predicate,
+                                       limit: 10,
+                                       sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
+            // (query, results, error) in
+            (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
+                completion(querySamples ?? [])
+
+            /*
+            print("calculateCurrentFast:", results as Any)
+            print("calculateCurrentFast: 1st:", results?.first?.value as Any)
+            if let result = results?.first as? HKQuantitySample {
+                print("Carbs: quantity: \(result.quantity) | count: \(result.count) | sampleType: \(result.sampleType)")
+                print("Carbs: quantityType: \(result.quantityType) | startDate: \(result.startDate) | endDate: \(result.endDate)")
+                print("Carbs: uuid: \(result.uuid)")
+            }
+            */
+        }
+        healthStore?.execute(sampleQuery)
     }
 }
 

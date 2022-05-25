@@ -5,40 +5,79 @@
 //  Created by Jimmy Vroman on 6/6/21.
 //
 
-import SwiftUI
 import HealthKit
+import SwiftUI
 
 struct ContentView: View {
+    // NOTE: Think of main/root views as a table of contents (i.e. not too little or too much here).
     private var healthStore: HealthStore?
     @State private var carbs: [CarbModel] = [CarbModel]()
+    @State private var carbsList: [CarbModel] = [CarbModel]()
 
     init() {
         healthStore = HealthStore()
     }
 
     var body: some View {
-        NavigationView {
-            List(carbs, id: \.id) { carb in
-                HStack(alignment: .center) {
-                    Text("\(carb.carbs)")
-                    Spacer()
-                    Text(carb.date, style: .date)
-                        .opacity(0.5)
-                }
-                .accessibility(identifier: "carbsDailyListLabel")
+        VStack {
+            VStack {
+                Text("Current Fast:")
+                    .font(.title)
+                    .bold()
+                    .foregroundColor(.primary)
+                Text("\(carbsList.first?.date ?? Date(), style: .timer)")
+                    .font(.title)
+                    .bold()
+                    .foregroundColor(.red)
             }
-            .navigationBarTitle("Carbs Daily List")
-            .onAppear {
-                if let healthStore = healthStore {
-                    healthStore.requestAuthorization { success in
-                        if success {
-                            healthStore.calculateCarbs { statisticsCollection in
-                                if let statisticsCollection = statisticsCollection {
-                                    print(statisticsCollection)     // FIXME: TODO: Change to logging.
-                                    fetchCarbsFromStatistics(statisticsCollection)
-                                }
-                            }
+            carbsEntryListView
+            carbsDailyListView
+        }
+        .onAppear(perform: fetchHealthStore)
+    }
+
+    // MARK: - Sub Views.
+    private var carbsEntryListView: some View {
+        List(carbsList) { carb in
+            HStack {
+                Text("\(carb.carbs)")
+                Spacer()
+                Text(carb.date, style: .date)
+                Spacer()
+                Text(carb.date, style: .time)
+            }
+            .accessibility(identifier: "carbsEntryListLabel")
+        }
+        .navigationTitle("Carbs Entry List")
+    }
+
+    private var carbsDailyListView: some View {
+        List(carbs, id: \.id) { carb in
+            HStack(alignment: .center) {
+                Text("\(carb.carbs)")
+                Spacer()
+                Text(carb.date, style: .date)
+                    .opacity(0.5)
+            }
+            .accessibility(identifier: "carbsDailyListLabel")
+        }
+        .navigationTitle("Carbs Daily List")
+     }
+
+    // MARK: - Actions.
+    private func fetchHealthStore() {
+        if let healthStore = healthStore {
+            healthStore.requestAuthorization { success in
+                if success {
+                    healthStore.calculateCarbs { statisticsCollection in
+                        if let statisticsCollection = statisticsCollection {
+                            print("statisticsCollection:", statisticsCollection)     // FIXME: TODO: Change to logging.
+                            fetchCarbsFromStatistics(statisticsCollection)
                         }
+                    }
+                    // healthStore.calculateCurrentFast()
+                    healthStore.calculateCurrentFast { querySamples in
+                        updateUIFromQuerySamples(querySamples)
                     }
                 }
             }
@@ -54,8 +93,18 @@ struct ContentView: View {
             carbs.append(carb)
         }
     }
+
+    private func updateUIFromQuerySamples (_ querySamples: [HKSample]) {
+        for sample in querySamples {
+            if let hkQuanitySample = sample as? HKQuantitySample {
+                let carbValue = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())), date: hkQuanitySample.startDate)
+                carbsList.append(carbValue)
+            }
+        }
+    }
 }
 
+// MARK: - Previews.
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
