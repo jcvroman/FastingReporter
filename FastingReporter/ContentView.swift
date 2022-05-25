@@ -97,7 +97,8 @@ struct ContentView: View {
     private func updateUIFromQuerySamples (_ querySamples: [HKSample]) {
         for sample in querySamples {
             if let hkQuanitySample = sample as? HKQuantitySample {
-                let carbValue = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())), date: hkQuanitySample.startDate)
+                let carbValue = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
+                                          date: hkQuanitySample.startDate)
                 carbsList.append(carbValue)
             }
         }
