@@ -53,7 +53,7 @@ class HealthStore {
         
         let sampleQuery = HKSampleQuery.init(sampleType: sampleType!,
                                        predicate: predicate,
-                                       limit: 10,
+                                       limit: HKObjectQueryNoLimit,
                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
             // (query, results, error) in
             (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
