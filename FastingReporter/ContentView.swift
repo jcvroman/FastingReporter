@@ -52,6 +52,7 @@ struct ContentView: View {
                 Text(carb.date, style: .time)
             }
             .accessibility(identifier: "carbsEntryListLabel")
+            .font(.body)
         }
         .navigationTitle("Carbs Entry List")
     }
@@ -62,9 +63,9 @@ struct ContentView: View {
                 Text("\(carb.carbs)")
                 Spacer()
                 Text(carb.date, style: .date)
-                    .opacity(0.5)
             }
             .accessibility(identifier: "carbsDailyListLabel")
+            .font(.body)
         }
         .navigationTitle("Carbs Daily List")
      }
@@ -97,6 +98,7 @@ struct ContentView: View {
             let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
             carbs.append(carb)
         }
+        carbs.sort()
     }
 
     private func updateUIFromQuerySamples (_ querySamples: [HKSample]) {

@@ -12,3 +12,10 @@ struct CarbModel: Identifiable {
     let carbs: Int
     let date: Date
 }
+
+// MARK: - Comparable
+extension CarbModel: Comparable {
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.date > rhs.date
+    }
+}
