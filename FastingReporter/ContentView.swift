@@ -20,15 +20,20 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            VStack {
-                Text("Current Fast:")
-                    .font(.title)
-                    .bold()
-                    .foregroundColor(.primary)
-                Text("\(carbsList.first?.date ?? Date(), style: .timer)")
-                    .font(.title)
-                    .bold()
-                    .foregroundColor(.red)
+            ZStack {
+                VStack(spacing: 0) {
+                    Color.white
+                }
+                VStack {
+                    Text("Current Fast:")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.primary)
+                    Text("\(carbsList.first?.date ?? Date(), style: .timer)")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.red)
+                }
             }
             carbsEntryListView
             carbsDailyListView
