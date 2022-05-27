@@ -23,6 +23,10 @@ let diffMinutes = Calendar.current
     .dateComponents([.minute], from: now, to: soon)
     .minute
 
+let diffHours = Calendar.current
+    .dateComponents([.hour], from: now, to: soon)
+    .hour
+
 
 // Collections.
 // Compare adjacent elements in a collection.
