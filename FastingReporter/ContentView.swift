@@ -22,7 +22,7 @@ struct ContentView: View {
         VStack {
             ZStack {
                 VStack(spacing: 0) {
-                    Color.white
+                    Color.clear
                 }
                 VStack {
                     Text("Current Fast:")
