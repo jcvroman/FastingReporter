@@ -47,6 +47,7 @@
 		9989F96226951AE700FB91C5 /* CommitCycle_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CommitCycle_iOS.xctestplan; sourceTree = "<group>"; };
 		9989F96326951CC500FB91C5 /* AcceptanceCycle_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AcceptanceCycle_iOS.xctestplan; sourceTree = "<group>"; };
 		99AE5ACB28415F2D00162A15 /* Dates.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Dates.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		99AE5ACC2841611C00162A15 /* Collections.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Collections.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		99DE2AC9266D949F003230CA /* FastingReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastingReporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99DE2ACC266D949F003230CA /* FastingReporterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterApp.swift; sourceTree = "<group>"; };
 		99DE2ACE266D949F003230CA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				99AE5ACB28415F2D00162A15 /* Dates.playground */,
+				99AE5ACC2841611C00162A15 /* Collections.playground */,
 			);
 			path = Playgrounds;
 			sourceTree = "<group>";
