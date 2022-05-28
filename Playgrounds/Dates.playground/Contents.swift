@@ -11,9 +11,12 @@ now != soon
 now < soon
 now > soon
 
-let diffSeconds = soon.timeIntervalSince(now)
+// Time Interval.
+let diffSecondsSince = soon.timeIntervalSince(now)
+let diffSecondsRefDate = soon.timeIntervalSinceReferenceDate
 
-let diffSeconds2 = Calendar.current
+// Calendar.
+let diffSeconds = Calendar.current
     .dateComponents([.second], from: now, to: soon)
     .second
 
