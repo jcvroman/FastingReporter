@@ -83,7 +83,7 @@ struct DashboardView: View {
                     }
                     // healthStore.calculateCurrentFast()
                     healthStore.calculateCurrentFast { querySamples in
-                        updateUIFromQuerySamples(querySamples)
+                        addToListFromQuerySamples(querySamples)
                     }
                 }
             }
@@ -101,7 +101,7 @@ struct DashboardView: View {
         carbsDailyList.sort()
     }
 
-    private func updateUIFromQuerySamples (_ querySamples: [HKSample]) {
+    private func addToListFromQuerySamples(_ querySamples: [HKSample]) {
         for sample in querySamples {
             if let hkQuanitySample = sample as? HKQuantitySample {
                 let carbValue = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
