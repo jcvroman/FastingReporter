@@ -11,8 +11,8 @@ import SwiftUI
 struct DashboardView: View {
     // NOTE: Think of main/root views as a table of contents (i.e. not too little or too much here).
     private var healthStore: HealthStore?
-    @State private var carbs: [CarbModel] = [CarbModel]()
-    @State private var carbsList: [CarbModel] = [CarbModel]()
+    @State private var carbsEntryList: [CarbModel] = [CarbModel]()
+    @State private var carbsDailyList: [CarbModel] = [CarbModel]()
 
     init() {
         healthStore = HealthStore()
@@ -29,7 +29,7 @@ struct DashboardView: View {
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.primary)
-                    Text("\(carbsList.first?.date ?? Date(), style: .timer)")
+                    Text("\(carbsDailyList.first?.date ?? Date(), style: .timer)")
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.red)
@@ -43,7 +43,7 @@ struct DashboardView: View {
 
     // MARK: - Sub Views.
     private var carbsEntryListView: some View {
-        List(carbsList) { carb in
+        List(carbsDailyList) { carb in
             HStack {
                 Text("\(carb.carbs)")
                 Spacer()
@@ -58,7 +58,7 @@ struct DashboardView: View {
     }
 
     private var carbsDailyListView: some View {
-        List(carbs, id: \.id) { carb in
+        List(carbsEntryList, id: \.id) { carb in
             HStack(alignment: .center) {
                 Text("\(carb.carbs)")
                 Spacer()
@@ -96,9 +96,9 @@ struct DashboardView: View {
         statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
             let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
             let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
-            carbs.append(carb)
+            carbsEntryList.append(carb)
         }
-        carbs.sort()
+        carbsEntryList.sort()
     }
 
     private func updateUIFromQuerySamples (_ querySamples: [HKSample]) {
@@ -106,7 +106,7 @@ struct DashboardView: View {
             if let hkQuanitySample = sample as? HKQuantitySample {
                 let carbValue = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
                                           date: hkQuanitySample.startDate)
-                carbsList.append(carbValue)
+                carbsDailyList.append(carbValue)
             }
         }
     }
