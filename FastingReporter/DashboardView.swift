@@ -78,7 +78,7 @@ struct DashboardView: View {
                     healthStore.calculateCarbs { statisticsCollection in
                         if let statisticsCollection = statisticsCollection {
                             print("statisticsCollection:", statisticsCollection)     // FIXME: TODO: Change to logging.
-                            fetchCarbsFromStatistics(statisticsCollection)
+                            addToListFromStatistics(statisticsCollection)
                         }
                     }
                     // healthStore.calculateCurrentFast()
@@ -90,7 +90,7 @@ struct DashboardView: View {
         }
     }
 
-    private func fetchCarbsFromStatistics(_ statisticsCollection: HKStatisticsCollection) {
+    private func addToListFromStatistics(_ statisticsCollection: HKStatisticsCollection) {
         let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
         let endDate = Date()
         statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
