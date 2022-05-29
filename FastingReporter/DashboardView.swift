@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DashboardView.swift
 //  FastingReporter
 //
 //  Created by Jimmy Vroman on 6/6/21.
@@ -8,7 +8,7 @@
 import HealthKit
 import SwiftUI
 
-struct ContentView: View {
+struct DashboardView: View {
     // NOTE: Think of main/root views as a table of contents (i.e. not too little or too much here).
     private var healthStore: HealthStore?
     @State private var carbs: [CarbModel] = [CarbModel]()
@@ -115,6 +115,6 @@ struct ContentView: View {
 // MARK: - Previews.
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        DashboardView()
     }
 }

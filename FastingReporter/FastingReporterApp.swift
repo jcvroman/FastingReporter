@@ -11,7 +11,7 @@ import SwiftUI
 struct FastingReporterApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DashboardView()
         }
     }
 }
