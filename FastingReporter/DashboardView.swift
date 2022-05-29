@@ -29,7 +29,7 @@ struct DashboardView: View {
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.primary)
-                    Text("\(carbsDailyList.first?.date ?? Date(), style: .timer)")
+                    Text("\(carbsEntryList.first?.date ?? Date(), style: .timer)")
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.red)
@@ -43,7 +43,7 @@ struct DashboardView: View {
 
     // MARK: - Sub Views.
     private var carbsEntryListView: some View {
-        List(carbsDailyList) { carb in
+        List(carbsEntryList) { carb in
             HStack {
                 Text("\(carb.carbs)")
                 Spacer()
@@ -58,7 +58,7 @@ struct DashboardView: View {
     }
 
     private var carbsDailyListView: some View {
-        List(carbsEntryList, id: \.id) { carb in
+        List(carbsDailyList, id: \.id) { carb in
             HStack(alignment: .center) {
                 Text("\(carb.carbs)")
                 Spacer()
@@ -96,9 +96,9 @@ struct DashboardView: View {
         statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
             let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
             let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
-            carbsEntryList.append(carb)
+            carbsDailyList.append(carb)
         }
-        carbsEntryList.sort()
+        carbsDailyList.sort()
     }
 
     private func updateUIFromQuerySamples (_ querySamples: [HKSample]) {
@@ -106,7 +106,7 @@ struct DashboardView: View {
             if let hkQuanitySample = sample as? HKQuantitySample {
                 let carbValue = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
                                           date: hkQuanitySample.startDate)
-                carbsDailyList.append(carbValue)
+                carbsEntryList.append(carbValue)
             }
         }
     }
