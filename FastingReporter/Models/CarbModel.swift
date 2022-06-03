@@ -8,9 +8,9 @@
 import Foundation
 
 struct CarbModel: Identifiable {
-    let id = UUID()
-    let carbs: Int
-    let date: Date
+    var id = UUID()
+    var carbs: Int
+    var date: Date
 }
 
 // MARK: - Comparable

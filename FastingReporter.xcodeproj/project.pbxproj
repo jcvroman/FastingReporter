@@ -10,6 +10,7 @@
 		99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C6626867CF800BFA3FB /* CarbModel.swift */; };
 		99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C692687EE1A00BFA3FB /* HealthStore.swift */; };
 		99346C6E2687F3D900BFA3FB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99346C6D2687F3D900BFA3FB /* HealthKit.framework */; };
+		995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */; };
 		99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACC266D949F003230CA /* FastingReporterApp.swift */; };
 		99DE2ACF266D949F003230CA /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACE266D949F003230CA /* DashboardView.swift */; };
 		99DE2AD1266D94A0003230CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE2AD0266D94A0003230CA /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		99346C692687EE1A00BFA3FB /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
 		99346C6B2687F3D900BFA3FB /* FastingReporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FastingReporter.entitlements; sourceTree = "<group>"; };
 		99346C6D2687F3D900BFA3FB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarbsEntryListViewModel.swift; sourceTree = "<group>"; };
 		9989F960269519EA00FB91C5 /* UnitTests_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests_iOS.xctestplan; sourceTree = "<group>"; };
 		9989F96126951A5900FB91C5 /* AcptTests_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AcptTests_iOS.xctestplan; sourceTree = "<group>"; };
 		9989F96226951AE700FB91C5 /* CommitCycle_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CommitCycle_iOS.xctestplan; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */,
+				995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */,
 				99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */,
 				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
+				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
