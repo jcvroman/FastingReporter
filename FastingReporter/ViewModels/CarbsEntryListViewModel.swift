@@ -21,6 +21,8 @@ import HealthKit
 
     // func fetchEntryCarbs(_ querySamples: [HKSample]) {
     func fetchEntryCarbs() {
+        removeAllEntryCarbs()
+
         healthStore.fetchEntryCarbs { querySamples in
             for sample in querySamples {
                 // print("sample:", sample)
@@ -33,6 +35,20 @@ import HealthKit
                     }
                 }
             }
+            // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
+            self.sortAllEntryCarbs()        // NOTE: Must sort within the collection closure.
+        }
+    }
+
+    func sortAllEntryCarbs() {
+        Task { @MainActor in
+            self.carbsList.sort()
+        }
+    }
+
+    func removeAllEntryCarbs() {
+        Task { @MainActor in
+            self.carbsList.removeAll()
         }
     }
 

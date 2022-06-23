@@ -11,16 +11,15 @@ import SwiftUI
 struct DashboardView: View {
     // NOTE: Think of main/root views as a table of contents (i.e. not too little or too much here).
     private var healthStore = HealthStore()
+    @Environment(\.scenePhase) private var scenePhase
 
     @ObservedObject var carbsEntryListVM: CarbsEntryListViewModel
     @ObservedObject var carbsDailyListVM: CarbsDailyListViewModel
 
     init() {
-        // healthStore = HealthStore()
         carbsEntryListVM = CarbsEntryListViewModel(healthStore: healthStore)
         carbsDailyListVM = CarbsDailyListViewModel(healthStore: healthStore)
     }
-
 
     var body: some View {
         VStack {
@@ -42,7 +41,13 @@ struct DashboardView: View {
             carbsEntryListView
             carbsDailyListView
         }
-        .onAppear(perform: fetchHealthStore)
+        // NOTE: Re-fetch on change back to app.
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                print("DEBUG: Active")
+                fetchHealthStore()
+            }
+        }
     }
 
     // MARK: - Sub Views.

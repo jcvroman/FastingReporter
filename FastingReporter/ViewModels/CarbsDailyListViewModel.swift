@@ -22,6 +22,8 @@ import Foundation
         // if let healthStore = healthStore {
             // healthStore.requestAuthorization { success in
                 // if success {
+                    removeAllDailyCarbs()
+
                     healthStore.fetchDailyCarbs { statisticsCollection in
                         if let statisticsCollection = statisticsCollection {
                             print("statisticsCollection:", statisticsCollection)
@@ -35,13 +37,24 @@ import Foundation
                                     self.carbsList.append(carb)
                                 }
                             }
-                            Task { @MainActor in
-                                self.carbsList.sort()
-                            }
                         }
+                        self.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
                     }
                 // }
             // }
         // }
+    }
+
+    func sortAllDailyCarbs() {
+        Task { @MainActor in
+            // self.carbsList.sort(by: {$0.date.compare($1.date) == .orderedAscending})
+            self.carbsList.sort()
+        }
+    }
+    
+    func removeAllDailyCarbs() {
+        Task { @MainActor in
+            self.carbsList.removeAll()
+        }
     }
 }

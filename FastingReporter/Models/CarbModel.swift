@@ -16,6 +16,6 @@ struct CarbModel: Identifiable {
 // MARK: - Comparable
 extension CarbModel: Comparable {
     static func < (lhs: Self, rhs: Self) -> Bool {
-        lhs.date > rhs.date
+        lhs.date > rhs.date     // NOTE: Sort by descending date.
     }
 }
