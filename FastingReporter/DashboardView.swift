@@ -56,9 +56,13 @@ struct DashboardView: View {
             HStack {
                 Text("\(carb.carbs)")
                 Spacer()
-                Text(carb.date, style: .date)
+                // Text(carb.date, style: .date)
+                Text(carb.date, formatter: dateShortFormatter)
                 Spacer()
-                Text(carb.date, style: .time)
+                // Text(carb.date, style: .time)
+                Text(carb.date, formatter: timeShortFormatter)
+                Spacer()
+                Text(carb.date, formatter: timeShortFormatter)
             }
             .accessibility(identifier: "carbsEntryListLabel")
             .font(.body)
@@ -71,7 +75,9 @@ struct DashboardView: View {
             HStack(alignment: .center) {
                 Text("\(carb.carbs)")
                 Spacer()
-                Text(carb.date, style: .date)
+                // Text(carb.date, style: .date)
+                Text(carb.date, formatter: dateShortFormatter)
+                Spacer()
             }
             .accessibility(identifier: "carbsDailyListLabel")
             .font(.body)
@@ -92,6 +98,28 @@ struct DashboardView: View {
         // }
     }
 }
+
+// MARK: - Others.
+
+// FIXME: TODO: Verify that best to have date formatters available globally?
+// FIXME: TODO: The formatting of the date should be in the view model?
+private let dateShortFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    // logger.debug("MyListsItem: itemFormatter")
+    print("MyListsItem: itemFormatter")
+    return formatter
+}()
+
+// FIXME: TODO: The formatting of the date should be in the view model?
+private let timeShortFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.timeStyle = .short
+    // logger.debug("MyListsItem: itemFormatter")
+    print("MyListsItem: itemFormatter")
+    return formatter
+}()
+
 
 // MARK: - Previews.
 struct ContentView_Previews: PreviewProvider {
