@@ -1,6 +1,6 @@
 // import Darwin
 import UIKit
-/*
+
 // Dates.
 // Calcuate time between dates (e.g. seconds, minutes).
 let now = Date.now
@@ -27,7 +27,7 @@ let diffMinutes = Calendar.current
 let diffHours = Calendar.current
     .dateComponents([.hour], from: now, to: soon)
     .hour
-*/
+
 
 
 // FIXME: TODO: Collections playground not editable. Why? So, added Collections code to Dates for now.
@@ -54,6 +54,7 @@ for (lhs, rhs) in zip(array, array.dropFirst()) {
 print("biggest: \(biggest)")
 */
 
+/*
 // Update item value in current element from adjacent element in a collection.
 struct CarbModel {
     var id: Int
@@ -81,5 +82,5 @@ for (var lhs, rhs) in zip(carbsList, carbsList.dropFirst()) {
 for element in carbsList2 {
     print("element.id: \(element.id) | element.carbs: \(element.carbs) | element.nextCarbs: \(element.nextCarbs)")
 }
-
+*/
 

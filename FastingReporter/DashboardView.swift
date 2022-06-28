@@ -62,8 +62,11 @@ struct DashboardView: View {
                 // Text(carb.date, style: .time)
                 Text(carb.date, formatter: timeShortFormatter)
                 Spacer()
-                // FIXME: BUG: Display nothing here if previous date nil.
+                // FIXME: BUG: Display nothing here if previous date nil. I.e. provide defaults at an earlier stage in the process.
                 Text(carb.previousDate ?? Date(), formatter: timeShortFormatter)
+                Spacer()
+                // FIXME: BUG: Display nothing here if diff minutes nil. I.e. provide defaults at an earlier stage in the process.
+                Text("\(carb.diffMinutes ?? 0)")
             }
             .accessibility(identifier: "carbsEntryListLabel")
             .font(.body)

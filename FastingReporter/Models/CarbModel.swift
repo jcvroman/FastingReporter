@@ -12,6 +12,7 @@ struct CarbModel: Identifiable {
     var carbs: Int
     var date: Date
     var previousDate: Date?
+    var diffMinutes: Int?
 }
 
 // MARK: - Comparable
