@@ -62,7 +62,8 @@ struct DashboardView: View {
                 // Text(carb.date, style: .time)
                 Text(carb.date, formatter: timeShortFormatter)
                 Spacer()
-                Text(carb.date, formatter: timeShortFormatter)
+                // FIXME: BUG: Display nothing here if previous date nil.
+                Text(carb.previousDate ?? Date(), formatter: timeShortFormatter)
             }
             .accessibility(identifier: "carbsEntryListLabel")
             .font(.body)

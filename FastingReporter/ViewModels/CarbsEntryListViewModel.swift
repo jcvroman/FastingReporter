@@ -8,7 +8,7 @@
 import Foundation
 import HealthKit
 
-@MainActor class CarbsEntryListViewModel: ObservableObject {
+class CarbsEntryListViewModel: ObservableObject {
     var healthStore: HealthStore
     @Published private(set) var carbsList: [CarbModel] = []
     @Published private(set) var carbsFirst: CarbModel?
@@ -29,27 +29,45 @@ import HealthKit
                 if let hkQuanitySample = sample as? HKQuantitySample {
                     let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
                                               date: hkQuanitySample.startDate)
-                    // print("carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
-                    Task { @MainActor in
+                    // print("fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                    // Task { @MainActor in
                         self.carbsList.append(carb)
-                    }
+                    // }
                 }
             }
             // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
             self.sortAllEntryCarbs()        // NOTE: Must sort within the collection closure.
+            self.updateAllEntryCarbs()
         }
     }
 
     func sortAllEntryCarbs() {
-        Task { @MainActor in
+        // Task { @MainActor in
             self.carbsList.sort()
+        // }
+    }
+    
+    // FIXME: BUG: carbsList is most often empty here. Most likely because of the MainActor stuff timing? Yep!
+    //        FIX: Removed MainActor and Task stuff. Now warning about publishing changes from background threads.
+    //        TODO: Make publishing changes from main thread.
+    func updateAllEntryCarbs() {
+        var carbsList2: [CarbModel] = []
+        // print("updateAllEntryCarbs: carbsList: \(carbsList)")
+        for (var lhs, rhs) in zip(carbsList, carbsList.dropFirst()) {
+            lhs.previousDate = rhs.date
+            carbsList2.append(lhs)
+            print("updateAllEntryCarbs: carb: \(lhs.carbs); date: \(lhs.date);previous date: \(lhs.previousDate ?? Date()); id: \(lhs.id)")
         }
+        carbsList2.append(carbsList.last!)       // NOTE: Append back last element.
+        // Task { @MainActor in
+            self.carbsList = carbsList2
+        // }
     }
 
     func removeAllEntryCarbs() {
-        Task { @MainActor in
+        // Task { @MainActor in
             self.carbsList.removeAll()
-        }
+        // }
     }
 
     func fetchFirstEntryCarbs() {
@@ -59,11 +77,11 @@ import HealthKit
                 if let hkQuanitySample = sample as? HKQuantitySample {
                     let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
                                               date: hkQuanitySample.startDate)
-                    print("carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
-                    Task { @MainActor in
+                    print("fetchFirstEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                    // Task { @MainActor in
                         // self.carbsList.append(carb)
                         self.carbsFirst = carb
-                    }
+                    // }
                 }
             }
         }

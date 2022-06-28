@@ -11,6 +11,7 @@ struct CarbModel: Identifiable {
     var id = UUID()
     var carbs: Int
     var date: Date
+    var previousDate: Date?
 }
 
 // MARK: - Comparable
