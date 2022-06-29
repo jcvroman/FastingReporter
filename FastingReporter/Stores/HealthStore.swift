@@ -12,7 +12,7 @@ import UIKit
 class HealthStore {
     var healthStore: HKHealthStore?
     var collectionQuery: HKStatisticsCollectionQuery?
-
+    
     init() {
         if HKHealthStore.isHealthDataAvailable() {
             healthStore = HKHealthStore()
@@ -44,27 +44,34 @@ class HealthStore {
         }
     }
 
-    func fetchEntryCarbs(completion: @escaping ([HKSample]) -> Void) {
-        let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)
+    func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void) {
+    // func fetchEntryCarbs(completion: @escaping ([HKSample]) -> Void) {
+        guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
+            fatalError("*** This method should never fail! ***")
+        }
         let today = Date()
         let startDate = Calendar.current.date(byAdding: .day, value: -3, to: today)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: today, options: HKQueryOptions.strictEndDate)
 
-        let sampleQuery = HKSampleQuery.init(sampleType: sampleType!,
+        var carbsList = [CarbModel]()
+
+        let sampleQuery = HKSampleQuery(sampleType: sampleType,
                                        predicate: predicate,
                                        limit: HKObjectQueryNoLimit,
                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
-            // (query, results, error) in
-            (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
-                completion(querySamples ?? [])
-
-            /*
-            if let querySamples = querySamples?.first as? HKQuantitySample {
-                print("Carbs: 1st: quantity: \(querySamples.quantity) | count: \(querySamples.count) | sampleType: \(querySamples.sampleType)")
-                print("Carbs: 1st: quantityType: \(querySamples.quantityType) | startDate: \(querySamples.startDate) | endDate: \(querySamples.endDate)")
-                print("Carbs: 1st: uuid: \(querySamples.uuid)")
+                (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
+            if let querySamples = querySamples {
+                for sample in querySamples {
+                    if let hkQuanitySample = sample as? HKQuantitySample {
+                        let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
+                                             date: hkQuanitySample.startDate)
+                        // print("fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                        carbsList.append(carb)
+                    }
+                    completion(carbsList)
+                    // completion(querySamples ?? [])
+                }
             }
-            */
         }
         healthStore?.execute(sampleQuery)
     }

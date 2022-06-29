@@ -21,20 +21,11 @@ class CarbsEntryListViewModel: ObservableObject {
 
     // func fetchEntryCarbs(_ querySamples: [HKSample]) {
     func fetchEntryCarbs() {
-        removeAllEntryCarbs()
+        // removeAllEntryCarbs()            // NOTE: REMOVE: Do not need to remove all now from previous refresh?
 
-        healthStore.fetchEntryCarbs { querySamples in
-            for sample in querySamples {
-                // print("sample:", sample)
-                if let hkQuanitySample = sample as? HKQuantitySample {
-                    let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
-                                              date: hkQuanitySample.startDate)
-                    // print("fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
-                    // Task { @MainActor in
-                        self.carbsList.append(carb)
-                    // }
-                }
-            }
+        healthStore.fetchEntryCarbs() { hCarbsList in
+            self.carbsList = hCarbsList
+            
             // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
             self.sortAllEntryCarbs()        // NOTE: Must sort within the collection closure.
             self.updateAllEntryCarbs()
