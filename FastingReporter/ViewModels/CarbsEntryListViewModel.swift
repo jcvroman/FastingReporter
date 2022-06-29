@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HealthKit
 
 class CarbsEntryListViewModel: ObservableObject {
     var healthStore: HealthStore
@@ -19,11 +18,14 @@ class CarbsEntryListViewModel: ObservableObject {
 
     func fetchEntryCarbs() {
         healthStore.fetchEntryCarbs() { hCarbsList in
-            self.carbsList = hCarbsList
+            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            DispatchQueue.main.async {
+                self.carbsList = hCarbsList
 
-            // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
-            self.sortAllEntryCarbs()        // NOTE: Must sort within the collection closure.
-            self.updateAllEntryCarbs()
+                // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
+                self.sortAllEntryCarbs()        // NOTE: Must sort within the collection closure.
+                self.updateAllEntryCarbs()
+            }
         }
     }
 
@@ -31,8 +33,6 @@ class CarbsEntryListViewModel: ObservableObject {
         self.carbsList.sort()
     }
 
-    // FIXME: BUG: Warnings about publishing changes from background threads.
-    //        TODO: Make publishing changes from main thread.
     func updateAllEntryCarbs() {
         var carbsList2: [CarbModel] = []
         // print("updateAllEntryCarbs: carbsList: \(carbsList)")
@@ -43,8 +43,8 @@ class CarbsEntryListViewModel: ObservableObject {
                 .dateComponents([.minute], from: lhs.previousDate!, to: lhs.date)
                 .minute
             carbsList2.append(lhs)
-            print("updateAllEntryCarbs: carb: \(lhs.carbs); date: \(lhs.date);previous date: \(lhs.previousDate ?? Date());")
-            print("    diff minutes: \(lhs.diffMinutes ?? 0); id: \(lhs.id)")
+            // print("updateAllEntryCarbs: carb: \(lhs.carbs); date: \(lhs.date);previous date: \(lhs.previousDate ?? Date());")
+            // print("    diff minutes: \(lhs.diffMinutes ?? 0); id: \(lhs.id)")
         }
         carbsList2.append(carbsList.last!)       // NOTE: Append back last element.
         self.carbsList = carbsList2
@@ -52,7 +52,10 @@ class CarbsEntryListViewModel: ObservableObject {
 
     func fetchFirstEntryCarbs() {
         healthStore.fetchFirstEntryCarbs() { hCarbsFirst in
-            self.carbsFirst = hCarbsFirst
+            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            DispatchQueue.main.async {
+                self.carbsFirst = hCarbsFirst
+            }
         }
     }
 }
