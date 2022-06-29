@@ -13,19 +13,14 @@ class CarbsEntryListViewModel: ObservableObject {
     @Published private(set) var carbsList: [CarbModel] = []
     @Published private(set) var carbsFirst: CarbModel?
 
-    // init() {
     init(healthStore: HealthStore) {
-        // healthStore = HealthStore()
         self.healthStore = healthStore
     }
 
-    // func fetchEntryCarbs(_ querySamples: [HKSample]) {
     func fetchEntryCarbs() {
-        // removeAllEntryCarbs()            // NOTE: REMOVE: Do not need to remove all now from previous refresh?
-
         healthStore.fetchEntryCarbs() { hCarbsList in
             self.carbsList = hCarbsList
-            
+
             // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
             self.sortAllEntryCarbs()        // NOTE: Must sort within the collection closure.
             self.updateAllEntryCarbs()
@@ -33,13 +28,10 @@ class CarbsEntryListViewModel: ObservableObject {
     }
 
     func sortAllEntryCarbs() {
-        // Task { @MainActor in
-            self.carbsList.sort()
-        // }
+        self.carbsList.sort()
     }
-    
-    // FIXME: BUG: carbsList is most often empty here. Most likely because of the MainActor stuff timing? Yep!
-    //        FIX: Removed MainActor and Task stuff. Now warning about publishing changes from background threads.
+
+    // FIXME: BUG: Warnings about publishing changes from background threads.
     //        TODO: Make publishing changes from main thread.
     func updateAllEntryCarbs() {
         var carbsList2: [CarbModel] = []
@@ -55,15 +47,7 @@ class CarbsEntryListViewModel: ObservableObject {
             print("    diff minutes: \(lhs.diffMinutes ?? 0); id: \(lhs.id)")
         }
         carbsList2.append(carbsList.last!)       // NOTE: Append back last element.
-        // Task { @MainActor in
-            self.carbsList = carbsList2
-        // }
-    }
-
-    func removeAllEntryCarbs() {
-        // Task { @MainActor in
-            self.carbsList.removeAll()
-        // }
+        self.carbsList = carbsList2
     }
 
     func fetchFirstEntryCarbs() {
