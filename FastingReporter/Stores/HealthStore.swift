@@ -76,19 +76,33 @@ class HealthStore {
         healthStore?.execute(sampleQuery)
     }
 
-    func fetchFirstEntryCarbs(completion: @escaping ([HKSample]) -> Void) {
-        let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)
+    func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void) {
+    // func fetchFirstEntryCarbs(completion: @escaping ([HKSample]) -> Void) {
+        guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
+            fatalError("*** This method should never fail! ***")
+        }
         let today = Date()
         let startDate = Calendar.current.date(byAdding: .day, value: -3, to: today)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: today, options: HKQueryOptions.strictEndDate)
 
-        let sampleQuery = HKSampleQuery.init(sampleType: sampleType!,
+        var carbsFirst = CarbModel(carbs: 0, date: Date())
+
+        let sampleQuery = HKSampleQuery(sampleType: sampleType,
                                        predicate: predicate,
                                        limit: 1,
                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
-            // (query, results, error) in
-            (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
-                completion(querySamples ?? [])
+                (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
+            if let querySamples = querySamples {
+                for sample in querySamples {
+                    if let hkQuanitySample = sample as? HKQuantitySample {
+                        carbsFirst = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
+                                             date: hkQuanitySample.startDate)
+                        print("fetchFirstEntryCarbs: carbsFirst: \(carbsFirst.carbs); date: \(carbsFirst.date); id: \(carbsFirst.id)")
+                    }
+                    completion(carbsFirst)
+                    // completion(querySamples ?? [])
+                }
+            }
         }
         healthStore?.execute(sampleQuery)
     }

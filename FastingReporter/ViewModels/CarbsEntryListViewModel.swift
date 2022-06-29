@@ -67,19 +67,8 @@ class CarbsEntryListViewModel: ObservableObject {
     }
 
     func fetchFirstEntryCarbs() {
-        healthStore.fetchFirstEntryCarbs { querySamples in
-            for sample in querySamples {
-                // print("sample:", sample)
-                if let hkQuanitySample = sample as? HKQuantitySample {
-                    let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
-                                              date: hkQuanitySample.startDate)
-                    print("fetchFirstEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
-                    // Task { @MainActor in
-                        // self.carbsList.append(carb)
-                        self.carbsFirst = carb
-                    // }
-                }
-            }
+        healthStore.fetchFirstEntryCarbs() { hCarbsFirst in
+            self.carbsFirst = hCarbsFirst
         }
     }
 }
