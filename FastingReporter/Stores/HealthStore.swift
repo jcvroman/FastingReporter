@@ -12,7 +12,7 @@ import UIKit
 class HealthStore {
     var healthStore: HKHealthStore?
     var collectionQuery: HKStatisticsCollectionQuery?
-    
+
     init() {
         if HKHealthStore.isHealthDataAvailable() {
             healthStore = HKHealthStore()
@@ -27,16 +27,30 @@ class HealthStore {
         }
     }
 
-    func fetchDailyCarbs(completion: @escaping (HKStatisticsCollection?) -> Void) {
+    func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void) {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
         let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())
         let anchorDate = Date.mondayAt12AM()
         let daily = DateComponents(day: 1)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: Date(), options: .strictStartDate)
+
+        var carbsList = [CarbModel]()
+
         collectionQuery = HKStatisticsCollectionQuery(quantityType: carbType, quantitySamplePredicate: predicate,
-                                            options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
+                                                      options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
         collectionQuery?.initialResultsHandler = { query, statisticsCollection, error in
-            completion(statisticsCollection)
+            if let statisticsCollection = statisticsCollection {
+                // print("statisticsCollection:", statisticsCollection)
+                let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+                let endDate = Date()
+                statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
+                    let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
+                    let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
+                    // print("carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                    carbsList.append(carb)
+                }
+                completion(carbsList)
+            }
         }
 
         if let healthStore = healthStore, let query = self.collectionQuery {
@@ -45,7 +59,6 @@ class HealthStore {
     }
 
     func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void) {
-    // func fetchEntryCarbs(completion: @escaping ([HKSample]) -> Void) {
         guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
             fatalError("*** This method should never fail! ***")
         }
@@ -69,7 +82,6 @@ class HealthStore {
                         carbsList.append(carb)
                     }
                     completion(carbsList)
-                    // completion(querySamples ?? [])
                 }
             }
         }
@@ -77,7 +89,6 @@ class HealthStore {
     }
 
     func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void) {
-    // func fetchFirstEntryCarbs(completion: @escaping ([HKSample]) -> Void) {
         guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
             fatalError("*** This method should never fail! ***")
         }
@@ -97,10 +108,9 @@ class HealthStore {
                     if let hkQuanitySample = sample as? HKQuantitySample {
                         carbsFirst = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
                                              date: hkQuanitySample.startDate)
-                        print("fetchFirstEntryCarbs: carbsFirst: \(carbsFirst.carbs); date: \(carbsFirst.date); id: \(carbsFirst.id)")
+                        // print("fetchFirstEntryCarbs: carbsFirst: \(carbsFirst.carbs); date: \(carbsFirst.date); id: \(carbsFirst.id)")
                     }
                     completion(carbsFirst)
-                    // completion(querySamples ?? [])
                 }
             }
         }
