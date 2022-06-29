@@ -17,8 +17,11 @@ final class CarbsDailyListViewModel: ObservableObject {
 
     func fetchDailyCarbs() {
         healthStore.fetchDailyCarbs() { hCarbsList in
-            self.carbsList = hCarbsList
-            self.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
+            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            DispatchQueue.main.async {
+                self.carbsList = hCarbsList
+                self.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
+            }
         }
     }
 
