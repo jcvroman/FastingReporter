@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CarbsEntryListViewModel: ObservableObject {
+final class CarbsEntryListViewModel: ObservableObject {
     var healthStore: HealthStore
     @Published private(set) var carbsList: [CarbModel] = []
     @Published private(set) var carbsFirst: CarbModel?
