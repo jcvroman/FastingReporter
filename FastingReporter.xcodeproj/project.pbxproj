@@ -168,7 +168,6 @@
 				99F7F6DD268664F90092FFF7 /* ViewModels */,
 				99F7F6DC268664EE0092FFF7 /* Views */,
 				99DE2ACC266D949F003230CA /* FastingReporterApp.swift */,
-				99DE2ACE266D949F003230CA /* DashboardView.swift */,
 				99DE2AD0266D94A0003230CA /* Assets.xcassets */,
 				99DE2AD5266D94A0003230CA /* Info.plist */,
 				99DE2AD2266D94A0003230CA /* Preview Content */,
@@ -214,6 +213,7 @@
 		99F7F6DC268664EE0092FFF7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				99DE2ACE266D949F003230CA /* DashboardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
