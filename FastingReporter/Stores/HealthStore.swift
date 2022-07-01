@@ -9,12 +9,15 @@ import Foundation
 import HealthKit
 import UIKit
 
+// NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
 protocol HealthStoreProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void)
     func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void)
     func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void)
 }
+
+// NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
 
 final class HealthStore: HealthStoreProtocol {
     var healthStore: HKHealthStore?
@@ -95,6 +98,7 @@ final class HealthStore: HealthStoreProtocol {
         healthStore?.execute(sampleQuery)
     }
 
+    // TODO: FIX: REMOVE: Roll this functionality into fetchEntryCarbs.
     func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void) {
         guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
             fatalError("*** This method should never fail! ***")

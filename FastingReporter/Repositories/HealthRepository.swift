@@ -7,6 +7,7 @@
 
 import Foundation
 
+// NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
 protocol HealthRepositoryProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void)
