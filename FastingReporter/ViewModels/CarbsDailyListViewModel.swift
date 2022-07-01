@@ -8,15 +8,20 @@
 import Foundation
 
 final class CarbsDailyListViewModel: ObservableObject {
-    var healthStore: HealthStore
     @Published private(set) var carbsList: [CarbModel] = []
 
-    init(healthStore: HealthStore) {
-        self.healthStore = healthStore
+    private let healthRepository: HealthRepositoryProtocol
+    
+    init(healthRepository: HealthRepositoryProtocol = HealthRepository()) {     // NOTE: Dependency Injection.
+        self.healthRepository = healthRepository
     }
 
+    func requestAuthorization(completion: @escaping (Bool) -> Void) {
+        healthRepository.requestAuthorization(completion: completion)
+    }
+    
     func fetchDailyCarbs() {
-        healthStore.fetchDailyCarbs() { hCarbsList in
+        healthRepository.fetchDailyCarbs() { hCarbsList in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
                 self.carbsList = hCarbsList

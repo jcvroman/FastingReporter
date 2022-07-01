@@ -9,7 +9,14 @@ import Foundation
 import HealthKit
 import UIKit
 
-class HealthStore {
+protocol HealthStoreProtocol {
+    func requestAuthorization(completion: @escaping (Bool) -> Void)
+    func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void)
+    func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void)
+    func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void)
+}
+
+final class HealthStore: HealthStoreProtocol {
     var healthStore: HKHealthStore?
     var collectionQuery: HKStatisticsCollectionQuery?
 

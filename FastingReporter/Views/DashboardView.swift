@@ -10,16 +10,11 @@ import SwiftUI
 
 struct DashboardView: View {
     // NOTE: Think of main/root views as a table of contents (i.e. not too little or too much here).
-    private var healthStore = HealthStore()
     @Environment(\.scenePhase) private var scenePhase
 
-    @ObservedObject var carbsEntryListVM: CarbsEntryListViewModel
-    @ObservedObject var carbsDailyListVM: CarbsDailyListViewModel
-
-    init() {
-        carbsEntryListVM = CarbsEntryListViewModel(healthStore: healthStore)
-        carbsDailyListVM = CarbsDailyListViewModel(healthStore: healthStore)
-    }
+    // NOTE: Use @StateObject when you create an object.
+    @StateObject private var carbsEntryListVM = CarbsEntryListViewModel()
+    @StateObject private var carbsDailyListVM = CarbsDailyListViewModel()
 
     var body: some View {
         VStack {
@@ -41,11 +36,10 @@ struct DashboardView: View {
             carbsEntryListView
             carbsDailyListView
         }
-        // NOTE: Re-fetch on change back to app.
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { newPhase in         // NOTE: Fetch on change to/back to app.
             if newPhase == .active {
-                print("DEBUG: Active")
-                fetchHealthStore()
+                // print("DEBUG: Active")
+                fetchHealthRepository()
             }
         }
     }
@@ -90,16 +84,14 @@ struct DashboardView: View {
      }
 
     // MARK: - Actions.
-    private func fetchHealthStore() {
-        // if let healthStore = healthStore {
-            healthStore.requestAuthorization { success in
-                if success {
-                    carbsEntryListVM.fetchFirstEntryCarbs()
-                    carbsEntryListVM.fetchEntryCarbs()
-                    carbsDailyListVM.fetchDailyCarbs()
-                }
+    private func fetchHealthRepository() {
+        carbsEntryListVM.requestAuthorization { success in
+            if success {
+                carbsEntryListVM.fetchFirstEntryCarbs()
+                carbsEntryListVM.fetchEntryCarbs()
+                carbsDailyListVM.fetchDailyCarbs()
             }
-        // }
+        }
     }
 }
 
@@ -111,7 +103,7 @@ private let dateShortFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .short
     // logger.debug("MyListsItem: itemFormatter")
-    print("MyListsItem: itemFormatter")
+    print("DEBUG: MyListsItem: itemFormatter")
     return formatter
 }()
 
@@ -120,7 +112,7 @@ private let timeShortFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.timeStyle = .short
     // logger.debug("MyListsItem: itemFormatter")
-    print("MyListsItem: itemFormatter")
+    print("DEBUG: MyListsItem: itemFormatter")
     return formatter
 }()
 

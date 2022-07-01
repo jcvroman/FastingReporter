@@ -8,16 +8,21 @@
 import Foundation
 
 final class CarbsEntryListViewModel: ObservableObject {
-    var healthStore: HealthStore
     @Published private(set) var carbsList: [CarbModel] = []
     @Published private(set) var carbsFirst: CarbModel?
+    
+    private let healthRepository: HealthRepositoryProtocol
 
-    init(healthStore: HealthStore) {
-        self.healthStore = healthStore
+    init(healthRepository: HealthRepositoryProtocol = HealthRepository()) {     // NOTE: Dependency Injection.
+        self.healthRepository = healthRepository
+    }
+
+    func requestAuthorization(completion: @escaping (Bool) -> Void) {
+        healthRepository.requestAuthorization(completion: completion)
     }
 
     func fetchEntryCarbs() {
-        healthStore.fetchEntryCarbs() { hCarbsList in
+        healthRepository.fetchEntryCarbs() { hCarbsList in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
                 self.carbsList = hCarbsList
@@ -33,6 +38,7 @@ final class CarbsEntryListViewModel: ObservableObject {
         self.carbsList.sort()
     }
 
+    // TODO: Move this to healthRepository.
     func updateAllEntryCarbs() {
         var carbsList2: [CarbModel] = []
         // print("updateAllEntryCarbs: carbsList: \(carbsList)")
@@ -51,7 +57,7 @@ final class CarbsEntryListViewModel: ObservableObject {
     }
 
     func fetchFirstEntryCarbs() {
-        healthStore.fetchFirstEntryCarbs() { hCarbsFirst in
+        healthRepository.fetchFirstEntryCarbs() { hCarbsFirst in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
                 self.carbsFirst = hCarbsFirst
