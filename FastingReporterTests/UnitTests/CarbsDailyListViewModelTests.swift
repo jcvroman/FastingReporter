@@ -21,8 +21,7 @@ import XCTest
 class CarbsDailyListViewModelTests: XCTestCase {
     // Scenario: Report List when no carbs data is an empty list.
     @MainActor func test_when_no_carbs_then_report_list_empty() throws {
-        let healthStore = HealthStore()
-        let sut = CarbsDailyListViewModel(healthStore: healthStore)
+        let sut = CarbsDailyListViewModel()
         // sut.fetchList()
         // XCTAssert(sut.list.isEmpty, "lists should be empty at sut init.")
         XCTAssert(true, "Test to be written.")
