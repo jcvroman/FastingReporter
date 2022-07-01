@@ -7,8 +7,16 @@
 
 import Foundation
 
+// NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
+protocol CarbsDailyListViewModelProtocol {
+    var carbsList: [CarbModel] { get }
+    func requestAuthorization(completion: @escaping (Bool) -> Void)
+    func fetchDailyCarbs()
+    func sortAllDailyCarbs()
+}
+
 final class CarbsDailyListViewModel: ObservableObject {
-    @Published private(set) var carbsList: [CarbModel] = []
+    @Published var carbsList: [CarbModel] = []
 
     private let healthRepository: HealthRepositoryProtocol
     
@@ -16,10 +24,19 @@ final class CarbsDailyListViewModel: ObservableObject {
         self.healthRepository = healthRepository
     }
 
+    func deint() {
+        // FIXME: TODO: Why isn't this logged. Memory Retain Cycle issue?
+        print("DEBUG: CarbsDailyListViewModel: deinit")
+    }
+}
+
+// MARK: - CarbsDailyListViewModelProtocol
+// NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
+extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
     }
-    
+
     func fetchDailyCarbs() {
         healthRepository.fetchDailyCarbs() { hCarbsList in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.

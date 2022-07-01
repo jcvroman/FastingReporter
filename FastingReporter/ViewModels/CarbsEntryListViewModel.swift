@@ -7,6 +7,17 @@
 
 import Foundation
 
+// NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
+protocol CarbsEntryListViewModelProtocol {
+    var carbsList: [CarbModel] { get }          // TODO: FIX: Verify this var implemention (i.e. get vs. private(set)).
+    // var carbsFirst: CarbModel { get }        // TODO: FIX: How to implement this var like carbsList?
+    func requestAuthorization(completion: @escaping (Bool) -> Void)
+    func fetchEntryCarbs()
+    func sortAllEntryCarbs()
+    func updateAllEntryCarbs()
+    func fetchFirstEntryCarbs()
+}
+
 final class CarbsEntryListViewModel: ObservableObject {
     @Published private(set) var carbsList: [CarbModel] = []
     @Published private(set) var carbsFirst: CarbModel?
@@ -17,6 +28,15 @@ final class CarbsEntryListViewModel: ObservableObject {
         self.healthRepository = healthRepository
     }
 
+    func deint() {
+        // FIXME: TODO: Why isn't this logged. Memory Retain Cycle issue?
+        print("DEBUG: CarbsEntryListViewModel: deinit")
+    }
+}
+
+// MARK: - CarbsEntryListViewModelProtocol
+// NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
+extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
     }
