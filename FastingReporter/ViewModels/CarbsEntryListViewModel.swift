@@ -10,17 +10,14 @@ import Foundation
 // NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
 protocol CarbsEntryListViewModelProtocol {
     var carbsList: [CarbModel] { get }          // TODO: FIX: Verify this var implemention (i.e. get vs. private(set)).
-    // var carbsFirst: CarbModel { get }        // TODO: FIX: How to implement this var like carbsList?
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchEntryCarbs()
     func sortAllEntryCarbs()
     func updateAllEntryCarbs()
-    func fetchFirstEntryCarbs()
 }
 
 final class CarbsEntryListViewModel: ObservableObject {
     @Published private(set) var carbsList: [CarbModel] = []
-    @Published private(set) var carbsFirst: CarbModel?
     
     private let healthRepository: HealthRepositoryProtocol
 
@@ -74,14 +71,5 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         }
         carbsList2.append(carbsList.last!)       // NOTE: Append back last element.
         self.carbsList = carbsList2
-    }
-
-    func fetchFirstEntryCarbs() {
-        healthRepository.fetchFirstEntryCarbs() { hCarbsFirst in
-            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
-            DispatchQueue.main.async {
-                self.carbsFirst = hCarbsFirst
-            }
-        }
     }
 }

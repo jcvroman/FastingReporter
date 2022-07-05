@@ -13,26 +13,13 @@ struct DashboardView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     // NOTE: Use @StateObject when you create an object.
+    @StateObject private var currentFastVM = CurrentFastViewModel()
     @StateObject private var carbsEntryListVM = CarbsEntryListViewModel()
     @StateObject private var carbsDailyListVM = CarbsDailyListViewModel()
 
     var body: some View {
         VStack {
-            ZStack {
-                VStack(spacing: 0) {
-                    Color.clear
-                }
-                VStack {
-                    Text("Current Fast:")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.primary)
-                    Text("\(carbsEntryListVM.carbsFirst?.date ?? Date(), style: .timer)")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.red)
-                }
-            }
+            currentFastView
             carbsEntryListView
             carbsDailyListView
         }
@@ -45,6 +32,24 @@ struct DashboardView: View {
     }
 
     // MARK: - Sub Views.
+    private var currentFastView: some View {
+        ZStack {
+            VStack(spacing: 0) {
+                Color.clear
+            }
+            VStack {
+                Text("Current Fast:")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.primary)
+                Text("\(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.red)
+            }
+        }
+    }
+    
     private var carbsEntryListView: some View {
         List(carbsEntryListVM.carbsList) { carb in
             HStack {
@@ -85,9 +90,9 @@ struct DashboardView: View {
 
     // MARK: - Actions.
     private func fetchHealthRepository() {
-        carbsEntryListVM.requestAuthorization { success in
+        currentFastVM.requestAuthorization { success in
             if success {
-                carbsEntryListVM.fetchFirstEntryCarbs()
+                currentFastVM.fetchFirstEntryCarbs()
                 carbsEntryListVM.fetchEntryCarbs()
                 carbsDailyListVM.fetchDailyCarbs()
             }
