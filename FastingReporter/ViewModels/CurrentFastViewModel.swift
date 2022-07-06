@@ -25,7 +25,7 @@ final class CurrentFastViewModel: ObservableObject {
 
     func deint() {
         // FIXME: TODO: Why isn't this logged. Memory Retain Cycle issue?
-        print("DEBUG: CurrentFastViewModel: deinit")
+        print("DEBUG: CurrentFastViewModel.deinit")
     }
 }
 
@@ -38,10 +38,7 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
 
     func fetchFirstEntryCarbs() {
         healthRepository.fetchFirstEntryCarbs() { hCarbsFirst in
-            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
-            DispatchQueue.main.async {
-                self.carbsFirst = hCarbsFirst
-            }
+            self.carbsFirst = hCarbsFirst
         }
     }
 }

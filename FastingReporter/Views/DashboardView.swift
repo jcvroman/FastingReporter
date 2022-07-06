@@ -25,7 +25,7 @@ struct DashboardView: View {
         }
         .onChange(of: scenePhase) { newPhase in         // NOTE: Fetch on change to/back to app.
             if newPhase == .active {
-                // print("DEBUG: Active")
+                // print("DEBUG: DashboardView.body: Active")
                 fetchHealthRepository()
             }
         }
@@ -93,7 +93,7 @@ struct DashboardView: View {
         currentFastVM.requestAuthorization { success in
             if success {
                 currentFastVM.fetchFirstEntryCarbs()
-                carbsEntryListVM.fetchEntryCarbs()
+                carbsEntryListVM.fetchSortUpdateEntryCarbs()
                 carbsDailyListVM.fetchDailyCarbs()
             }
         }

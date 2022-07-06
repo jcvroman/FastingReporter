@@ -26,7 +26,7 @@ final class CarbsDailyListViewModel: ObservableObject {
 
     func deint() {
         // FIXME: TODO: Why isn't this logged. Memory Retain Cycle issue?
-        print("DEBUG: CarbsDailyListViewModel: deinit")
+        print("DEBUG: CarbsDailyListViewModel.deinit")
     }
 }
 
@@ -39,11 +39,8 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
 
     func fetchDailyCarbs() {
         healthRepository.fetchDailyCarbs() { hCarbsList in
-            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
-            DispatchQueue.main.async {
-                self.carbsList = hCarbsList
-                self.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
-            }
+            self.carbsList = hCarbsList
+            self.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
         }
     }
 

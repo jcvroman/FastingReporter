@@ -33,7 +33,10 @@ final class HealthStore: HealthStoreProtocol {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
         guard let healthStore = self.healthStore else { return completion(false) }
         healthStore.requestAuthorization(toShare: [], read: [carbType]) { (success, error) in
-            completion(success)
+            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            DispatchQueue.main.async {
+                completion(success)
+            }
         }
     }
 
@@ -49,17 +52,20 @@ final class HealthStore: HealthStoreProtocol {
         collectionQuery = HKStatisticsCollectionQuery(quantityType: carbType, quantitySamplePredicate: predicate,
                                                       options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
         collectionQuery?.initialResultsHandler = { query, statisticsCollection, error in
-            if let statisticsCollection = statisticsCollection {
-                // print("statisticsCollection:", statisticsCollection)
-                let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
-                let endDate = Date()
-                statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
-                    let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
-                    let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
-                    // print("carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
-                    carbsList.append(carb)
+            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            DispatchQueue.main.async {
+                if let statisticsCollection = statisticsCollection {
+                    // print("statisticsCollection:", statisticsCollection)
+                    let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+                    let endDate = Date()
+                    statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
+                        let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
+                        let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
+                        // print("carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                        carbsList.append(carb)
+                    }
+                    completion(carbsList)
                 }
-                completion(carbsList)
             }
         }
 
@@ -83,15 +89,18 @@ final class HealthStore: HealthStoreProtocol {
                                        limit: HKObjectQueryNoLimit,
                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
                 (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
-            if let querySamples = querySamples {
-                for sample in querySamples {
-                    if let hkQuanitySample = sample as? HKQuantitySample {
-                        let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
-                                             date: hkQuanitySample.startDate)
-                        // print("fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
-                        carbsList.append(carb)
+            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            DispatchQueue.main.async {
+                if let querySamples = querySamples {
+                    for sample in querySamples {
+                        if let hkQuanitySample = sample as? HKQuantitySample {
+                            let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
+                                                 date: hkQuanitySample.startDate)
+                            print("DEBUG: HealthStore.fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                            carbsList.append(carb)
+                        }
+                        completion(carbsList)
                     }
-                    completion(carbsList)
                 }
             }
         }
@@ -114,14 +123,17 @@ final class HealthStore: HealthStoreProtocol {
                                        limit: 1,
                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
                 (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
-            if let querySamples = querySamples {
-                for sample in querySamples {
-                    if let hkQuanitySample = sample as? HKQuantitySample {
-                        carbsFirst = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
-                                             date: hkQuanitySample.startDate)
-                        // print("fetchFirstEntryCarbs: carbsFirst: \(carbsFirst.carbs); date: \(carbsFirst.date); id: \(carbsFirst.id)")
+            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            DispatchQueue.main.async {
+                if let querySamples = querySamples {
+                    for sample in querySamples {
+                        if let hkQuanitySample = sample as? HKQuantitySample {
+                            carbsFirst = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
+                                                 date: hkQuanitySample.startDate)
+                            // print("fetchFirstEntryCarbs: carbsFirst: \(carbsFirst.carbs); date: \(carbsFirst.date); id: \(carbsFirst.id)")
+                        }
+                        completion(carbsFirst)
                     }
-                    completion(carbsFirst)
                 }
             }
         }
