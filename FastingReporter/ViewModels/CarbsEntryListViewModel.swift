@@ -41,24 +41,25 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
     func fetchEntryCarbs() {
         healthRepository.fetchEntryCarbs() { hCarbsList in
             self.carbsList = hCarbsList
-
-            // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
-            self.sortEntryCarbs()        // FIX: BUG: Why must I sort/update within the collection closure. I.e. loop loop thru.
-            self.updateEntryCarbs()
         }
     }
 
     func sortEntryCarbs() {
-        carbsList.sort()
+        self.carbsList.sort()
     }
 
     func updateEntryCarbs() {
         carbsList = healthRepository.updateEntryCarbs(carbsList: carbsList)
     }
-    
+
     func fetchSortUpdateEntryCarbs() {
         self.fetchEntryCarbs()
-        // self.sortEntryCarbs()
-        // self.updateEntryCarbs()
+
+        // FIX: BUG: Using a forced time delay so fetch complete before updating. How to do this correctly?
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
+            self.sortEntryCarbs()
+            self.updateEntryCarbs()
+        }
     }
 }
