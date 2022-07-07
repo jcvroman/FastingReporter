@@ -42,12 +42,13 @@ final class HealthStore: HealthStoreProtocol {
 
     func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void) {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
-        let currentDateStartOfDay = Calendar.current.startOfDay(for: Date())
-        // print("DEBUG: Date: \(currentDateStartOfDay)")
+        let now = Date()
+        let currentDateStartOfDay = Calendar.current.startOfDay(for: now)
+        // print("DEBUG: HealthStore.fetchDailyCarbs: currentDateStartOfDay: \(currentDateStartOfDay)")
         let startDate = Calendar.current.date(byAdding: .day, value: -7, to: currentDateStartOfDay)
         let anchorDate = Date.mondayAt12AM()
         let daily = DateComponents(day: 1)
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: Date(), options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
         // print("DEBUG: HealthStore.fetchDailyCarbs: startDate: \(String(describing: startDate))")
         
         var carbsList = [CarbModel]()
@@ -59,8 +60,8 @@ final class HealthStore: HealthStoreProtocol {
             DispatchQueue.main.async {
                 if let statisticsCollection = statisticsCollection {
                     print("statisticsCollection:", statisticsCollection)
-                    let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
-                    let endDate = Date()
+                    let startDate = Calendar.current.date(byAdding: .day, value: -7, to: currentDateStartOfDay)!
+                    let endDate = now
                     statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
                         let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
                         let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
@@ -81,10 +82,13 @@ final class HealthStore: HealthStoreProtocol {
         guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
             fatalError("*** This method should never fail! ***")
         }
-        let today = Date()
-        let startDate = Calendar.current.date(byAdding: .day, value: -3, to: today)
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: today, options: HKQueryOptions.strictEndDate)
-
+        let now = Date()
+        let currentDateStartOfDay = Calendar.current.startOfDay(for: now)
+        // print("DEBUG: HealthStore.fetchEntryCarbs: currentDateStartOfDay: \(currentDateStartOfDay)")
+        let startDate = Calendar.current.date(byAdding: .day, value: -3, to: currentDateStartOfDay)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: HKQueryOptions.strictEndDate)
+        // print("DEBUG: HealthStore.fetchEntryCarbs: startDate: \(String(describing: startDate))")
+        
         var carbsList = [CarbModel]()
 
         let sampleQuery = HKSampleQuery(sampleType: sampleType,
