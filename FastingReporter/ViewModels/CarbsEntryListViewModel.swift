@@ -9,9 +9,8 @@ import Foundation
 
 // NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
 protocol CarbsEntryListViewModelProtocol {
-    // var carbsList: [CarbModel] { get set }          // TODO: FIX: Verify this var implemention (i.e. get vs. private(set)).
+    var carbsList: [CarbModel] { get set }          // TODO: FIX: Verify this var implemention (i.e. get vs. private(set)).
     func requestAuthorization(completion: @escaping (Bool) -> Void)
-    func fetchEntryCarbs()
     func sortEntryCarbs()
     func updateEntryCarbs()
 }
@@ -38,28 +37,42 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         healthRepository.requestAuthorization(completion: completion)
     }
 
-    func fetchEntryCarbs() {
-        healthRepository.fetchEntryCarbs() { hCarbsList in
-            self.carbsList = hCarbsList
-        }
-    }
-
     func sortEntryCarbs() {
-        self.carbsList.sort()
+        carbsList.sort()
     }
 
     func updateEntryCarbs() {
         carbsList = healthRepository.updateEntryCarbs(carbsList: carbsList)
     }
 
+    // NOTE: Via dispatch queues (background and main) and semaphores, manage the completion of fetch, sort & update tasks.
     func fetchSortUpdateEntryCarbs() {
-        self.fetchEntryCarbs()
+        let semaphore = DispatchSemaphore(value: 0)
+        let dispatchQueue = DispatchQueue.global(qos: .background)
 
-        // FIX: BUG: Using a forced time delay so fetch complete before updating. How to do this correctly?
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
-            self.sortEntryCarbs()
-            self.updateEntryCarbs()
+        dispatchQueue.async { [weak self] in
+            print("DEBUG: CarbsEntryListViewModel.fetchEntryCarbs: Completed")
+            self?.healthRepository.fetchEntryCarbs() { [weak self] hCarbsList in
+                self?.carbsList = hCarbsList
+                semaphore.signal()
+            }
+            semaphore.wait()
+
+            DispatchQueue.main.async {
+                print("DEBUG: CarbsEntryListViewModel.sortEntryCarbs: Completed")
+                // NOTE: Force a sort as I've observed a quick delete of latest carb entry and back to app leads to bad sort.
+                self?.sortEntryCarbs()
+                semaphore.signal()
+            }
+            semaphore.wait()
+            
+            DispatchQueue.main.async {
+                print("DEBUG: CarbsEntryListViewModel.updateEntryCarbs: Completed")
+                self?.updateEntryCarbs()
+                semaphore.signal()
+            }
+            semaphore.wait()
         }
+        print("DEBUG: CarbsEntryListViewModel.fetchSortUpdateEntryCarbs: Starting...")
     }
 }
