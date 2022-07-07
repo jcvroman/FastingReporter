@@ -37,8 +37,8 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
     }
 
     func fetchFirstEntryCarbs() {
-        healthRepository.fetchFirstEntryCarbs() { hCarbsFirst in
-            self.carbsFirst = hCarbsFirst
+        healthRepository.fetchFirstEntryCarbs() { [weak self] hCarbsFirst in
+            self?.carbsFirst = hCarbsFirst
         }
     }
 }
