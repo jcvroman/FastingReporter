@@ -42,11 +42,14 @@ final class HealthStore: HealthStoreProtocol {
 
     func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void) {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
-        let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())
+        let currentDateStartOfDay = Calendar.current.startOfDay(for: Date())
+        // print("DEBUG: Date: \(currentDateStartOfDay)")
+        let startDate = Calendar.current.date(byAdding: .day, value: -7, to: currentDateStartOfDay)
         let anchorDate = Date.mondayAt12AM()
         let daily = DateComponents(day: 1)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: Date(), options: .strictStartDate)
-
+        // print("DEBUG: HealthStore.fetchDailyCarbs: startDate: \(String(describing: startDate))")
+        
         var carbsList = [CarbModel]()
 
         collectionQuery = HKStatisticsCollectionQuery(quantityType: carbType, quantitySamplePredicate: predicate,
@@ -55,7 +58,7 @@ final class HealthStore: HealthStoreProtocol {
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
                 if let statisticsCollection = statisticsCollection {
-                    // print("statisticsCollection:", statisticsCollection)
+                    print("statisticsCollection:", statisticsCollection)
                     let startDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
                     let endDate = Date()
                     statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
