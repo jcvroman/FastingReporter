@@ -32,6 +32,11 @@ final class CarbsEntryListViewModel: ObservableObject {
 
 // MARK: - CarbsEntryListViewModelProtocol
 // NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
+// NOTE: Published changes to the UI must occur on the main thread.
+// FIXME: TODO: Explicitly do all of the data work on the main thread plus avoid retain cycle via 'DispatchQueue.main.async
+//     { [weak self] in', but the unit tests fail using it?
+// NOTE: For classes (i.e. reference types), to avoid Memory Retain Cycle (i.e. Memory Leak), use weak self for one class so the
+//     other class can be deinited.
 extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
