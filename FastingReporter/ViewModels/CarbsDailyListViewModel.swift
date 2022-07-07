@@ -38,14 +38,14 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
     }
 
     func fetchDailyCarbs() {
-        healthRepository.fetchDailyCarbs() { hCarbsList in
-            self.carbsList = hCarbsList
-            self.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
+        healthRepository.fetchDailyCarbs() { [weak self] hCarbsList in
+            self?.carbsList = hCarbsList
+            self?.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
         }
     }
 
     func sortAllDailyCarbs() {
-        // self.carbsList.sort(by: {$0.date.compare($1.date) == .orderedAscending})
-        self.carbsList.sort()
+        // carbsList.sort(by: {$0.date.compare($1.date) == .orderedAscending})
+        carbsList.sort()
     }
 }
