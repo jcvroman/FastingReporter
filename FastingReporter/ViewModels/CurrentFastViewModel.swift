@@ -11,11 +11,11 @@ import Foundation
 protocol CurrentFastViewModelProtocol {
     // var carbsFirst: CarbModel { get }        // TODO: FIX: How to implement this var like carbsList?
     func requestAuthorization(completion: @escaping (Bool) -> Void)
-    func fetchFirstEntryCarbs()
+    func fetchEntryCarbsFirst()
 }
 
 final class CurrentFastViewModel: ObservableObject {
-    @Published private(set) var carbsFirst: CarbModel?
+    @Published var carbsFirst: CarbModel?
     
     private let healthRepository: HealthRepositoryProtocol
 
@@ -29,16 +29,18 @@ final class CurrentFastViewModel: ObservableObject {
     }
 }
 
-// MARK: - CarbsEntryListViewModelProtocol
+// MARK: - CurrentFastViewModelProtocol
 // NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
 extension CurrentFastViewModel: CurrentFastViewModelProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
     }
 
-    func fetchFirstEntryCarbs() {
-        healthRepository.fetchFirstEntryCarbs() { [weak self] hCarbsFirst in
+    func fetchEntryCarbsFirst() {
+        healthRepository.fetchEntryCarbsFirst() { [weak self] hCarbsFirst in
+            print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: hCarbsFirst: \(hCarbsFirst)")
             self?.carbsFirst = hCarbsFirst
         }
+        print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: carbsFirst: \(String(describing: carbsFirst))")
     }
 }

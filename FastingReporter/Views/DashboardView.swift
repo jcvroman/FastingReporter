@@ -92,7 +92,7 @@ struct DashboardView: View {
     private func fetchHealthRepository() {
         currentFastVM.requestAuthorization { success in
             if success {
-                currentFastVM.fetchFirstEntryCarbs()
+                currentFastVM.fetchEntryCarbsFirst()
                 carbsEntryListVM.fetchSortUpdateEntryCarbs()
                 carbsDailyListVM.fetchDailyCarbs()
             }

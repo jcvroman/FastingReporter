@@ -13,8 +13,8 @@ import UIKit
 protocol HealthStoreProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void)
-    func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void)
-    func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void)
+    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void)
+    func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
 }
 
 // NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
@@ -78,10 +78,12 @@ final class HealthStore: HealthStoreProtocol {
         }
     }
 
-    func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void) {
+    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void) {
         guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
             fatalError("*** This method should never fail! ***")
         }
+        // print("DEBUG: HealthStore.fetchEntryCarbs: limit: \(limit)")
+
         let now = Date()
         let currentDateStartOfDay = Calendar.current.startOfDay(for: now)
         // print("DEBUG: HealthStore.fetchEntryCarbs: currentDateStartOfDay: \(currentDateStartOfDay)")
@@ -93,7 +95,7 @@ final class HealthStore: HealthStoreProtocol {
 
         let sampleQuery = HKSampleQuery(sampleType: sampleType,
                                        predicate: predicate,
-                                       limit: HKObjectQueryNoLimit,
+                                       limit: limit,
                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
                 (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
@@ -114,37 +116,35 @@ final class HealthStore: HealthStoreProtocol {
         healthStore?.execute(sampleQuery)
     }
 
-    // TODO: FIX: REMOVE: Roll this functionality into fetchEntryCarbs.
-    func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void) {
-        guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
-            fatalError("*** This method should never fail! ***")
-        }
-        let today = Date()
-        let startDate = Calendar.current.date(byAdding: .day, value: -3, to: today)
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: today, options: HKQueryOptions.strictEndDate)
-
+    // NOTE: Via dispatch queues (background and main) and semaphores, manage the completion of fetch 1st entry carb via fetchEntryCarbs.
+    func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void) {
+        var carbsList = [CarbModel]()
         var carbsFirst = CarbModel(carbs: 0, date: Date())
 
-        let sampleQuery = HKSampleQuery(sampleType: sampleType,
-                                       predicate: predicate,
-                                       limit: 1,
-                                       sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
-                (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
-            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
-            DispatchQueue.main.async {
-                if let querySamples = querySamples {
-                    for sample in querySamples {
-                        if let hkQuanitySample = sample as? HKQuantitySample {
-                            carbsFirst = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
-                                                 date: hkQuanitySample.startDate)
-                            // print("fetchFirstEntryCarbs: carbsFirst: \(carbsFirst.carbs); date: \(carbsFirst.date); id: \(carbsFirst.id)")
-                        }
-                        completion(carbsFirst)
-                    }
-                }
+        let semaphore = DispatchSemaphore(value: 0)
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+
+        dispatchQueue.async { [weak self] in
+            print("DEBUG: HealthStore.fetchEntryCarbsFirst: Completed")
+            self?.fetchEntryCarbs(limit: 1) { hCarbsList in
+                carbsList = hCarbsList
+                print("DEBUG: HealthStore.fetchEntryCarbsFirst: carbsList: \(carbsList)")
+                semaphore.signal()
             }
+            semaphore.wait()
+            
+            DispatchQueue.main.async {
+            // DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                print("DEBUG: HealthStore.fetchEntryCarbsFirst: Completed")
+                carbsFirst = carbsList.first ?? carbsFirst
+                print("DEBUG: HealthStore.fetchEntryCarbsFirst: carbsFirst: \(String(describing: carbsFirst))")
+
+                completion(carbsFirst)
+                semaphore.signal()
+            }
+            semaphore.wait()
         }
-        healthStore?.execute(sampleQuery)
+        print("DEBUG: HealthStore.fetchEntryCarbsFirst: Starting...")
     }
 }
 

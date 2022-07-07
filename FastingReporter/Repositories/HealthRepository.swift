@@ -10,8 +10,8 @@ import Foundation
 // NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
 protocol HealthRepositoryProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
-    func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void)
-    func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void)
+    func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
+    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void)
     func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void)
     func updateEntryCarbs(carbsList: [CarbModel]) -> [CarbModel]
 }
@@ -27,12 +27,12 @@ final class HealthRepository: HealthRepositoryProtocol {
         healthStore.requestAuthorization(completion: completion)
     }
 
-    func fetchFirstEntryCarbs(completion: @escaping (CarbModel) -> Void) {
-        healthStore.fetchFirstEntryCarbs(completion: completion)
+    func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void) {
+        healthStore.fetchEntryCarbsFirst(completion: completion)
     }
 
-    func fetchEntryCarbs(completion: @escaping ([CarbModel]) -> Void) {
-        healthStore.fetchEntryCarbs(completion: completion)
+    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void) {
+        healthStore.fetchEntryCarbs(limit: limit, completion: completion)
     }
 
     func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void) {
