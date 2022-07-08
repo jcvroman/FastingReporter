@@ -53,13 +53,13 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
     // NOTE: Via dispatch queues (background and main) and semaphores, manage the completion of fetch, sort & update tasks.
     func fetchSortUpdateEntryCarbs() {
         // FIXME: TODO: Find elegant place for constants like this.
-        let MyHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
+        let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
         let semaphore = DispatchSemaphore(value: 0)
         let dispatchQueue = DispatchQueue.global(qos: .background)
 
         dispatchQueue.async { [weak self] in
             print("DEBUG: CarbsEntryListViewModel.fetchEntryCarbs: Completed")
-            self?.healthRepository.fetchEntryCarbs(limit: MyHKObjectQueryNoLimit) { [weak self] hCarbsList in
+            self?.healthRepository.fetchEntryCarbs(limit: myHKObjectQueryNoLimit) { [weak self] hCarbsList in
                 self?.carbsList = hCarbsList
                 semaphore.signal()
             }
