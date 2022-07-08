@@ -97,13 +97,9 @@ final class HealthStore: HealthStoreProtocol {
 
         var carbsList = [CarbModel]()
 
-        let sampleQuery = HKSampleQuery(sampleType: sampleType,
-                                        predicate: predicate,
-                                        limit: limit,
-                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate,
-                                                            ascending: false)]) { (query: HKSampleQuery,
-                                                                                   querySamples: [HKSample]?,
-                                                                                   error: Error?) in
+        let sampleQuery = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: limit,
+                          sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)])
+        { (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
                 if let querySamples = querySamples {
