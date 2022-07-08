@@ -123,7 +123,6 @@ private let timeShortFormatter: DateFormatter = {
     return formatter
 }()
 
-
 // MARK: - Previews.
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

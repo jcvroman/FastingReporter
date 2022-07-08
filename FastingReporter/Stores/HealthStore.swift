@@ -51,7 +51,7 @@ final class HealthStore: HealthStoreProtocol {
         let daily = DateComponents(day: 1)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
         // print("DEBUG: HealthStore.fetchDailyCarbs: startDate: \(String(describing: startDate))")
-        
+
         var carbsList = [CarbModel]()
 
         collectionQuery = HKStatisticsCollectionQuery(quantityType: carbType, quantitySamplePredicate: predicate,
@@ -94,15 +94,16 @@ final class HealthStore: HealthStoreProtocol {
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now,
                                                     options: HKQueryOptions.strictEndDate)
         // print("DEBUG: HealthStore.fetchEntryCarbs: startDate: \(String(describing: startDate))")
-        
+
         var carbsList = [CarbModel]()
 
         let sampleQuery = HKSampleQuery(sampleType: sampleType,
                                         predicate: predicate,
                                         limit: limit,
                                         sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate,
-                                                                           ascending: false)])
-                { (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
+                                                            ascending: false)]) { (query: HKSampleQuery,
+                                                                                   querySamples: [HKSample]?,
+                                                                                   error: Error?) in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
                 if let querySamples = querySamples {
