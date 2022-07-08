@@ -38,7 +38,9 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
     }
 
     func fetchDailyCarbs() {
-        healthRepository.fetchDailyCarbs() { [weak self] hCarbsList in
+        let defaultDaysBack = -100
+
+        healthRepository.fetchDailyCarbs(daysBack: defaultDaysBack) { [weak self] hCarbsList in
             self?.carbsList = hCarbsList
             self?.sortAllDailyCarbs()        // NOTE: Must sort within the collection closure.
         }

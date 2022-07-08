@@ -12,7 +12,7 @@ protocol HealthRepositoryProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
     func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void)
-    func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void)
+    func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void)
     func updateEntryCarbs(carbsList: [CarbModel]) -> [CarbModel]
 }
 
@@ -35,8 +35,8 @@ final class HealthRepository: HealthRepositoryProtocol {
         healthStore.fetchEntryCarbs(limit: limit, completion: completion)
     }
 
-    func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void) {
-        healthStore.fetchDailyCarbs(completion: completion)
+    func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
+        healthStore.fetchDailyCarbs(daysBack: daysBack, completion: completion)
     }
 
     // MARK: - Business Logic.

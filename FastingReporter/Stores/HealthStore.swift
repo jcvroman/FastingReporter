@@ -12,7 +12,7 @@ import UIKit
 // NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
 protocol HealthStoreProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
-    func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void)
+    func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void)
     func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void)
     func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
 }
@@ -40,12 +40,12 @@ final class HealthStore: HealthStoreProtocol {
         }
     }
 
-    func fetchDailyCarbs(completion: @escaping ([CarbModel]) -> Void) {
+    func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
         let now = Date()
         let currentDateStartOfDay = Calendar.current.startOfDay(for: now)
         // print("DEBUG: HealthStore.fetchDailyCarbs: currentDateStartOfDay: \(currentDateStartOfDay)")
-        let startDate = Calendar.current.date(byAdding: .day, value: -7, to: currentDateStartOfDay)
+        let startDate = Calendar.current.date(byAdding: .day, value: daysBack, to: currentDateStartOfDay)
         let anchorDate = Date.mondayAt12AM()
         let daily = DateComponents(day: 1)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
@@ -60,7 +60,7 @@ final class HealthStore: HealthStoreProtocol {
             DispatchQueue.main.async {
                 if let statisticsCollection = statisticsCollection {
                     print("statisticsCollection:", statisticsCollection)
-                    let startDate = Calendar.current.date(byAdding: .day, value: -7, to: currentDateStartOfDay)!
+                    let startDate = Calendar.current.date(byAdding: .day, value: daysBack, to: currentDateStartOfDay)!
                     let endDate = now
                     statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
                         let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
@@ -94,9 +94,9 @@ final class HealthStore: HealthStoreProtocol {
         var carbsList = [CarbModel]()
 
         let sampleQuery = HKSampleQuery(sampleType: sampleType,
-                                       predicate: predicate,
-                                       limit: limit,
-                                       sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
+                                        predicate: predicate,
+                                        limit: limit,
+                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
                 (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
