@@ -9,7 +9,7 @@ import Foundation
 import HealthKit
 import UIKit
 
-// NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
+// NOTE: Protocol: A blueprint of methods, properties & other requirements that suit a task or piece of functionality.
 protocol HealthStoreProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void)
@@ -17,7 +17,7 @@ protocol HealthStoreProtocol {
     func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
 }
 
-// NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
+// NOTE: Default Protocols: Implement it in extension, but can override it by implementing it again in struct, class...
 
 final class HealthStore: HealthStoreProtocol {
     var healthStore: HKHealthStore?
@@ -32,6 +32,7 @@ final class HealthStore: HealthStoreProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
         guard let healthStore = self.healthStore else { return completion(false) }
+        // FIXME: Use error.
         healthStore.requestAuthorization(toShare: [], read: [carbType]) { (success, error) in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
@@ -54,7 +55,8 @@ final class HealthStore: HealthStoreProtocol {
         var carbsList = [CarbModel]()
 
         collectionQuery = HKStatisticsCollectionQuery(quantityType: carbType, quantitySamplePredicate: predicate,
-                                                      options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
+                                                      options: .cumulativeSum, anchorDate: anchorDate,
+                                                      intervalComponents: daily)
         collectionQuery?.initialResultsHandler = { query, statisticsCollection, error in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
@@ -79,7 +81,8 @@ final class HealthStore: HealthStoreProtocol {
     }
 
     func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
-        guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
+        guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)
+        else {
             fatalError("*** This method should never fail! ***")
         }
         // print("DEBUG: HealthStore.fetchEntryCarbs: limit: \(limit)")
@@ -88,7 +91,8 @@ final class HealthStore: HealthStoreProtocol {
         let currentDateStartOfDay = Calendar.current.startOfDay(for: now)
         // print("DEBUG: HealthStore.fetchEntryCarbs: currentDateStartOfDay: \(currentDateStartOfDay)")
         let startDate = Calendar.current.date(byAdding: .day, value: daysBack, to: currentDateStartOfDay)
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: HKQueryOptions.strictEndDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now,
+                                                    options: HKQueryOptions.strictEndDate)
         // print("DEBUG: HealthStore.fetchEntryCarbs: startDate: \(String(describing: startDate))")
         
         var carbsList = [CarbModel]()
@@ -96,8 +100,9 @@ final class HealthStore: HealthStoreProtocol {
         let sampleQuery = HKSampleQuery(sampleType: sampleType,
                                         predicate: predicate,
                                         limit: limit,
-                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) {
-                (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
+                                        sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate,
+                                                                           ascending: false)])
+                { (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
             DispatchQueue.main.async {
                 if let querySamples = querySamples {
@@ -105,7 +110,7 @@ final class HealthStore: HealthStoreProtocol {
                         if let hkQuanitySample = sample as? HKQuantitySample {
                             let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
                                                  date: hkQuanitySample.startDate)
-                            print("DEBUG: HealthStore.fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                            // print("DEBUG: HealthStore.fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date)")
                             carbsList.append(carb)
                         }
                         completion(carbsList)
@@ -116,7 +121,8 @@ final class HealthStore: HealthStoreProtocol {
         healthStore?.execute(sampleQuery)
     }
 
-    // NOTE: Via dispatch queues (background and main) and semaphores, manage the completion of fetch 1st entry carb via fetchEntryCarbs.
+    // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch 1st entry carb via
+    //       fetchEntryCarbs.
     func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void) {
         let defaultDaysBack = -10
 
@@ -134,7 +140,7 @@ final class HealthStore: HealthStoreProtocol {
                 semaphore.signal()
             }
             semaphore.wait()
-            
+
             DispatchQueue.main.async {
             // DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 print("DEBUG: HealthStore.fetchEntryCarbsFirst: Completed")

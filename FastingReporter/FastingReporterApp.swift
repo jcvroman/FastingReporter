@@ -5,7 +5,7 @@
 //  Created by Jimmy Vroman on 6/6/21.
 //
 
-// NOTE: SwiftUI = Declarative UI; whereas UIKit = Programmatic UI and UIKit/Storyboards = Programmatic/Visual Layouts UI.
+// NOTE: SwiftUI = Declarative UI; vs UIKit = Programmatic UI & UIKit/Storyboards = Programmatic/Visual Layouts UI.
 
 import SwiftUI
 

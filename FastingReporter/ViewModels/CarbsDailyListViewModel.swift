@@ -7,7 +7,7 @@
 
 import Foundation
 
-// NOTE: Protocol: A blueprint of methods, properties and other requirements that suit a particular task or piece of functionality.
+// NOTE: Protocol: A blueprint of methods, properties & other requirements that suit a task or piece of functionality.
 protocol CarbsDailyListViewModelProtocol {
     var carbsList: [CarbModel] { get }
     func requestAuthorization(completion: @escaping (Bool) -> Void)
@@ -19,7 +19,7 @@ final class CarbsDailyListViewModel: ObservableObject {
     @Published var carbsList: [CarbModel] = []
 
     private let healthRepository: HealthRepositoryProtocol
-    
+
     init(healthRepository: HealthRepositoryProtocol = HealthRepository()) {     // NOTE: Dependency Injection.
         self.healthRepository = healthRepository
     }
@@ -31,7 +31,7 @@ final class CarbsDailyListViewModel: ObservableObject {
 }
 
 // MARK: - CarbsDailyListViewModelProtocol
-// NOTE: Default Protocols: Implement it in extension, but can still override it by implementing it again in the struct, class.
+// NOTE: Default Protocols: Implement it in extension, but can override it by implementing it again in struct, class...
 extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
