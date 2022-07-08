@@ -60,8 +60,8 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
 
         dispatchQueue.async { [weak self] in
             print("DEBUG: CarbsEntryListViewModel.fetchEntryCarbs: Completed")
-            self?.healthRepository.fetchEntryCarbs(daysBack: defaultDaysBack, limit: myHKObjectQueryNoLimit) {
-                    [weak self] hCarbsList in
+            self?.healthRepository.fetchEntryCarbs(daysBack: defaultDaysBack, limit: myHKObjectQueryNoLimit)
+            { [weak self] hCarbsList in
                 self?.carbsList = hCarbsList
                 semaphore.signal()
             }
