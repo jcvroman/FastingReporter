@@ -13,7 +13,7 @@ import UIKit
 protocol HealthStoreProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void)
-    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void)
+    func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void)
     func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
 }
 
@@ -78,7 +78,7 @@ final class HealthStore: HealthStoreProtocol {
         }
     }
 
-    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void) {
+    func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
         guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) else {
             fatalError("*** This method should never fail! ***")
         }
@@ -87,7 +87,7 @@ final class HealthStore: HealthStoreProtocol {
         let now = Date()
         let currentDateStartOfDay = Calendar.current.startOfDay(for: now)
         // print("DEBUG: HealthStore.fetchEntryCarbs: currentDateStartOfDay: \(currentDateStartOfDay)")
-        let startDate = Calendar.current.date(byAdding: .day, value: -3, to: currentDateStartOfDay)
+        let startDate = Calendar.current.date(byAdding: .day, value: daysBack, to: currentDateStartOfDay)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: HKQueryOptions.strictEndDate)
         // print("DEBUG: HealthStore.fetchEntryCarbs: startDate: \(String(describing: startDate))")
         
@@ -118,6 +118,8 @@ final class HealthStore: HealthStoreProtocol {
 
     // NOTE: Via dispatch queues (background and main) and semaphores, manage the completion of fetch 1st entry carb via fetchEntryCarbs.
     func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void) {
+        let defaultDaysBack = -10
+
         var carbsList = [CarbModel]()
         var carbsFirst = CarbModel(carbs: 0, date: Date())
 
@@ -126,7 +128,7 @@ final class HealthStore: HealthStoreProtocol {
 
         dispatchQueue.async { [weak self] in
             print("DEBUG: HealthStore.fetchEntryCarbsFirst: Completed")
-            self?.fetchEntryCarbs(limit: 1) { hCarbsList in
+            self?.fetchEntryCarbs(daysBack: defaultDaysBack, limit: 1) { hCarbsList in
                 carbsList = hCarbsList
                 print("DEBUG: HealthStore.fetchEntryCarbsFirst: carbsList: \(carbsList)")
                 semaphore.signal()

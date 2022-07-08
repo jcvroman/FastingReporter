@@ -11,7 +11,7 @@ import Foundation
 protocol HealthRepositoryProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
-    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void)
+    func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void)
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void)
     func updateEntryCarbs(carbsList: [CarbModel]) -> [CarbModel]
 }
@@ -31,8 +31,8 @@ final class HealthRepository: HealthRepositoryProtocol {
         healthStore.fetchEntryCarbsFirst(completion: completion)
     }
 
-    func fetchEntryCarbs(limit: Int, completion: @escaping ([CarbModel]) -> Void) {
-        healthStore.fetchEntryCarbs(limit: limit, completion: completion)
+    func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
+        healthStore.fetchEntryCarbs(daysBack: daysBack, limit: limit, completion: completion)
     }
 
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
