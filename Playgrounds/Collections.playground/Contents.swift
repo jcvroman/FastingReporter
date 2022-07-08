@@ -21,7 +21,6 @@ for (lhs, rhs) in zip(array, array.dropFirst()) {
 print("biggest: \(biggest)")
 */
 
-
 // Update item value in current element from adjacent element in a collection.
 struct CarbModel {
     var id: Int
@@ -35,7 +34,6 @@ var carbs1: CarbModel = CarbModel(id: 1, carbs: 10, nextCarbs: 0)
 var carbs2: CarbModel = CarbModel(id: 2, carbs: 20, nextCarbs: 0)
 carbsList.append(carbs1)
 carbsList.append(carbs2)
-
 
 for (var lhs, rhs) in zip(carbsList, carbsList.dropFirst()) {
     print("lhs.id: \(lhs.id) | lhs.carbs: \(lhs.carbs) | lhs.nextCarbs: \(lhs.nextCarbs)")
