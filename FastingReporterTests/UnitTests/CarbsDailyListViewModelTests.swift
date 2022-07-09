@@ -14,16 +14,51 @@
 // NOTE: macOS: Set the Signing Certificate to Development (i.e. from target Racket (macOS) / Signing &
 //       Capabilities / Signing) for all tests.
 
+import Combine
 import XCTest
 @testable import FastingReporter
 
 // Feature: Report List
+// Scenario: TDD Unit Tests
 class CarbsDailyListViewModelTests: XCTestCase {
-    // Scenario: Report List when no carbs data is an empty list.
-    @MainActor func test_when_no_carbs_then_report_list_empty() throws {
-        let sut = CarbsDailyListViewModel()
-        // sut.fetchList()
-        // XCTAssert(sut.list.isEmpty, "lists should be empty at sut init.")
-        XCTAssert(true, "Test to be written.")
+    var sut: CarbsDailyListViewModel!                   // NOTE: sut = Subject Under Test.
+    var healthRepositoryMock: HealthRepositoryMock!     // NOTE: Using Mock here so no HealthStore data needed.
+    var cancellables: Set<AnyCancellable> = []
+
+    override func setUpWithError() throws {
+        super.setUp()
+        healthRepositoryMock = HealthRepositoryMock(items: nil)
+        sut = .init(healthRepository: healthRepositoryMock)
+    }
+
+    override func tearDownWithError() throws {
+        sut = nil
+        healthRepositoryMock = nil
+        super.tearDown()
+    }
+
+    func test_when_sut_inited_then_list_empty() throws {
+        // When: init sut already.
+
+        // Then
+        XCTAssert(sut.carbsList.isEmpty, "carbsList should be empty at sut init.")
+    }
+
+    func test_when_daily_carbs_exist_then_list_not_empty() throws {
+        // When
+        let expectation = XCTestExpectation(description: "Should wait & return items from async work.")
+
+        sut.$carbsList
+            .dropFirst()
+            .sink { returnedItems in
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
+
+        sut.fetchDailyCarbs()
+
+        // Then
+        wait(for: [expectation], timeout: 3)
+        XCTAssertFalse(self.sut.carbsList.isEmpty, "carbsList should not be empty after fetch.")
     }
 }

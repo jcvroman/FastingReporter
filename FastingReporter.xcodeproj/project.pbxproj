@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9931CAFE287A35F10092970A /* HealthRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931CAFD287A35F10092970A /* HealthRepositoryMock.swift */; };
 		99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C6626867CF800BFA3FB /* CarbModel.swift */; };
 		99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C692687EE1A00BFA3FB /* HealthStore.swift */; };
 		99346C6E2687F3D900BFA3FB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99346C6D2687F3D900BFA3FB /* HealthKit.framework */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9931CAFD287A35F10092970A /* HealthRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRepositoryMock.swift; sourceTree = "<group>"; };
 		99346C6626867CF800BFA3FB /* CarbModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbModel.swift; sourceTree = "<group>"; };
 		99346C692687EE1A00BFA3FB /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
 		99346C6B2687F3D900BFA3FB /* FastingReporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FastingReporter.entitlements; sourceTree = "<group>"; };
@@ -96,6 +98,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9931CAFF287A4B700092970A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9931CAFD287A35F10092970A /* HealthRepositoryMock.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		99346C682687EDF500BFA3FB /* Stores */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +209,7 @@
 		99DE2ADD266D94A0003230CA /* FastingReporterTests */ = {
 			isa = PBXGroup;
 			children = (
+				9931CAFF287A4B700092970A /* Helpers */,
 				9987FFDA26851642009B8F2F /* UnitTests */,
 				99DE2AE0266D94A0003230CA /* Info.plist */,
 			);
@@ -394,6 +405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99DE2ADF266D94A0003230CA /* CarbsDailyListViewModelTests.swift in Sources */,
+				9931CAFE287A35F10092970A /* HealthRepositoryMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
