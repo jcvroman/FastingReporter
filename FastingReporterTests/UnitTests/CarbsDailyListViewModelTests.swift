@@ -21,30 +21,45 @@ import XCTest
 // Feature: Report List
 // Scenario: TDD Unit Tests
 class CarbsDailyListViewModelTests: XCTestCase {
-    var sut: CarbsDailyListViewModel!                   // NOTE: sut = Subject Under Test.
-    var healthRepositoryMock: HealthRepositoryMock!     // NOTE: Using Mock here so no HealthStore data needed.
+    // var sut: CarbsDailyListViewModel!                   // NOTE: sut = Subject Under Test.
+    // var healthRepositoryMock: HealthRepositoryMock!     // NOTE: Using Mock here so no HealthStore data needed.
     var cancellables: Set<AnyCancellable> = []
 
     override func setUpWithError() throws {
         super.setUp()
-        healthRepositoryMock = HealthRepositoryMock(items: nil)
-        sut = .init(healthRepository: healthRepositoryMock)
+        // healthRepositoryMock = HealthRepositoryMock(items: nil)
+        // sut = .init(healthRepository: healthRepositoryMock)
     }
 
     override func tearDownWithError() throws {
-        sut = nil
-        healthRepositoryMock = nil
+        // sut = nil
+        // healthRepositoryMock = nil
+        cancellables = []
         super.tearDown()
     }
-
-    func test_when_sut_inited_then_list_empty() throws {
-        // When: init sut already.
-
-        // Then
-        XCTAssert(sut.carbsList.isEmpty, "carbsList should be empty at sut init.")
+    
+    private func makeSUT(items: [CarbModel]) -> CarbsDailyListViewModel {
+        var sut = CarbsDailyListViewModel()
+        let healthRepositoryMock = HealthRepositoryMock(items: items)
+        sut = .init(healthRepository: healthRepositoryMock)
+        return sut
     }
 
-    func test_when_daily_carbs_exist_then_list_not_empty() throws {
+    func test_given_daily_carbs_0_items_when_no_fetch_then_list_empty() throws {
+        // Given
+        let sut = makeSUT(items: [])
+
+        // When: no fetch.
+
+        // Then
+        XCTAssert(sut.carbsList.isEmpty, "carbsList should be empty with no fetchDailyCarbs.")
+    }
+
+    func test_given_daily_carbs_1_items_when_fetch_then_list_not_empty() throws {
+        // Given
+        let items = [CarbModel(carbs: 1, date: Date())]
+        let sut = makeSUT(items: items)
+
         // When
         let expectation = XCTestExpectation(description: "Should wait & return items from async work.")
 
@@ -59,6 +74,6 @@ class CarbsDailyListViewModelTests: XCTestCase {
 
         // Then
         wait(for: [expectation], timeout: 3)
-        XCTAssertFalse(self.sut.carbsList.isEmpty, "carbsList should not be empty after fetch.")
+        XCTAssertFalse(sut.carbsList.isEmpty, "carbsList should not be empty after fetch.")
     }
 }
