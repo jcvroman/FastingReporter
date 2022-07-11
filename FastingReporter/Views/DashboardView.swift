@@ -20,6 +20,8 @@ struct DashboardView: View {
     var body: some View {
         VStack {
             currentFastView
+            // currentFastView(currentFastVM: currentFastVM)
+            // currentFastView(carbsFirst: currentFastVM.carbsFirst)
             carbsEntryListView
             carbsDailyListView
         }
@@ -103,6 +105,31 @@ struct DashboardView: View {
 }
 
 // MARK: - Others.
+/*
+struct currentFastView: View {
+    // var carbsFirst: CarbModel
+    var currentFastVM: CurrentFastViewModel
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 0) {
+                Color.clear
+            }
+            VStack {
+                Text("Current Fast:")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.primary)
+                Text("\(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
+                // Text("\(carbsFirst.date, style: .timer)")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.red)
+            }
+        }
+    }
+}
+*/
 
 // FIXME: TODO: Verify that best to have date formatters available globally?
 // FIXME: TODO: The formatting of the date should be in the view model?

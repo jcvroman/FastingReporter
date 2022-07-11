@@ -59,17 +59,17 @@ final class HealthStore: HealthStoreProtocol {
                                                       intervalComponents: daily)
         collectionQuery?.initialResultsHandler = { query, statisticsCollection, error in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
-            DispatchQueue.main.async {
-                if let statisticsCollection = statisticsCollection {
-                    print("statisticsCollection:", statisticsCollection)
-                    let startDate = Calendar.current.date(byAdding: .day, value: daysBack, to: currentDateStartOfDay)!
-                    let endDate = now
-                    statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
-                        let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
-                        let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
-                        // print("carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
-                        carbsList.append(carb)
-                    }
+            if let statisticsCollection = statisticsCollection {
+                print("statisticsCollection:", statisticsCollection)
+                let startDate = Calendar.current.date(byAdding: .day, value: daysBack, to: currentDateStartOfDay)!
+                let endDate = now
+                statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics, stop) in
+                    let gram = statistics.sumQuantity()?.doubleValue(for: .gram())
+                    let carb = CarbModel(carbs: Int(gram ?? 0), date: statistics.startDate)
+                    // print("carb: \(carb.carbs); date: \(carb.date); id: \(carb.id)")
+                    carbsList.append(carb)
+                }
+                DispatchQueue.main.async {
                     completion(carbsList)
                 }
             }
@@ -101,15 +101,15 @@ final class HealthStore: HealthStoreProtocol {
                           sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)])
         { (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
             // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
-            DispatchQueue.main.async {
-                if let querySamples = querySamples {
-                    for sample in querySamples {
-                        if let hkQuanitySample = sample as? HKQuantitySample {
-                            let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
-                                                 date: hkQuanitySample.startDate)
-                            // print("DEBUG: HealthStore.fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date)")
-                            carbsList.append(carb)
-                        }
+            if let querySamples = querySamples {
+                for sample in querySamples {
+                    if let hkQuanitySample = sample as? HKQuantitySample {
+                        let carb = CarbModel(carbs: Int(hkQuanitySample.quantity.doubleValue(for: .gram())),
+                                             date: hkQuanitySample.startDate)
+                        // print("DEBUG: HealthStore.fetchEntryCarbs: carb: \(carb.carbs); date: \(carb.date)")
+                        carbsList.append(carb)
+                    }
+                    DispatchQueue.main.async {
                         completion(carbsList)
                     }
                 }
