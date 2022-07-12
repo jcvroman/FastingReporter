@@ -97,7 +97,7 @@ struct DashboardView: View {
         currentFastVM.requestAuthorization { success in
             if success {
                 currentFastVM.fetchEntryCarbsFirst()
-                carbsEntryListVM.fetchSortUpdateEntryCarbs()
+                carbsEntryListVM.fetchUpdateEntryCarbs()
                 carbsDailyListVM.fetchDailyCarbs()
             }
         }
