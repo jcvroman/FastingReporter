@@ -14,7 +14,6 @@ protocol HealthStoreProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void)
     func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void)
-    func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void)
 }
 
 // NOTE: Default Protocols: Implement it in extension, but can override it by implementing it again in struct, class...
@@ -116,40 +115,6 @@ final class HealthStore: HealthStoreProtocol {
             }
         }
         healthStore?.execute(sampleQuery)
-    }
-
-    // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch 1st entry carb via
-    //       fetchEntryCarbs.
-    func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void) {
-        let defaultDaysBack = -10
-
-        var carbsList = [CarbModel]()
-        var carbsFirst = CarbModel(carbs: 0, date: Date())
-
-        let semaphore = DispatchSemaphore(value: 0)
-        let dispatchQueue = DispatchQueue.global(qos: .background)
-
-        dispatchQueue.async { [weak self] in
-            print("DEBUG: HealthStore.fetchEntryCarbsFirst: Completed")
-            self?.fetchEntryCarbs(daysBack: defaultDaysBack, limit: 1) { hCarbsList in
-                carbsList = hCarbsList
-                print("DEBUG: HealthStore.fetchEntryCarbsFirst: carbsList: \(carbsList)")
-                semaphore.signal()
-            }
-            semaphore.wait()
-
-            DispatchQueue.main.async {
-            // DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                print("DEBUG: HealthStore.fetchEntryCarbsFirst: Completed")
-                carbsFirst = carbsList.first ?? carbsFirst
-                print("DEBUG: HealthStore.fetchEntryCarbsFirst: carbsFirst: \(String(describing: carbsFirst))")
-
-                completion(carbsFirst)
-                semaphore.signal()
-            }
-            semaphore.wait()
-        }
-        print("DEBUG: HealthStore.fetchEntryCarbsFirst: Starting...")
     }
 }
 

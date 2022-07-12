@@ -36,11 +36,32 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
         healthRepository.requestAuthorization(completion: completion)
     }
 
+    // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch 1st entry carb via
+    //       fetchEntryCarbs.
     func fetchEntryCarbsFirst() {
-        healthRepository.fetchEntryCarbsFirst { [weak self] hCarbsFirst in
-            print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: hCarbsFirst: \(hCarbsFirst)")
-            self?.carbsFirst = hCarbsFirst
+        var carbsList: [CarbModel] = []
+        let defaultDaysBack = -1
+        let defaultLimit = 1
+        let semaphore = DispatchSemaphore(value: 0)
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+
+        dispatchQueue.async { [weak self] in
+            print("DEBUG: CurrentFastViewModel.fetchEntryCarbs: Completed")
+            self?.healthRepository.fetchEntryCarbs(daysBack: defaultDaysBack, limit: defaultLimit) { hCarbsList in
+                carbsList = hCarbsList
+                semaphore.signal()
+            }
+            semaphore.wait()
+            print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: carbsList: \(String(describing: carbsList))")
+
+            DispatchQueue.main.async { [weak self] in
+                print("DEBUG: CurrentFastViewModel.carbsFirst: assigned: Completed")
+                self?.carbsFirst = carbsList.first
+                semaphore.signal()
+            }
+            semaphore.wait()
+            print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: carbsFirst: \(String(describing: self?.carbsFirst))")
         }
-        print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: carbsFirst: \(String(describing: carbsFirst))")
+        print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: Starting...")
     }
 }

@@ -24,9 +24,6 @@ extension HealthRepositoryMock: HealthRepositoryProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
     }
 
-    func fetchEntryCarbsFirst(completion: @escaping (CarbModel) -> Void) {
-    }
-
     func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
     }
 
