@@ -42,16 +42,8 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         healthRepository.requestAuthorization(completion: completion)
     }
 
-    func sortEntryCarbs() {
-        carbsList.sort()
-    }
-
-    func updateEntryCarbs() {
-        carbsList = healthRepository.updateEntryCarbs(carbsList: carbsList)
-    }
-
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch, sort & update tasks.
-    func fetchSortUpdateEntryCarbs() {
+    func fetchUpdateEntryCarbs() {
         // FIXME: TODO: Find elegant place for constants like this.
         let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
         let defaultDaysBack = -10
@@ -59,7 +51,7 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         let dispatchQueue = DispatchQueue.global(qos: .background)
 
         dispatchQueue.async { [weak self] in
-            print("DEBUG: CarbsEntryListViewModel.fetchEntryCarbs: Completed")
+            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: fetchEntryCarbs: Completed")
             self?.healthRepository.fetchEntryCarbs(daysBack: defaultDaysBack, limit: myHKObjectQueryNoLimit)
             { [weak self] hCarbsList in
                 self?.carbsList = hCarbsList
@@ -67,21 +59,29 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
             }
             semaphore.wait()
 
-            DispatchQueue.main.async {
-                print("DEBUG: CarbsEntryListViewModel.sortEntryCarbs: Completed")
+            DispatchQueue.main.async { [weak self] in
+                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbs: Completed")
                 // NOTE: Force a sort: I've observed quick delete of latest carb entry & back to app leads to bad sort.
                 self?.sortEntryCarbs()
                 semaphore.signal()
             }
             semaphore.wait()
 
-            DispatchQueue.main.async {
-                print("DEBUG: CarbsEntryListViewModel.updateEntryCarbs: Completed")
+            DispatchQueue.main.async { [weak self] in
+                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: updateEntryCarbs: Completed")
                 self?.updateEntryCarbs()
                 semaphore.signal()
             }
             semaphore.wait()
         }
-        print("DEBUG: CarbsEntryListViewModel.fetchSortUpdateEntryCarbs: Starting...")
+        print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: Starting...")
+    }
+
+    func sortEntryCarbs() {
+        carbsList.sort()
+    }
+
+    func updateEntryCarbs() {
+        carbsList = healthRepository.updateEntryCarbs(carbsList: carbsList)
     }
 }
