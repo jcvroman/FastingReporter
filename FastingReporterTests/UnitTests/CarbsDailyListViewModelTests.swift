@@ -52,7 +52,7 @@ class CarbsDailyListViewModelTests: XCTestCase {
         // When: no fetch.
 
         // Then
-        XCTAssert(sut.carbsList.isEmpty, "carbsList should be empty with no fetchDailyCarbs.")
+        XCTAssert(sut.carbsListCVM.isEmpty, "carbsListCVM should be empty with no fetchDailyCarbs.")
     }
 
     func test_given_daily_carbs_1_items_when_fetch_then_list_not_empty() throws {
@@ -63,7 +63,7 @@ class CarbsDailyListViewModelTests: XCTestCase {
         // When
         let expectation = XCTestExpectation(description: "Should wait & return items from async work.")
 
-        sut.$carbsList
+        sut.$carbsListCVM
             .dropFirst()
             .sink { returnedItems in
                 expectation.fulfill()
@@ -74,6 +74,6 @@ class CarbsDailyListViewModelTests: XCTestCase {
 
         // Then
         wait(for: [expectation], timeout: 3)
-        XCTAssertFalse(sut.carbsList.isEmpty, "carbsList should not be empty after fetch.")
+        XCTAssertFalse(sut.carbsListCVM.isEmpty, "carbsListCVM should not be empty after fetch.")
     }
 }
