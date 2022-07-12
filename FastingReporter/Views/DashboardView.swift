@@ -40,15 +40,16 @@ struct DashboardView: View {
                 Color.clear
             }
             VStack {
-                Text("Current Fast:")
+                Text("Fasting:")
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(.primary)
-                Text("\(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
+                + Text(" \(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(.red)
             }
+            .shadow(color: .black.opacity(0.3), radius: 10, x: 10, y: 10)
         }
     }
 
