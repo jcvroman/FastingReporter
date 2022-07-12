@@ -46,7 +46,7 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
         let dispatchQueue = DispatchQueue.global(qos: .background)
 
         dispatchQueue.async { [weak self] in
-            print("DEBUG: CurrentFastViewModel.fetchEntryCarbs: Completed")
+            print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: fetchEntryCarbs: Completed")
             self?.healthRepository.fetchEntryCarbs(daysBack: defaultDaysBack, limit: defaultLimit) { hCarbsList in
                 carbsList = hCarbsList
                 semaphore.signal()
@@ -55,7 +55,7 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
             print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: carbsList: \(String(describing: carbsList))")
 
             DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CurrentFastViewModel.carbsFirst: assigned: Completed")
+                print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: carbsFirst: assigned: Completed")
                 self?.carbsFirst = carbsList.first
                 semaphore.signal()
             }
