@@ -12,6 +12,7 @@
 		99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C692687EE1A00BFA3FB /* HealthStore.swift */; };
 		99346C6E2687F3D900BFA3FB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99346C6D2687F3D900BFA3FB /* HealthKit.framework */; };
 		995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */; };
+		999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */; };
 		99A4899D286E5C33006ECF8F /* HealthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A4899C286E5C33006ECF8F /* HealthRepository.swift */; };
 		99B9CDEE2874DAB6001720EA /* CurrentFastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9CDED2874DAB6001720EA /* CurrentFastViewModel.swift */; };
 		99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACC266D949F003230CA /* FastingReporterApp.swift */; };
@@ -21,6 +22,7 @@
 		99DE2ADF266D94A0003230CA /* CarbsDailyListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ADE266D94A0003230CA /* CarbsDailyListViewModelTests.swift */; };
 		99DE2AEA266D94A0003230CA /* FastingReporterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */; };
 		99DE2AF9266D97D4003230CA /* CarbsDailyListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AF8266D97D4003230CA /* CarbsDailyListUITests.swift */; };
+		99F1AA6A287E12AB005D40AC /* CarbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F1AA69287E12AB005D40AC /* CarbViewModel.swift */; };
 		99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,7 @@
 		9989F96126951A5900FB91C5 /* AcptTests_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AcptTests_iOS.xctestplan; sourceTree = "<group>"; };
 		9989F96226951AE700FB91C5 /* CommitCycle_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CommitCycle_iOS.xctestplan; sourceTree = "<group>"; };
 		9989F96326951CC500FB91C5 /* AcceptanceCycle_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AcceptanceCycle_iOS.xctestplan; sourceTree = "<group>"; };
+		999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		99A4899C286E5C33006ECF8F /* HealthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRepository.swift; sourceTree = "<group>"; };
 		99AE5ACB28415F2D00162A15 /* Dates.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Dates.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		99AE5ACC2841611C00162A15 /* Collections.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Collections.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -69,6 +72,7 @@
 		99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterUITests.swift; sourceTree = "<group>"; };
 		99DE2AEB266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99DE2AF8266D97D4003230CA /* CarbsDailyListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListUITests.swift; sourceTree = "<group>"; };
+		99F1AA69287E12AB005D40AC /* CarbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbViewModel.swift; sourceTree = "<group>"; };
 		99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,6 +145,14 @@
 			path = TestPlans;
 			sourceTree = "<group>";
 		};
+		999E8D76287E2E0500A1D828 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		99A4899B286E5B6C006ECF8F /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +198,7 @@
 			children = (
 				99346C6B2687F3D900BFA3FB /* FastingReporter.entitlements */,
 				99DE2ACC266D949F003230CA /* FastingReporterApp.swift */,
+				999E8D76287E2E0500A1D828 /* Helpers */,
 				99346C682687EDF500BFA3FB /* Stores */,
 				99F7F6DE268665040092FFF7 /* Models */,
 				99A4899B286E5B6C006ECF8F /* Repositories */,
@@ -248,6 +261,7 @@
 				99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */,
 				995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */,
 				99B9CDED2874DAB6001720EA /* CurrentFastViewModel.swift */,
+				99F1AA69287E12AB005D40AC /* CarbViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -394,8 +408,10 @@
 				99B9CDEE2874DAB6001720EA /* CurrentFastViewModel.swift in Sources */,
 				99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */,
 				99A4899D286E5C33006ECF8F /* HealthRepository.swift in Sources */,
+				99F1AA6A287E12AB005D40AC /* CarbViewModel.swift in Sources */,
 				99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */,
 				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
+				999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */,
 				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
