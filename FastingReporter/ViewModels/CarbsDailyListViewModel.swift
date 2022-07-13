@@ -59,7 +59,8 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
                 semaphore.signal()
             }
             semaphore.wait()
-            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: populateDailyCarbs: carbsListCVM: Unsorted: \(String(describing: self?.carbsListCVM))")
+            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: populateDailyCarbs: carbsListCVM: Unsorted: ")
+            print("\(String(describing: self?.carbsListCVM))")
 
             DispatchQueue.main.async { [weak self] in
                 print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: sortDailyCarbs: Completed")
@@ -67,7 +68,8 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
                 semaphore.signal()
             }
             semaphore.wait()
-            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: sortDailyCarbs: carbsListVM: Sorted \(String(describing: self?.carbsListCVM))")
+            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: sortDailyCarbs: carbsListCVM: Sorted:")
+            print("\(String(describing: self?.carbsListCVM))")
         }
         print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: Starting...")
     }
