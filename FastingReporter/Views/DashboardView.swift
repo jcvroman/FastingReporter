@@ -45,15 +45,25 @@ struct DashboardView: View {
                     .padding(20)
             }
             VStack {
-                Text("Fasting: ")
+                Text("Fast: ")
                     .font(.largeTitle).fontWeight(.heavy)
                     .foregroundColor(.primary)
                 + Text("\(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
                     .font(.largeTitle).fontWeight(.heavy)
                     .foregroundColor(.red)
             }
-            .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 10)
+            .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
         }
+        .overlay(infoOverlay, alignment: .topTrailing)
+    }
+
+    private var infoOverlay: some View {
+        Image(systemName: "info.circle").onTapGesture {
+            print("DEBUG: DashboardView: currentFastView: infoOverlay: tapped")
+        }
+            .font(.title)
+            .padding([.top, .trailing], 5)
+            .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
     private var carbsEntryListView: some View {
