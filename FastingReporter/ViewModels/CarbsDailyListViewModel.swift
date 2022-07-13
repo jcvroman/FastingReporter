@@ -60,7 +60,7 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
             }
             semaphore.wait()
             print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: populateDailyCarbs: carbsListCVM: Unsorted: \(String(describing: self?.carbsListCVM))")
-            
+
             DispatchQueue.main.async { [weak self] in
                 print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: sortDailyCarbs: Completed")
                 self?.sortDailyCarbs()
@@ -75,7 +75,7 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
     func populateDailyCarbs() {
         carbsListCVM = carbsList.map(CarbViewModel.init)
     }
-    
+
     func sortDailyCarbs() {
         // carbsList.sort(by: {$0.date.compare($1.date) == .orderedAscending})
         carbsListCVM.sort()

@@ -23,6 +23,7 @@ import XCTest
 class CarbsDailyListViewModelTests: XCTestCase {
     // var sut: CarbsDailyListViewModel!                   // NOTE: sut = Subject Under Test.
     // var healthRepositoryMock: HealthRepositoryMock!     // NOTE: Using Mock here so no HealthStore data needed.
+    let defaultExpectationTimeout: Double = 5
     var cancellables: Set<AnyCancellable> = []
 
     override func setUpWithError() throws {
@@ -37,7 +38,7 @@ class CarbsDailyListViewModelTests: XCTestCase {
         cancellables = []
         super.tearDown()
     }
-    
+
     private func makeSUT(items: [CarbModel]) -> CarbsDailyListViewModel {
         var sut = CarbsDailyListViewModel()
         let healthRepositoryMock = HealthRepositoryMock(items: items)
@@ -73,7 +74,7 @@ class CarbsDailyListViewModelTests: XCTestCase {
         sut.fetchDailyCarbs()
 
         // Then
-        wait(for: [expectation], timeout: 3)
+        wait(for: [expectation], timeout: defaultExpectationTimeout)
         XCTAssertFalse(sut.carbsListCVM.isEmpty, "carbsListCVM should not be empty after fetch.")
     }
 }
