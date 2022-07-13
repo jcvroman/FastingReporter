@@ -38,21 +38,21 @@ struct DashboardView: View {
         ZStack {
             VStack(spacing: 0) {
                 Rectangle()
-                    .fill(Color.secondary.opacity(0.9))
+                    .fill(Color.secondary.opacity(0.1))
                     .cornerRadius(10.0)
                     .frame(minHeight: 90, idealHeight: 90, maxHeight: 90, alignment: .center)
-                    .shadow(color: Color.blue.opacity(0.9), radius: 10, x: 10, y: 10)
+                    .shadow(color: Color.accentColor.opacity(0.9), radius: 10, x: 10, y: 10)
                     .padding(20)
             }
             VStack {
-                Text("Fasting:")
+                Text("Fasting: ")
                     .font(.largeTitle).fontWeight(.heavy)
                     .foregroundColor(.primary)
-                + Text(" \(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
+                + Text("\(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
                     .font(.largeTitle).fontWeight(.heavy)
                     .foregroundColor(.red)
             }
-            .shadow(color: Color.primary.opacity(0.6), radius: 5, x: 5, y: 10)
+            .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 10)
         }
     }
 
