@@ -37,19 +37,22 @@ struct DashboardView: View {
     private var currentFastView: some View {
         ZStack {
             VStack(spacing: 0) {
-                Color.clear
+                Rectangle()
+                    .fill(Color.secondary.opacity(0.9))
+                    .cornerRadius(10.0)
+                    .frame(minHeight: 90, idealHeight: 90, maxHeight: 90, alignment: .center)
+                    .shadow(color: Color.blue.opacity(0.9), radius: 10, x: 10, y: 10)
+                    .padding(20)
             }
             VStack {
                 Text("Fasting:")
-                    .font(.largeTitle)
-                    .bold()
+                    .font(.largeTitle).fontWeight(.heavy)
                     .foregroundColor(.primary)
                 + Text(" \(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
-                    .font(.largeTitle)
-                    .bold()
+                    .font(.largeTitle).fontWeight(.heavy)
                     .foregroundColor(.red)
             }
-            .shadow(color: .black.opacity(0.3), radius: 10, x: 10, y: 10)
+            .shadow(color: Color.primary.opacity(0.6), radius: 5, x: 5, y: 10)
         }
     }
 
