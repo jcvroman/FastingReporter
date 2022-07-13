@@ -43,8 +43,13 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
     }
 
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch, sort & update tasks.
+    // BUG: TODO: Entry Carbs previousDate reset to current date when returning to running app after changing the text size
+    //      via Settings / Display & Brightness / Text Size.
+    //      WORKAROUND: Force refresh by switching out and back into app.
+    //      REPRO: 1. Launch app. 2. Goto Settings / Display & Brightness / Text Size. 3. Change text size.
+    //             4. Switch back to app. 5. Wait a few seconds.
     func fetchUpdateEntryCarbs() {
-        // FIXME: TODO: Find elegant place for constants like this.
+        // TODO: Find elegant place for constants like this.
         let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
         let defaultDaysBack = -10
         let semaphore = DispatchSemaphore(value: 0)
