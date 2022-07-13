@@ -15,6 +15,7 @@ struct CarbViewModel: Identifiable {
         self.carb = carb
     }
 
+    // MARK: - CarbModel properties
     var id: UUID {
         carb.id
     }
@@ -35,12 +36,21 @@ struct CarbViewModel: Identifiable {
         carb.diffMinutes ?? 0
     }
 
+    // MARK: - New properties (i.e. not in CarbModel)
     var dateDateStr: String {
         DateFormatter.dateShortFormatter.string(from: carb.date)
     }
 
     var dateTimeStr: String {
         DateFormatter.timeShortFormatter.string(from: carb.date)
+    }
+
+    var previousDateDateStr: String {
+        DateFormatter.dateShortFormatter.string(from: carb.previousDate ?? Date())
+    }
+
+    var previousDateTimeStr: String {
+        DateFormatter.timeShortFormatter.string(from: carb.previousDate ?? Date())
     }
 }
 

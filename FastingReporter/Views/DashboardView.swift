@@ -67,23 +67,17 @@ struct DashboardView: View {
     }
 
     private var carbsEntryListView: some View {
-        List(carbsEntryListVM.carbsList) { carb in
+        List(carbsEntryListVM.carbsListCVM) { carb in
             HStack {
                 Text("\(carb.carbs)")
                 Spacer()
-                // Text(carb.date, style: .date)
-                Text(carb.date, formatter: dateShortFormatter)
+                Text(carb.dateDateStr)
                 Spacer()
-                // Text(carb.date, style: .time)
-                Text(carb.date, formatter: timeShortFormatter)
+                Text(carb.dateTimeStr)
                 Spacer()
-                // FIXME: BUG: Display nothing here if previous date nil. I.e. provide defaults at an earlier stage in
-                //        the process.
-                Text(carb.previousDate ?? Date(), formatter: timeShortFormatter)
+                Text(carb.previousDateTimeStr)
                 Spacer()
-                // FIXME: BUG: Display nothing here if diff minutes nil. I.e. provide defaults at an earlier stage in
-                //        the process.
-                Text("\(carb.diffMinutes ?? 0)")
+                Text("\(carb.diffMinutes)")
             }
             .accessibility(identifier: "carbsEntryListLabel")
             .font(.body)

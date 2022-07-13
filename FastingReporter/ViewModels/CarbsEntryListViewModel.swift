@@ -9,15 +9,15 @@ import Foundation
 
 // NOTE: Protocol: A blueprint of methods, properties & other requirements that suit a task or piece of functionality.
 protocol CarbsEntryListViewModelProtocol {
-    var carbsList: [CarbModel] { get set }      // TODO: FIX: Verify this var implemention (i.e. get vs. private(set)).
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func sortEntryCarbs()
     func updateEntryCarbs()
 }
 
 final class CarbsEntryListViewModel: ObservableObject {
-    @Published var carbsList: [CarbModel] = []
+    @Published var carbsListCVM: [CarbViewModel] = []   // NOTE: Published list to share data with the view.
 
+    private var carbsList: [CarbModel] = []             // NOTE: Private list to receive data from the repository.
     private let healthRepository: HealthRepositoryProtocol
 
     init(healthRepository: HealthRepositoryProtocol = HealthRepository()) {     // NOTE: Dependency Injection.
@@ -33,8 +33,6 @@ final class CarbsEntryListViewModel: ObservableObject {
 // MARK: - CarbsEntryListViewModelProtocol
 // NOTE: Default Protocols: Implement it in extension, but can override it by implementing it again in struct, class...
 // NOTE: Published changes to the UI must occur on the main thread.
-// FIXME: TODO: Explicitly do all of the data work on the main thread plus avoid retain cycle via
-//        'DispatchQueue.main.async { [weak self] in', but the unit tests fail using it?
 // NOTE: For classes (i.e. reference types), to avoid Memory Retain Cycle (i.e. Memory Leak), use weak self for one
 //       class so the other class can be deinited.
 extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
@@ -42,12 +40,9 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         healthRepository.requestAuthorization(completion: completion)
     }
 
-    // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch, sort & update tasks.
-    // BUG: TODO: Entry Carbs previousDate reset to current date when returning to running app after changing the text size
-    //      via Settings / Display & Brightness / Text Size.
-    //      WORKAROUND: Force refresh by switching out and back into app.
-    //      REPRO: 1. Launch app. 2. Goto Settings / Display & Brightness / Text Size. 3. Change text size.
-    //             4. Switch back to app. 5. Wait a few seconds.
+    // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch, sort & update tasks
+    //       for the carbs daily entry list for CarbModel (carbsList). Additionally, via dispatch (as noted above),
+    //       continue with tasks to populate and sort carbs daily entry list for CarbViewModel (carbsListCVM).
     func fetchUpdateEntryCarbs() {
         // TODO: Find elegant place for constants like this.
         let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
@@ -78,6 +73,24 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
                 semaphore.signal()
             }
             semaphore.wait()
+
+            DispatchQueue.main.async { [weak self] in
+                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: populateEntryCarbsCVM: Completed")
+                self?.populateEntryCarbsCVM()
+                semaphore.signal()
+            }
+            semaphore.wait()
+            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: populateEntryCarbsCVM: carbsListCVM: ")
+            print("Unsorted: \(String(describing: self?.carbsListCVM))")
+
+            DispatchQueue.main.async { [weak self] in
+                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortDailyCarbsCVM: Completed")
+                self?.sortDailyCarbsCVM()
+                semaphore.signal()
+            }
+            semaphore.wait()
+            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortDailyCarbsCVM: carbsListCVM: Sorted: ")
+            print("\(String(describing: self?.carbsListCVM))")
         }
         print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: Starting...")
     }
@@ -88,5 +101,13 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
 
     func updateEntryCarbs() {
         carbsList = healthRepository.updateEntryCarbs(carbsList: carbsList)
+    }
+
+    func populateEntryCarbsCVM() {
+        carbsListCVM = carbsList.map(CarbViewModel.init)
+    }
+
+    func sortDailyCarbsCVM() {
+        carbsListCVM.sort()
     }
 }
