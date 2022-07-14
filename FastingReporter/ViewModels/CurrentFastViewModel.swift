@@ -16,6 +16,7 @@ protocol CurrentFastViewModelProtocol {
 
 final class CurrentFastViewModel: ObservableObject {
     @Published var carbsFirst: CarbModel?
+    @Published var alertItem: AlertItem?
 
     private let healthRepository: HealthRepositoryProtocol
 
@@ -63,5 +64,9 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
             print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: carbsFirst: \(String(describing: self?.carbsFirst))")
         }
         print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: Starting...")
+    }
+
+    func showAbout() {
+        alertItem = AlertContext.about
     }
 }

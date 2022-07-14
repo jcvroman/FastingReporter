@@ -55,6 +55,9 @@ struct DashboardView: View {
             .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
         }
         .overlay(aboutButton, alignment: .topTrailing)
+        .alert(item: $currentFastVM.alertItem) { alertItem in
+            Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+        }
     }
 
     private var carbsEntryListView: some View {
@@ -113,8 +116,8 @@ struct DashboardView: View {
     }
 
     private func showAbout() {
-        // selectedSheet = .aboutView
-        print("DEBUG: DashboardView: showAbout: button tapped")
+        currentFastVM.showAbout()
+        // print("DEBUG: DashboardView: showAbout: button tapped")
     }
 }
 

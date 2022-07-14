@@ -15,6 +15,8 @@
 		999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */; };
 		99A4899D286E5C33006ECF8F /* HealthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A4899C286E5C33006ECF8F /* HealthRepository.swift */; };
 		99B9CDEE2874DAB6001720EA /* CurrentFastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9CDED2874DAB6001720EA /* CurrentFastViewModel.swift */; };
+		99DA593B2880902C00192896 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DA593A2880902C00192896 /* AlertItem.swift */; };
+		99DA593D2880B27800192896 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DA593C2880B27800192896 /* Constants.swift */; };
 		99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACC266D949F003230CA /* FastingReporterApp.swift */; };
 		99DE2ACF266D949F003230CA /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ACE266D949F003230CA /* DashboardView.swift */; };
 		99DE2AD1266D94A0003230CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE2AD0266D94A0003230CA /* Assets.xcassets */; };
@@ -59,6 +61,8 @@
 		99AE5ACB28415F2D00162A15 /* Dates.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Dates.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		99AE5ACC2841611C00162A15 /* Collections.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Collections.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		99B9CDED2874DAB6001720EA /* CurrentFastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFastViewModel.swift; sourceTree = "<group>"; };
+		99DA593A2880902C00192896 /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
+		99DA593C2880B27800192896 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		99DE2AC9266D949F003230CA /* FastingReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastingReporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99DE2ACC266D949F003230CA /* FastingReporterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterApp.swift; sourceTree = "<group>"; };
 		99DE2ACE266D949F003230CA /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */,
+				99DA593A2880902C00192896 /* AlertItem.swift */,
+				99DA593C2880B27800192896 /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -403,6 +409,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99DA593B2880902C00192896 /* AlertItem.swift in Sources */,
 				99DE2ACF266D949F003230CA /* DashboardView.swift in Sources */,
 				99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */,
 				99B9CDEE2874DAB6001720EA /* CurrentFastViewModel.swift in Sources */,
@@ -413,6 +420,7 @@
 				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
 				999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */,
 				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,
+				99DA593D2880B27800192896 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
