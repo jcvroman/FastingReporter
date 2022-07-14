@@ -41,8 +41,8 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
     }
 
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch, sort & update tasks
-    //       for the carbs daily entry list for CarbModel (carbsList). Additionally, via dispatch (as noted above),
-    //       continue with tasks to populate and sort carbs daily entry list for CarbViewModel (carbsListCVM).
+    //       for the carbs entry list for CarbModel (carbsList). Additionally, via dispatch (as noted above),
+    //       continue with tasks to populate and sort carbs entry list for CarbViewModel (carbsListCVM).
     func fetchUpdateEntryCarbs() {
         // TODO: Find elegant place for constants like this.
         let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
@@ -84,12 +84,12 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
             print("Unsorted: \(String(describing: self?.carbsListCVM))")
 
             DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortDailyCarbsCVM: Completed")
-                self?.sortDailyCarbsCVM()
+                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbsCVM: Completed")
+                self?.sortEntryCarbsCVM()
                 semaphore.signal()
             }
             semaphore.wait()
-            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortDailyCarbsCVM: carbsListCVM: Sorted: ")
+            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbsCVM: carbsListCVM: Sorted: ")
             print("\(String(describing: self?.carbsListCVM))")
         }
         print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: Starting...")
@@ -107,7 +107,7 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         carbsListCVM = carbsList.map(CarbViewModel.init)
     }
 
-    func sortDailyCarbsCVM() {
+    func sortEntryCarbsCVM() {
         carbsListCVM.sort()
     }
 }
