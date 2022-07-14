@@ -54,16 +54,7 @@ struct DashboardView: View {
             }
             .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
         }
-        .overlay(infoOverlay, alignment: .topTrailing)
-    }
-
-    private var infoOverlay: some View {
-        Image(systemName: "info.circle").onTapGesture {
-            print("DEBUG: DashboardView: currentFastView: infoOverlay: tapped")
-        }
-            .font(.title)
-            .padding([.top, .trailing], 5)
-            .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
+        .overlay(aboutButton, alignment: .topTrailing)
     }
 
     private var carbsEntryListView: some View {
@@ -100,6 +91,16 @@ struct DashboardView: View {
         .navigationTitle("Carbs Daily List")
      }
 
+    // MARK: - Buttons.
+    private var aboutButton: some View {
+        Button(action: showAbout, label: {
+            Image(systemName: "info.circle")
+                .font(.title)
+                .padding([.top, .trailing], 5)
+                .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
+        })
+    }
+
     // MARK: - Actions.
     private func fetchHealthRepository() {
         currentFastVM.requestAuthorization { success in
@@ -109,6 +110,11 @@ struct DashboardView: View {
                 carbsDailyListVM.fetchDailyCarbs()
             }
         }
+    }
+
+    private func showAbout() {
+        // selectedSheet = .aboutView
+        print("DEBUG: DashboardView: showAbout: button tapped")
     }
 }
 
@@ -138,25 +144,6 @@ struct currentFastView: View {
     }
 }
 */
-
-// FIXME: TODO: Verify that best to have date formatters available globally?
-// FIXME: TODO: The formatting of the date should be in the view model?
-private let dateShortFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    // logger.debug("MyListsItem: itemFormatter")
-    print("DEBUG: MyListsItem: itemFormatter")
-    return formatter
-}()
-
-// FIXME: TODO: The formatting of the date should be in the view model?
-private let timeShortFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.timeStyle = .short
-    // logger.debug("MyListsItem: itemFormatter")
-    print("DEBUG: MyListsItem: itemFormatter")
-    return formatter
-}()
 
 // MARK: - Previews.
 struct ContentView_Previews: PreviewProvider {
