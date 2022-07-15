@@ -70,8 +70,6 @@ struct DashboardView: View {
                     Spacer()
                     Text(carb.dateTimeStr)
                     Spacer()
-                    Text(carb.previousDateTimeStr)
-                    Spacer()
                     Text("\(carb.diffHoursMinutesStr)")
                 }
                 .accessibility(identifier: "carbsEntryListLabel")
@@ -90,8 +88,6 @@ struct DashboardView: View {
                     Text("\(carb.carbs)")
                     Spacer()
                     Text(carb.dateDateStr)
-                    Spacer()
-                    Text(carb.dateTimeStr)
                 }
                 .accessibility(identifier: "carbsDailyListLabel")
                 .font(.body)
