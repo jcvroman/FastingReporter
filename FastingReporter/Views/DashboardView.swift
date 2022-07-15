@@ -61,37 +61,45 @@ struct DashboardView: View {
     }
 
     private var carbsEntryListView: some View {
-        List(carbsEntryListVM.carbsListCVM) { carb in
-            HStack {
-                Text("\(carb.carbs)")
-                Spacer()
-                Text(carb.dateDateStr)
-                Spacer()
-                Text(carb.dateTimeStr)
-                Spacer()
-                Text(carb.previousDateTimeStr)
-                Spacer()
-                Text("\(carb.diffMinutes)")
+        ZStack {
+            List(carbsEntryListVM.carbsListCVM) { carb in
+                HStack {
+                    Text("\(carb.carbs)")
+                    Spacer()
+                    Text(carb.dateDateStr)
+                    Spacer()
+                    Text(carb.dateTimeStr)
+                    Spacer()
+                    Text(carb.previousDateTimeStr)
+                    Spacer()
+                    Text("\(carb.diffMinutes)")
+                }
+                .accessibility(identifier: "carbsEntryListLabel")
+                .font(.body)
             }
-            .accessibility(identifier: "carbsEntryListLabel")
-            .font(.body)
+            .navigationTitle("Carbs Entry List")
+
+            if carbsEntryListVM.isLoading { LoadingView() }
         }
-        .navigationTitle("Carbs Entry List")
     }
 
     private var carbsDailyListView: some View {
-        List(carbsDailyListVM.carbsListCVM) { carb in
-            HStack(alignment: .center) {
-                Text("\(carb.carbs)")
-                Spacer()
-                Text(carb.dateDateStr)
-                Spacer()
-                Text(carb.dateTimeStr)
+        ZStack {
+            List(carbsDailyListVM.carbsListCVM) { carb in
+                HStack(alignment: .center) {
+                    Text("\(carb.carbs)")
+                    Spacer()
+                    Text(carb.dateDateStr)
+                    Spacer()
+                    Text(carb.dateTimeStr)
+                }
+                .accessibility(identifier: "carbsDailyListLabel")
+                .font(.body)
             }
-            .accessibility(identifier: "carbsDailyListLabel")
-            .font(.body)
+            .navigationTitle("Carbs Daily List")
+
+            if carbsDailyListVM.isLoading { LoadingView() }
         }
-        .navigationTitle("Carbs Daily List")
      }
 
     // MARK: - Buttons.

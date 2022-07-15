@@ -16,6 +16,7 @@ protocol CarbsDailyListViewModelProtocol {
 
 final class CarbsDailyListViewModel: ObservableObject {
     @Published var carbsListCVM: [CarbViewModel] = []   // NOTE: Published list to share data with the view.
+    @Published var isLoading = false
 
     private var carbsList: [CarbModel] = []             // NOTE: Private list to receive data from the repository.
     private let healthRepository: HealthRepositoryProtocol
@@ -45,6 +46,8 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
         let semaphore = DispatchSemaphore(value: 0)
         let dispatchQueue = DispatchQueue.global(qos: .background)
 
+        isLoading = true
+
         dispatchQueue.async { [weak self] in
             print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: Completed")
             self?.healthRepository.fetchDailyCarbs(daysBack: defaultDaysBack) { [weak self] hCarbsList in
@@ -66,6 +69,7 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
             DispatchQueue.main.async { [weak self] in
                 print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: sortDailyCarbsCVM: Completed")
                 self?.sortDailyCarbsCVM()
+                self?.isLoading = false
                 semaphore.signal()
             }
             semaphore.wait()

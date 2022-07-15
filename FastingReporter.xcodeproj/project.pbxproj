@@ -24,6 +24,7 @@
 		99DE2ADF266D94A0003230CA /* CarbsDailyListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2ADE266D94A0003230CA /* CarbsDailyListViewModelTests.swift */; };
 		99DE2AEA266D94A0003230CA /* FastingReporterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */; };
 		99DE2AF9266D97D4003230CA /* CarbsDailyListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE2AF8266D97D4003230CA /* CarbsDailyListUITests.swift */; };
+		99E3EA2D288109E8007BE830 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EA2C288109E8007BE830 /* LoadingView.swift */; };
 		99F1AA6A287E12AB005D40AC /* CarbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F1AA69287E12AB005D40AC /* CarbViewModel.swift */; };
 		99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,7 @@
 		99DE2AE9266D94A0003230CA /* FastingReporterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingReporterUITests.swift; sourceTree = "<group>"; };
 		99DE2AEB266D94A0003230CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99DE2AF8266D97D4003230CA /* CarbsDailyListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListUITests.swift; sourceTree = "<group>"; };
+		99E3EA2C288109E8007BE830 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		99F1AA69287E12AB005D40AC /* CarbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbViewModel.swift; sourceTree = "<group>"; };
 		99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -257,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				99DE2ACE266D949F003230CA /* DashboardView.swift */,
+				99E3EA2C288109E8007BE830 /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
 				999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */,
 				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,
+				99E3EA2D288109E8007BE830 /* LoadingView.swift in Sources */,
 				99DA593D2880B27800192896 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
