@@ -32,8 +32,8 @@ struct CarbViewModel: Identifiable {
         carb.previousDate ?? Date()
     }
 
-    var diffMinutes: Int {
-        carb.diffMinutes ?? 0
+    var diffSeconds: Int {
+        carb.diffSeconds ?? 0
     }
 
     // MARK: - New properties (i.e. not in CarbModel)
@@ -51,6 +51,16 @@ struct CarbViewModel: Identifiable {
 
     var previousDateTimeStr: String {
         DateFormatter.timeShortFormatter.string(from: carb.previousDate ?? Date())
+    }
+
+    var diffHoursMinutesStr: String {
+        if let seconds = carb.diffSeconds {
+            let remaining: TimeInterval = TimeInterval(seconds)
+            if let result = DateComponentsFormatter.hoursMinutesAbbreviatedFormatter.string(from: remaining) {
+                return result
+            }
+        }
+        return Constants.notApplicableStr
     }
 }
 

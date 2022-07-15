@@ -27,6 +27,7 @@
 		99E3EA2D288109E8007BE830 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EA2C288109E8007BE830 /* LoadingView.swift */; };
 		99F1AA6A287E12AB005D40AC /* CarbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F1AA69287E12AB005D40AC /* CarbViewModel.swift */; };
 		99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */; };
+		99FCD0BA2881C5E900B47A8F /* DateComponentsFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FCD0B92881C5E900B47A8F /* DateComponentsFormatter+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		99E3EA2C288109E8007BE830 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		99F1AA69287E12AB005D40AC /* CarbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbViewModel.swift; sourceTree = "<group>"; };
 		99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListViewModel.swift; sourceTree = "<group>"; };
+		99FCD0B92881C5E900B47A8F /* DateComponentsFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponentsFormatter+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */,
+				99FCD0B92881C5E900B47A8F /* DateComponentsFormatter+Extension.swift */,
 				99DA593A2880902C00192896 /* AlertItem.swift */,
 				99DA593C2880B27800192896 /* Constants.swift */,
 			);
@@ -420,6 +423,7 @@
 				99A4899D286E5C33006ECF8F /* HealthRepository.swift in Sources */,
 				99F1AA6A287E12AB005D40AC /* CarbViewModel.swift in Sources */,
 				99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */,
+				99FCD0BA2881C5E900B47A8F /* DateComponentsFormatter+Extension.swift in Sources */,
 				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
 				999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */,
 				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,

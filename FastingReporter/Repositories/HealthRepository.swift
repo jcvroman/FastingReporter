@@ -43,14 +43,15 @@ final class HealthRepository: HealthRepositoryProtocol {
         for (var lhs, rhs) in zip(carbsList, carbsList.dropFirst()) {
             lhs.previousDate = rhs.date
 
-            lhs.diffMinutes = Calendar.current
-                .dateComponents([.minute], from: lhs.previousDate!, to: lhs.date)  // FIXME: Clean up. No force unwrap.
-                .minute
+            // NOTE: Get minutes from previous date to date.
+            lhs.diffSeconds = Calendar.current
+                .dateComponents([.second], from: lhs.previousDate!, to: lhs.date)  // FIXME: Clean up. No force unwrap.
+                .second
             carbsListTemp.append(lhs)
             /*
             print("DEBUG: HealthRepository.updateEntryCarbs: carb: \(lhs.carbs);")
             print("    date: \(lhs.date);previous date: \(lhs.previousDate ?? Date());")
-            print("    diff minutes: \(lhs.diffMinutes ?? 0); id: \(lhs.id)")
+            print("    diff minutes: \(lhs.diffSeconds ?? 0); id: \(lhs.id)")
             */
         }
         if let carbsListLast = carbsList.last {

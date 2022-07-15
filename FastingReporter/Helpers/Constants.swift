@@ -15,4 +15,5 @@ public enum Constants {
 
     // MARK: - Strings: Miscellaneous.
     static let lineReturn: String = "\r\n"
+    static let notApplicableStr: String = "---"
 }
