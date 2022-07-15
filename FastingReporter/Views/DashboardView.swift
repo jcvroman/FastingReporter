@@ -65,11 +65,12 @@ struct DashboardView: View {
             List(carbsEntryListVM.carbsListCVM) { carb in
                 HStack {
                     Text("\(carb.carbs)")
-                    Spacer()
-                    Text(carb.dateDateStr)
-                    Spacer()
-                    Text(carb.dateTimeStr)
-                    Spacer()
+                        .padding(10)
+                    VStack(alignment: .leading) {
+                        Text(carb.dateDateStr)
+                        Text(carb.dateTimeStr)
+                    }
+                    Spacer(minLength: 10)
                     Text("\(carb.diffHoursMinutesStr)")
                 }
                 .accessibility(identifier: "carbsEntryListLabel")
@@ -86,6 +87,7 @@ struct DashboardView: View {
             List(carbsDailyListVM.carbsListCVM) { carb in
                 HStack(alignment: .center) {
                     Text("\(carb.carbs)")
+                        .padding(10)
                     Spacer()
                     Text(carb.dateDateStr)
                 }
