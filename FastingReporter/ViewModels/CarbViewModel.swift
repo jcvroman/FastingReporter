@@ -55,8 +55,8 @@ struct CarbViewModel: Identifiable {
 
     var diffHoursMinutesStr: String {
         if let seconds = carb.diffSeconds {
-            let remaining: TimeInterval = TimeInterval(seconds)
-            if let result = DateComponentsFormatter.hoursMinutesAbbreviatedFormatter.string(from: remaining) {
+            let secondsTimeInterval: TimeInterval = TimeInterval(seconds)
+            if let result = DateComponentsFormatter.hoursMinutesAbbreviatedFormatter.string(from: secondsTimeInterval) {
                 return result
             }
         }
