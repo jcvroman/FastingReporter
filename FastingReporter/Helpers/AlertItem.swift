@@ -16,8 +16,8 @@ struct AlertItem: Identifiable {
 
 enum AlertContext {
     // NOTE: About
-    static let about = AlertItem(title: Text("\(Constants.appName) Version \(Constants.appVersion) (\(Constants.buildVersion))"),
-                                 message: Text("Copyright © 2022 Jimmy Vroman. All rights reserved."),
+    static let about = AlertItem(title: Text("\(Constants.appName)"),
+                                 message: Text("\(aboutMessage)"),
                                  dismissButton: .default(Text("OK")))
 
     // NOTE: Errors
@@ -25,3 +25,13 @@ enum AlertContext {
                                  message: Text("A fatal error has occurred."),
                                  dismissButton: .default(Text("OK")))
 }
+
+// MARK: - Supporting Strings for AlertContext.
+private let aboutMessage: String = "Version "
+                                   + Constants.appVersion
+                                   + " (\(Constants.buildVersion))"
+                                   + Constants.lineReturn
+                                   + Constants.lineReturn
+                                   + "Copyright © 2022 Jimmy Vroman."
+                                   + Constants.lineReturn
+                                   + "All rights reserved."

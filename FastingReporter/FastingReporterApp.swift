@@ -2,6 +2,8 @@
 //  FastingReporterApp.swift
 //  FastingReporter
 //
+//  Copyright © 2022 Jimmy Vroman. All rights reserved.
+// 
 //  Created by Jimmy Vroman on 6/6/21.
 //
 
