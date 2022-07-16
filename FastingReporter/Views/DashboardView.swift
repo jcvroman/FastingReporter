@@ -77,7 +77,6 @@ struct DashboardView: View {
         List(carbsEntryListVM.carbsListCVM) { carb in
             CarbEntryRowView(carb: carb)
         }
-        .navigationTitle("Carbs Entry List")
     }
 
     private var carbsDailyListMainView: some View {
@@ -98,7 +97,6 @@ struct DashboardView: View {
         List(carbsDailyListVM.carbsListCVM) { carb in
             CarbDailyRowView(carb: carb)
         }
-        .navigationTitle("Carbs Daily List")
      }
 
     // MARK: - Buttons.
