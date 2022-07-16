@@ -108,13 +108,7 @@ struct DashboardView: View {
 
     private var dailyListView: some View {
         List(carbsDailyListVM.carbsListCVM) { carb in
-            HStack(alignment: .center) {
-                Text("\(carb.carbs)")
-                    .padding(10)
-                Text(carb.dateDateStr)
-            }
-            .accessibility(identifier: "carbsDailyListLabel")
-            .font(.body)
+            CarbDailyRowView(carb: carb)
         }
         .navigationTitle("Carbs Daily List")
      }
