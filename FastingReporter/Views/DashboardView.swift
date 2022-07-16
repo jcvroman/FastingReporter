@@ -81,18 +81,7 @@ struct DashboardView: View {
 
     private var entryListView: some View {
         List(carbsEntryListVM.carbsListCVM) { carb in
-            HStack {
-                Text("\(carb.carbs)")
-                    .padding(15)
-                VStack(alignment: .leading) {
-                    Text(carb.dateDateStr)
-                    Text(carb.dateTimeStr)
-                }
-                Spacer(minLength: 10)
-                Text("\(carb.diffHoursMinutesStr)")
-            }
-            .accessibility(identifier: "carbsEntryListLabel")
-            .font(.body)
+            CarbEntryRowView(carb: carb)
         }
         .navigationTitle("Carbs Entry List")
     }

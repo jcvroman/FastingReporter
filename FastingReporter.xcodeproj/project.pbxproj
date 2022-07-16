@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99226583288312360050321D /* CarbEntryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99226582288312360050321D /* CarbEntryRowView.swift */; };
 		9931CAFE287A35F10092970A /* HealthRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931CAFD287A35F10092970A /* HealthRepositoryMock.swift */; };
 		99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C6626867CF800BFA3FB /* CarbModel.swift */; };
 		99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C692687EE1A00BFA3FB /* HealthStore.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		99226582288312360050321D /* CarbEntryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbEntryRowView.swift; sourceTree = "<group>"; };
 		9931CAFD287A35F10092970A /* HealthRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRepositoryMock.swift; sourceTree = "<group>"; };
 		99346C6626867CF800BFA3FB /* CarbModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbModel.swift; sourceTree = "<group>"; };
 		99346C692687EE1A00BFA3FB /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				99DE2ACE266D949F003230CA /* DashboardView.swift */,
+				99226582288312360050321D /* CarbEntryRowView.swift */,
 				99E3EA2C288109E8007BE830 /* LoadingView.swift */,
 			);
 			path = Views;
@@ -421,6 +424,7 @@
 				99B9CDEE2874DAB6001720EA /* CurrentFastViewModel.swift in Sources */,
 				99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */,
 				99A4899D286E5C33006ECF8F /* HealthRepository.swift in Sources */,
+				99226583288312360050321D /* CarbEntryRowView.swift in Sources */,
 				99F1AA6A287E12AB005D40AC /* CarbViewModel.swift in Sources */,
 				99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */,
 				99FCD0BA2881C5E900B47A8F /* DateComponentsFormatter+Extension.swift in Sources */,
