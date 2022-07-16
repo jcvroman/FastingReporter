@@ -37,6 +37,7 @@ final class CarbsEntryListViewModel: ObservableObject {
 // NOTE: For classes (i.e. reference types), to avoid Memory Retain Cycle (i.e. Memory Leak), use weak self for one
 //       class so the other class can be deinited.
 extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
+    // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
     }
@@ -44,6 +45,7 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch, sort & update tasks
     //       for the carbs entry list for CarbModel (carbsList). Additionally, via dispatch (as noted above),
     //       continue with tasks to populate and sort carbs entry list for CarbViewModel (carbsListCVM).
+    // NOTE: Async func.
     func fetchUpdateEntryCarbs() {
         // TODO: Find elegant place for constants like this.
         let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).

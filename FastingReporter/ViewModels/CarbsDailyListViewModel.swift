@@ -34,6 +34,7 @@ final class CarbsDailyListViewModel: ObservableObject {
 // MARK: - CarbsDailyListViewModelProtocol
 // NOTE: Default Protocols: Implement it in extension, but can override it by implementing it again in struct, class...
 extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
+    // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
     }
@@ -41,6 +42,7 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch & sort tasks
     //       for the carbs daily list for CarbModel (carbsList). Additionally, via dispatch (as noted above),
     //       continue with tasks to populate and sort carbs entry list for CarbViewModel (carbsListCVM).
+    // NOTE: Async func.
     func fetchDailyCarbs() {
         let defaultDaysBack = -100
         let semaphore = DispatchSemaphore(value: 0)

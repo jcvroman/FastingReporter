@@ -21,12 +21,15 @@ final class HealthRepositoryMock {
 
 // MARK: - HealthRepositoryProtocol
 extension HealthRepositoryMock: HealthRepositoryProtocol {
+    // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
     }
 
+    // NOTE: Async func.
     func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
     }
 
+    // NOTE: Async func.
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
         completion(items)
     }

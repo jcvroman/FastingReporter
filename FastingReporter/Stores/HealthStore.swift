@@ -28,6 +28,7 @@ final class HealthStore: HealthStoreProtocol {
         }
     }
 
+    // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
         guard let healthStore = self.healthStore else { return completion(false) }
@@ -40,6 +41,7 @@ final class HealthStore: HealthStoreProtocol {
         }
     }
 
+    // NOTE: Async func.
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
         let carbType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!
         let now = Date()
@@ -79,6 +81,7 @@ final class HealthStore: HealthStoreProtocol {
         }
     }
 
+    // NOTE: Async func.
     func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
         guard let sampleType = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)
         else {

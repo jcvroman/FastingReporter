@@ -22,14 +22,17 @@ final class HealthRepository: HealthRepositoryProtocol {
         self.healthStore = healthStore
     }
 
+    // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthStore.requestAuthorization(completion: completion)
     }
 
+    // NOTE: Async func.
     func fetchEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
         healthStore.fetchEntryCarbs(daysBack: daysBack, limit: limit, completion: completion)
     }
 
+    // NOTE: Async func.
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
         healthStore.fetchDailyCarbs(daysBack: daysBack, completion: completion)
     }

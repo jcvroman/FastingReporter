@@ -33,12 +33,14 @@ final class CurrentFastViewModel: ObservableObject {
 // MARK: - CurrentFastViewModelProtocol
 // NOTE: Default Protocols: Implement it in extension, but can override it by implementing it again in struct, class...
 extension CurrentFastViewModel: CurrentFastViewModelProtocol {
+    // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         healthRepository.requestAuthorization(completion: completion)
     }
 
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch 1st entry carb via
     //       fetchEntryCarbs.
+    // NOTE: Async func.
     func fetchEntryCarbsFirst() {
         var carbsList: [CarbModel] = []
         let defaultDaysBack = -1
