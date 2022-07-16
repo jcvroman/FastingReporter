@@ -22,7 +22,7 @@ struct DashboardView: View {
             // TODO: Handle empty lists.
             currentFastView
             carbsEntryListMainView
-            carbsDailyListView
+            carbsDailyListMainView
         }
         .onChange(of: scenePhase) { newPhase in         // NOTE: Fetch on change to/back to app.
             if newPhase == .active {
@@ -86,10 +86,10 @@ struct DashboardView: View {
         .navigationTitle("Carbs Entry List")
     }
 
-    private var carbsDailyListView: some View {
+    private var carbsDailyListMainView: some View {
         ZStack {
             if #available(iOS 15.0, *) {
-                dailyListView
+                carbsDailyListView
                     .refreshable() {
                         carbsDailyListVM.requestAuthorization { success in
                             if success {
@@ -99,14 +99,14 @@ struct DashboardView: View {
                     }
             } else {
                 // NOTE: Fallback on earlier versions.
-                dailyListView
+                carbsDailyListView
             }
 
             if carbsDailyListVM.isLoading { LoadingView() }
         }
      }
 
-    private var dailyListView: some View {
+    private var carbsDailyListView: some View {
         List(carbsDailyListVM.carbsListCVM) { carb in
             CarbDailyRowView(carb: carb)
         }
