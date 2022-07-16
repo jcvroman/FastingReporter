@@ -63,9 +63,9 @@ struct DashboardView: View {
         ZStack {
             if #available(iOS 15.0, *) {
                 entryListView
-                // TODO: Verify warning not an issue for refreshable.
-                //      WARNING: Converting non-sendable function value to '@Sendable () async -> Void' may introduce
-                //               data races
+                // TODO: FIX: WARNING in xCode 13.4.1 on my Mac, but ERROR in xCode 13.2.1 on GitHub.
+                //      ERROR: Converting non-sendable function value to '@Sendable () async -> Void' may introduce
+                //               data races.
                 .refreshable(action: fetchHealthRepository)
             } else {
                 // NOTE: Fallback on earlier versions.
@@ -96,19 +96,32 @@ struct DashboardView: View {
 
     private var carbsDailyListView: some View {
         ZStack {
-            List(carbsDailyListVM.carbsListCVM) { carb in
-                HStack(alignment: .center) {
-                    Text("\(carb.carbs)")
-                        .padding(10)
-                    Text(carb.dateDateStr)
-                }
-                .accessibility(identifier: "carbsDailyListLabel")
-                .font(.body)
+            if #available(iOS 15.0, *) {
+                dailyListView
+                // TODO: FIX: WARNING in xCode 13.4.1 on my Mac, but ERROR in xCode 13.2.1 on GitHub.
+                //      ERROR: Converting non-sendable function value to '@Sendable () async -> Void' may introduce
+                //               data races.
+                .refreshable(action: fetchHealthRepository)
+            } else {
+                // NOTE: Fallback on earlier versions.
+                dailyListView
             }
-            .navigationTitle("Carbs Daily List")
 
             if carbsDailyListVM.isLoading { LoadingView() }
         }
+     }
+
+    private var dailyListView: some View {
+        List(carbsDailyListVM.carbsListCVM) { carb in
+            HStack(alignment: .center) {
+                Text("\(carb.carbs)")
+                    .padding(10)
+                Text(carb.dateDateStr)
+            }
+            .accessibility(identifier: "carbsDailyListLabel")
+            .font(.body)
+        }
+        .navigationTitle("Carbs Daily List")
      }
 
     // MARK: - Buttons.
