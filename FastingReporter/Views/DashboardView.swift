@@ -63,13 +63,7 @@ struct DashboardView: View {
         ZStack {
             if #available(iOS 15.0, *) {
                 carbsEntryListView
-                    .refreshable() {
-                        carbsEntryListVM.requestAuthorization { success in
-                            if success {
-                                carbsEntryListVM.fetchUpdateEntryCarbs()
-                            }
-                        }
-                    }
+                    .refreshable() { fetchUpdateEntryCarbs() }
             } else {
                 // NOTE: Fallback on earlier versions.
                 carbsEntryListView
@@ -90,13 +84,7 @@ struct DashboardView: View {
         ZStack {
             if #available(iOS 15.0, *) {
                 carbsDailyListView
-                    .refreshable() {
-                        carbsDailyListVM.requestAuthorization { success in
-                            if success {
-                                carbsDailyListVM.fetchDailyCarbs()
-                            }
-                        }
-                    }
+                    .refreshable() { fetchDailyCarbs() }
             } else {
                 // NOTE: Fallback on earlier versions.
                 carbsDailyListView
@@ -129,6 +117,22 @@ struct DashboardView: View {
             if success {
                 currentFastVM.fetchEntryCarbsFirst()
                 carbsEntryListVM.fetchUpdateEntryCarbs()
+                carbsDailyListVM.fetchDailyCarbs()
+            }
+        }
+    }
+
+    private func fetchUpdateEntryCarbs() {
+        carbsEntryListVM.requestAuthorization { success in
+            if success {
+                carbsEntryListVM.fetchUpdateEntryCarbs()
+            }
+        }
+    }
+
+    private func fetchDailyCarbs() {
+        carbsEntryListVM.requestAuthorization { success in
+            if success {
                 carbsDailyListVM.fetchDailyCarbs()
             }
         }
