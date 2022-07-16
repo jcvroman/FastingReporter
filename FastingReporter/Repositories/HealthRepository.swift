@@ -38,6 +38,7 @@ final class HealthRepository: HealthRepositoryProtocol {
     }
 
     // MARK: - Business Logic.
+    // NOTE: Update carbs list with previous date (i.e. previous item's date).
     func updateEntryCarbs(carbsList: [CarbModel]) -> [CarbModel] {
         var carbsListTemp: [CarbModel] = []
         print("DEBUG: HealthRepository.updateEntryCarbs: carbsList: \(carbsList)")
