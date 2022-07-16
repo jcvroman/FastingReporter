@@ -63,10 +63,13 @@ struct DashboardView: View {
         ZStack {
             if #available(iOS 15.0, *) {
                 entryListView
-                // TODO: FIX: WARNING in xCode 13.4.1 on my Mac, but ERROR in xCode 13.2.1 on GitHub.
-                //      ERROR: Converting non-sendable function value to '@Sendable () async -> Void' may introduce
-                //               data races.
-                .refreshable(action: fetchHealthRepository)
+                    .refreshable() {
+                        carbsEntryListVM.requestAuthorization { success in
+                            if success {
+                                carbsEntryListVM.fetchUpdateEntryCarbs()
+                            }
+                        }
+                    }
             } else {
                 // NOTE: Fallback on earlier versions.
                 entryListView
@@ -98,10 +101,13 @@ struct DashboardView: View {
         ZStack {
             if #available(iOS 15.0, *) {
                 dailyListView
-                // TODO: FIX: WARNING in xCode 13.4.1 on my Mac, but ERROR in xCode 13.2.1 on GitHub.
-                //      ERROR: Converting non-sendable function value to '@Sendable () async -> Void' may introduce
-                //               data races.
-                .refreshable(action: fetchHealthRepository)
+                    .refreshable() {
+                        carbsDailyListVM.requestAuthorization { success in
+                            if success {
+                                carbsDailyListVM.fetchDailyCarbs()
+                            }
+                        }
+                    }
             } else {
                 // NOTE: Fallback on earlier versions.
                 dailyListView
