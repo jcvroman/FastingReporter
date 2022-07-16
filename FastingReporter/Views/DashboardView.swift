@@ -126,33 +126,6 @@ struct DashboardView: View {
     }
 }
 
-// MARK: - Others.
-/*
-struct currentFastView: View {
-    // var carbsFirst: CarbModel
-    var currentFastVM: CurrentFastViewModel
-
-    var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                Color.clear
-            }
-            VStack {
-                Text("Current Fast:")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.primary)
-                Text("\(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
-                // Text("\(carbsFirst.date, style: .timer)")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.red)
-            }
-        }
-    }
-}
-*/
-
 // MARK: - Previews.
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
