@@ -65,7 +65,7 @@ struct DashboardView: View {
             List(carbsEntryListVM.carbsListCVM) { carb in
                 HStack {
                     Text("\(carb.carbs)")
-                        .padding(10)
+                        .padding(15)
                     VStack(alignment: .leading) {
                         Text(carb.dateDateStr)
                         Text(carb.dateTimeStr)
@@ -88,7 +88,6 @@ struct DashboardView: View {
                 HStack(alignment: .center) {
                     Text("\(carb.carbs)")
                         .padding(10)
-                    Spacer()
                     Text(carb.dateDateStr)
                 }
                 .accessibility(identifier: "carbsDailyListLabel")
