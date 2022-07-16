@@ -19,9 +19,8 @@ struct DashboardView: View {
 
     var body: some View {
         VStack {
+            // TODO: Handle empty lists.
             currentFastView
-            // currentFastView(currentFastVM: currentFastVM)
-            // currentFastView(carbsFirst: currentFastVM.carbsFirst)
             carbsEntryListView
             carbsDailyListView
         }
@@ -62,24 +61,37 @@ struct DashboardView: View {
 
     private var carbsEntryListView: some View {
         ZStack {
-            List(carbsEntryListVM.carbsListCVM) { carb in
-                HStack {
-                    Text("\(carb.carbs)")
-                        .padding(15)
-                    VStack(alignment: .leading) {
-                        Text(carb.dateDateStr)
-                        Text(carb.dateTimeStr)
-                    }
-                    Spacer(minLength: 10)
-                    Text("\(carb.diffHoursMinutesStr)")
-                }
-                .accessibility(identifier: "carbsEntryListLabel")
-                .font(.body)
+            if #available(iOS 15.0, *) {
+                entryListView
+                // TODO: Verify warning not an issue for refreshable.
+                //      WARNING: Converting non-sendable function value to '@Sendable () async -> Void' may introduce
+                //               data races
+                .refreshable(action: fetchHealthRepository)
+            } else {
+                // NOTE: Fallback on earlier versions.
+                entryListView
             }
-            .navigationTitle("Carbs Entry List")
 
             if carbsEntryListVM.isLoading { LoadingView() }
         }
+    }
+
+    private var entryListView: some View {
+        List(carbsEntryListVM.carbsListCVM) { carb in
+            HStack {
+                Text("\(carb.carbs)")
+                    .padding(15)
+                VStack(alignment: .leading) {
+                    Text(carb.dateDateStr)
+                    Text(carb.dateTimeStr)
+                }
+                Spacer(minLength: 10)
+                Text("\(carb.diffHoursMinutesStr)")
+            }
+            .accessibility(identifier: "carbsEntryListLabel")
+            .font(.body)
+        }
+        .navigationTitle("Carbs Entry List")
     }
 
     private var carbsDailyListView: some View {
