@@ -39,16 +39,16 @@ class CarbsDailyListViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    private func makeSUT(items: [CarbModel]) -> CarbsDailyListViewModel {
+    private func makeSUT(items: [CarbModel], itemsCVM: [CarbViewModel]) -> CarbsDailyListViewModel {
         var sut = CarbsDailyListViewModel()
-        let healthRepositoryMock = HealthRepositoryMock(items: items)
+        let healthRepositoryMock = HealthRepositoryMock(items: items, itemsCVM: itemsCVM)
         sut = .init(healthRepository: healthRepositoryMock)
         return sut
     }
 
     func test_given_daily_carbs_0_items_when_no_fetch_then_list_empty() throws {
         // Given
-        let sut = makeSUT(items: [])
+        let sut = makeSUT(items: [], itemsCVM: [])
 
         // When: no fetch.
 
@@ -59,7 +59,8 @@ class CarbsDailyListViewModelTests: XCTestCase {
     func test_given_daily_carbs_1_items_when_fetch_then_list_not_empty() throws {
         // Given
         let items = [CarbModel(carbs: 1, date: Date())]
-        let sut = makeSUT(items: items)
+        // let itemsCVM = [CarbViewModel(carb: CarbModel(carbs: 10, date: Date()))]
+        let sut = makeSUT(items: items, itemsCVM: [])
 
         // When
         let expectation = XCTestExpectation(description: "Should wait & return items from async work.")

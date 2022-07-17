@@ -16,6 +16,7 @@ protocol CarbsEntryListViewModelProtocol {
 
 final class CarbsEntryListViewModel: ObservableObject {
     @Published var carbsListCVM: [CarbViewModel] = []   // NOTE: Published list to share data with the view.
+    @Published var fastList: [CarbViewModel] = []
     @Published var isLoading = false
 
     private var carbsList: [CarbModel] = []             // NOTE: Private list to receive data from the repository.
@@ -92,12 +93,22 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
             // DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
                 print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbsCVM: Completed")
                 self?.sortEntryCarbsCVM()
-                self?.isLoading = false
                 semaphore.signal()
             }
             semaphore.wait()
             print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbsCVM: carbsListCVM: Sorted: ")
             print("\(String(describing: self?.carbsListCVM))")
+
+            DispatchQueue.main.async { [weak self] in
+                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: createFastList: Completed")
+                self?.createFastList()
+                self?.isLoading = false
+                semaphore.signal()
+            }
+            semaphore.wait()
+            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: createFastList: fastList: ")
+            print("Unsorted: \(String(describing: self?.fastList))")
+
         }
         print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: Starting...")
     }
@@ -116,5 +127,9 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
 
     func sortEntryCarbsCVM() {
         carbsListCVM.sort()
+    }
+
+    func createFastList() {
+        fastList = healthRepository.createFastList(carbsListCVM: carbsListCVM)
     }
 }

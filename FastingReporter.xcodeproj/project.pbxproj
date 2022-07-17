@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		99226583288312360050321D /* CarbEntryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99226582288312360050321D /* CarbEntryRowView.swift */; };
 		992265852883166B0050321D /* CarbDailyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992265842883166B0050321D /* CarbDailyRowView.swift */; };
+		992800672884C63E0069DFDE /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992800662884C63E0069DFDE /* Sequence+Extension.swift */; };
+		992800692884C6900069DFDE /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992800682884C6900069DFDE /* Array+Extension.swift */; };
+		9928006B2884CE7D0069DFDE /* CarbFastRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9928006A2884CE7D0069DFDE /* CarbFastRowView.swift */; };
 		9931CAFE287A35F10092970A /* HealthRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931CAFD287A35F10092970A /* HealthRepositoryMock.swift */; };
 		99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C6626867CF800BFA3FB /* CarbModel.swift */; };
 		99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C692687EE1A00BFA3FB /* HealthStore.swift */; };
@@ -52,6 +55,9 @@
 /* Begin PBXFileReference section */
 		99226582288312360050321D /* CarbEntryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbEntryRowView.swift; sourceTree = "<group>"; };
 		992265842883166B0050321D /* CarbDailyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbDailyRowView.swift; sourceTree = "<group>"; };
+		992800662884C63E0069DFDE /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
+		992800682884C6900069DFDE /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		9928006A2884CE7D0069DFDE /* CarbFastRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbFastRowView.swift; sourceTree = "<group>"; };
 		9931CAFD287A35F10092970A /* HealthRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRepositoryMock.swift; sourceTree = "<group>"; };
 		99346C6626867CF800BFA3FB /* CarbModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbModel.swift; sourceTree = "<group>"; };
 		99346C692687EE1A00BFA3FB /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
@@ -160,10 +166,12 @@
 		999E8D76287E2E0500A1D828 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */,
-				99FCD0B92881C5E900B47A8F /* DateComponentsFormatter+Extension.swift */,
 				99DA593A2880902C00192896 /* AlertItem.swift */,
+				992800682884C6900069DFDE /* Array+Extension.swift */,
 				99DA593C2880B27800192896 /* Constants.swift */,
+				99FCD0B92881C5E900B47A8F /* DateComponentsFormatter+Extension.swift */,
+				999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */,
+				992800662884C63E0069DFDE /* Sequence+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -267,6 +275,7 @@
 			children = (
 				99DE2ACE266D949F003230CA /* DashboardView.swift */,
 				99226582288312360050321D /* CarbEntryRowView.swift */,
+				9928006A2884CE7D0069DFDE /* CarbFastRowView.swift */,
 				992265842883166B0050321D /* CarbDailyRowView.swift */,
 				99E3EA2C288109E8007BE830 /* LoadingView.swift */,
 			);
@@ -423,6 +432,8 @@
 			files = (
 				99DA593B2880902C00192896 /* AlertItem.swift in Sources */,
 				99DE2ACF266D949F003230CA /* DashboardView.swift in Sources */,
+				992800672884C63E0069DFDE /* Sequence+Extension.swift in Sources */,
+				992800692884C6900069DFDE /* Array+Extension.swift in Sources */,
 				99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */,
 				99B9CDEE2874DAB6001720EA /* CurrentFastViewModel.swift in Sources */,
 				99DE2ACD266D949F003230CA /* FastingReporterApp.swift in Sources */,
@@ -432,6 +443,7 @@
 				99F7F6E02686653C0092FFF7 /* CarbsDailyListViewModel.swift in Sources */,
 				99FCD0BA2881C5E900B47A8F /* DateComponentsFormatter+Extension.swift in Sources */,
 				99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */,
+				9928006B2884CE7D0069DFDE /* CarbFastRowView.swift in Sources */,
 				999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */,
 				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,
 				99E3EA2D288109E8007BE830 /* LoadingView.swift in Sources */,

@@ -10,11 +10,15 @@ import Foundation
 
 final class HealthRepositoryMock {
     let items: [CarbModel]
+    let itemsCVM: [CarbViewModel]
 
     // NOTE: Pass in items or if nil use below defaults.
-    init(items: [CarbModel]?) {
+    init(items: [CarbModel]?, itemsCVM: [CarbViewModel]?) {
         self.items = items ?? [
             CarbModel(carbs: 1, date: Date())
+        ]
+        self.itemsCVM = itemsCVM ?? [
+            CarbViewModel(carb: CarbModel(carbs: 10, date: Date()))
         ]
     }
 }
@@ -36,5 +40,9 @@ extension HealthRepositoryMock: HealthRepositoryProtocol {
 
     func updateEntryCarbs(carbsList: [CarbModel]) -> [CarbModel] {
         return items
+    }
+
+    func createFastList(carbsListCVM: [CarbViewModel]) -> [CarbViewModel] {
+        return itemsCVM
     }
 }

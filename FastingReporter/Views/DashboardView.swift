@@ -21,6 +21,7 @@ struct DashboardView: View {
         VStack {
             // TODO: Handle empty lists.
             currentFastView
+            fastListMainView
             carbsEntryListMainView
             carbsDailyListMainView
         }
@@ -76,6 +77,26 @@ struct DashboardView: View {
     private var carbsEntryListView: some View {
         List(carbsEntryListVM.carbsListCVM) { carb in
             CarbEntryRowView(carb: carb)
+        }
+    }
+
+    private var fastListMainView: some View {
+        ZStack {
+            if #available(iOS 15.0, *) {
+                fastListView
+                    .refreshable() { fetchUpdateEntryCarbs() }
+            } else {
+                // NOTE: Fallback on earlier versions.
+                fastListView
+            }
+
+            if carbsEntryListVM.isLoading { LoadingView() }
+        }
+    }
+
+    private var fastListView: some View {
+        List(carbsEntryListVM.fastList) { carb in
+            CarbFastRowView(carb: carb)
         }
     }
 
