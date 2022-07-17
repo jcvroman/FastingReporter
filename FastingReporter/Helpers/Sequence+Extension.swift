@@ -14,8 +14,8 @@ extension Sequence {
         by keyPath: KeyPath<Element, T>,
         using comparator: (T, T) -> Bool = (<)
     ) -> [Element] {
-        sorted { a, b in
-            comparator(a[keyPath: keyPath], b[keyPath: keyPath])
+        sorted { lhs, rhs in
+            comparator(lhs[keyPath: keyPath], rhs[keyPath: keyPath])
         }
     }
 }
