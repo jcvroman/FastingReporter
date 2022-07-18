@@ -37,8 +37,8 @@ class CarbsDailyListUITests: XCTestCase {
         XCUIApplication().launch()
 
         // Then: User should see a Carbs Daily List.
-        let carbsDailyListLabel = XCUIApplication().staticTexts["carbsDailyListLabel"]
-        // XCTAssertEqual("No carbs data.", carbsDailyListLabel.label)
+        let carbsDailyRowLabel = XCUIApplication().staticTexts["carbsDailyRowLabel"]
+        // XCTAssertEqual("No carbs data.", carbsDailyRowLabel.label)
         XCTAssert(true, "Test to be written.")
     }
 }

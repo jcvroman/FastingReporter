@@ -20,7 +20,7 @@ struct CarbFastRowView: View {
             Spacer(minLength: 10)
             Text("\(carb.diffHoursMinutesStr)")
         }
-        .accessibility(identifier: "carbsEntryListLabel")
+        .accessibility(identifier: "carbsFastRowLabel")
         .font(.body)
         .foregroundColor(carb.fastFontColor)
     }

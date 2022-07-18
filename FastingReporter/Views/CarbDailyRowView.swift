@@ -16,7 +16,7 @@ struct CarbDailyRowView: View {
                 .padding(10)
             Text(carb.dateDateStr)
         }
-        .accessibility(identifier: "carbsDailyListLabel")
+        .accessibility(identifier: "carbsDailyRowLabel")
         .font(.body)
     }
 }
