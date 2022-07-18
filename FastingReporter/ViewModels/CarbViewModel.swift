@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 // NOTE: CarbViewModel represents all CarbModel items plus some extra ones for display convenience.
 struct CarbViewModel: Identifiable {
@@ -61,6 +62,15 @@ struct CarbViewModel: Identifiable {
             }
         }
         return Constants.notApplicableStr
+    }
+
+    var fastFontColor: Color {
+        if let seconds = carb.diffSeconds {
+            if seconds >= Constants.fastColorLevelA * 60 * 60 { return Constants.fastColorLevelAColor }
+            else if seconds >= Constants.fastColorLevelB * 60 * 60 { return Constants.fastColorLevelBColor }
+            else if seconds >= Constants.fastColorLevelC * 60 * 60 { return Constants.fastColorLevelCColor }
+        }
+        return Constants.fastColorLevelDefaultColor
     }
 }
 

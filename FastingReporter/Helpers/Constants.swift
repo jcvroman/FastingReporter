@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 public enum Constants {
     // MARK: - Bundle Info.
@@ -17,4 +18,15 @@ public enum Constants {
     static let lineReturn: String = "\r\n"
     static let notApplicableStr: String = "---"
     static let defaultCarbBlankStr: String = "     "
+
+    // MARK: - Ints: Miscellaneous.
+    static let fastColorLevelA: Int = 16
+    static let fastColorLevelB: Int = 15
+    static let fastColorLevelC: Int = 14
+
+    // MARK: - Colors: Miscellaneous.
+    static let fastColorLevelAColor: Color = .green
+    static let fastColorLevelBColor: Color = .blue
+    static let fastColorLevelCColor: Color = .orange
+    static let fastColorLevelDefaultColor: Color = .secondary
 }

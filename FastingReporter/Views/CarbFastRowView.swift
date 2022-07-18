@@ -22,6 +22,7 @@ struct CarbFastRowView: View {
         }
         .accessibility(identifier: "carbsEntryListLabel")
         .font(.body)
+        .foregroundColor(carb.fastFontColor)
     }
 }
 

@@ -50,7 +50,7 @@ struct DashboardView: View {
                     .foregroundColor(.primary)
                 + Text("\(currentFastVM.carbsFirst?.date ?? Date(), style: .timer)")
                     .font(.largeTitle).fontWeight(.heavy)
-                    .foregroundColor(.red)
+                    .foregroundColor(.secondary)
             }
             .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
         }
