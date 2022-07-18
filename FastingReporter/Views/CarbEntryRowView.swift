@@ -11,15 +11,18 @@ struct CarbEntryRowView: View {
     let carb: CarbViewModel
 
     var body: some View {
+        // NOTE: Used frame w/ minWidth & alignment to get table like columns.
         HStack {
-            Text("\(carb.carbs)")
-                .padding(15)
             VStack(alignment: .leading) {
                 Text(carb.dateDateStr)
                 Text(carb.dateTimeStr)
             }
+            .frame(minWidth: 190, alignment: .leading)
+            Text("\(carb.carbs)")
+                .frame(minWidth: 30, alignment: .leading)
             Spacer(minLength: 10)
             Text("\(carb.diffHoursMinutesStr)")
+                .frame(minWidth: 50, alignment: .trailing)
         }
         .accessibility(identifier: "carbsEntryRowLabel")
         .font(.body)

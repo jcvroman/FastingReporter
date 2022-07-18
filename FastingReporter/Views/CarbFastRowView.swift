@@ -11,14 +11,13 @@ struct CarbFastRowView: View {
     let carb: CarbViewModel
 
     var body: some View {
+        // NOTE: Used frame w/ minWidth & alignment to get table like columns.
         HStack {
-            Text("\(Constants.defaultCarbBlankStr)")
-                .padding(15)
-            VStack(alignment: .leading) {
-                Text(carb.dateDateStr)
-            }
+            Text(carb.dateDateStr)
+                .frame(minWidth: 190, alignment: .leading)
             Spacer(minLength: 10)
             Text("\(carb.diffHoursMinutesStr)")
+                .frame(minWidth: 50, alignment: .trailing)
         }
         .accessibility(identifier: "carbsFastRowLabel")
         .font(.body)

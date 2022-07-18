@@ -11,10 +11,13 @@ struct CarbDailyRowView: View {
     let carb: CarbViewModel
 
     var body: some View {
+        // NOTE: Used frame w/ minWidth & alignment to get table like columns.
         HStack(alignment: .center) {
-            Text("\(carb.carbs)")
-                .padding(10)
             Text(carb.dateDateStr)
+                .frame(minWidth: 190, alignment: .leading)
+            Text("\(carb.carbs)")
+                .frame(minWidth: 30, alignment: .leading)
+                // .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
         }
         .accessibility(identifier: "carbsDailyRowLabel")
         .font(.body)
