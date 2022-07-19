@@ -34,6 +34,7 @@ struct DashboardView: View {
     }
 
     // MARK: - Sub Views.
+    // MARK: - Current Fast Views.
     private var currentFastView: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -60,26 +61,7 @@ struct DashboardView: View {
         }
     }
 
-    private var carbsEntryListMainView: some View {
-        ZStack {
-            if #available(iOS 15.0, *) {
-                carbsEntryListView
-                    .refreshable() { fetchUpdateEntryCarbs() }
-            } else {
-                // NOTE: Fallback on earlier versions.
-                carbsEntryListView
-            }
-
-            if carbsEntryListVM.isLoading { LoadingView() }
-        }
-    }
-
-    private var carbsEntryListView: some View {
-        List(carbsEntryListVM.carbsListCVM) { carb in
-            CarbEntryRowView(carb: carb)
-        }
-    }
-
+    // MARK: - Fast List Views.
     private var fastListMainView: some View {
         ZStack {
             if #available(iOS 15.0, *) {
@@ -92,6 +74,7 @@ struct DashboardView: View {
 
             if carbsEntryListVM.isLoading { LoadingView() }
         }
+        .overlay(fastListHeader, alignment: .topLeading)
     }
 
     private var fastListView: some View {
@@ -100,6 +83,57 @@ struct DashboardView: View {
         }
     }
 
+    private var fastListHeader: some View {
+        // NOTE: Used frame w/ minWidth & alignment to get table like columns.
+        HStack {
+            Text("Date")
+                .frame(minWidth: 190, alignment: .leading)
+                .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+            Spacer(minLength: 10)
+            Text("Fast")
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
+        }
+        .font(.system(size: 18).lowercaseSmallCaps())       // NOTE: Use set size so no resizing per System Settings.
+    }
+
+    // MARK: - Carbs Entry List Views.
+    private var carbsEntryListMainView: some View {
+        ZStack {
+            if #available(iOS 15.0, *) {
+                carbsEntryListView
+                    .refreshable() { fetchUpdateEntryCarbs() }
+            } else {
+                // NOTE: Fallback on earlier versions.
+                carbsEntryListView
+            }
+
+            if carbsEntryListVM.isLoading { LoadingView() }
+        }
+        .overlay(carbsEntryListHeader, alignment: .topLeading)
+    }
+
+    private var carbsEntryListView: some View {
+        List(carbsEntryListVM.carbsListCVM) { carb in
+            CarbEntryRowView(carb: carb)
+        }
+    }
+
+    private var carbsEntryListHeader: some View {
+        // NOTE: Used frame w/ minWidth & alignment to get table like columns.
+        HStack {
+            Text("Date")
+                .frame(minWidth: 190, alignment: .leading)
+                .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+            Text("Carbs")
+                .frame(minWidth: 30, alignment: .leading)
+            Spacer(minLength: 10)
+            Text("Fast")
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
+        }
+        .font(.system(size: 18).lowercaseSmallCaps())
+    }
+
+    // MARK: - Carbs Daily List Views.
     private var carbsDailyListMainView: some View {
         ZStack {
             if #available(iOS 15.0, *) {
@@ -112,6 +146,7 @@ struct DashboardView: View {
 
             if carbsDailyListVM.isLoading { LoadingView() }
         }
+        .overlay(carbsDailyListHeader, alignment: .topLeading)
      }
 
     private var carbsDailyListView: some View {
@@ -119,6 +154,18 @@ struct DashboardView: View {
             CarbDailyRowView(carb: carb)
         }
      }
+
+    private var carbsDailyListHeader: some View {
+        // NOTE: Used frame w/ minWidth & alignment to get table like columns.
+        HStack {
+            Text("Date")
+                .frame(minWidth: 190, alignment: .leading)
+                .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+            Text("Carbs")
+                .frame(minWidth: 30, alignment: .leading)
+        }
+        .font(.system(size: 18).lowercaseSmallCaps())
+    }
 
     // MARK: - Buttons.
     private var aboutButton: some View {
