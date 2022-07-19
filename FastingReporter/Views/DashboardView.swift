@@ -42,7 +42,7 @@ struct DashboardView: View {
                     .fill(Color.secondary.opacity(0.1))
                     .cornerRadius(10.0)
                     .frame(minHeight: 90, idealHeight: 90, maxHeight: 90, alignment: .center)
-                    .shadow(color: Color.accentColor.opacity(0.9), radius: 10, x: 10, y: 10)
+                    .shadow(color: Color.accentColor.opacity(1.0), radius: 10, x: 10, y: 10)
                     .padding(20)
             }
             VStack {
@@ -53,8 +53,8 @@ struct DashboardView: View {
                     .font(.largeTitle).fontWeight(.heavy)
                     .foregroundColor(.secondary)
             }
-            .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
         }
+        .shadow(color: Color.accentColor.opacity(1.0), radius: 5, x: 5, y: 5)
         .overlay(aboutButton, alignment: .topTrailing)
         .alert(item: $currentFastVM.alertItem) { alertItem in
             Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
@@ -176,7 +176,7 @@ struct DashboardView: View {
             Image(systemName: "info.circle")
                 .font(.title)
                 .padding([.top, .trailing], 5)
-                .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
+                .shadow(color: Color.accentColor.opacity(1.0), radius: 5, x: 5, y: 5)
         })
     }
 
