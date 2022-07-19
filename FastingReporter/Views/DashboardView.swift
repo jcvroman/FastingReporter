@@ -42,7 +42,7 @@ struct DashboardView: View {
                     .fill(Color.secondary.opacity(0.1))
                     .cornerRadius(10.0)
                     .frame(minHeight: 90, idealHeight: 90, maxHeight: 90, alignment: .center)
-                    .shadow(color: Color.accentColor.opacity(1.0), radius: 10, x: 10, y: 10)
+                    .shadow(color: Color.primary.opacity(0.5), radius: 10, x: 10, y: 10)
                     .padding(20)
             }
             VStack {
@@ -54,7 +54,7 @@ struct DashboardView: View {
                     .foregroundColor(.secondary)
             }
         }
-        .shadow(color: Color.accentColor.opacity(1.0), radius: 5, x: 5, y: 5)
+        .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
         .overlay(aboutButton, alignment: .topTrailing)
         .alert(item: $currentFastVM.alertItem) { alertItem in
             Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
@@ -94,7 +94,7 @@ struct DashboardView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
         }
         .font(.system(size: 18).lowercaseSmallCaps())       // NOTE: Use set size so no resizing per System Settings.
-        .shadow(color: Color.accentColor.opacity(1.0), radius: 5, x: 5, y: 5)
+        .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
     // MARK: - Carbs Entry List Views.
@@ -132,7 +132,7 @@ struct DashboardView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
         }
         .font(.system(size: 18).lowercaseSmallCaps())
-        .shadow(color: Color.accentColor.opacity(1.0), radius: 5, x: 5, y: 5)
+        .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
     // MARK: - Carbs Daily List Views.
@@ -167,7 +167,7 @@ struct DashboardView: View {
                 .frame(minWidth: 30, alignment: .leading)
         }
         .font(.system(size: 18).lowercaseSmallCaps())
-        .shadow(color: Color.accentColor.opacity(1.0), radius: 5, x: 5, y: 5)
+        .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
     // MARK: - Buttons.
@@ -176,7 +176,7 @@ struct DashboardView: View {
             Image(systemName: "info.circle")
                 .font(.title)
                 .padding([.top, .trailing], 5)
-                .shadow(color: Color.accentColor.opacity(1.0), radius: 5, x: 5, y: 5)
+                .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
         })
     }
 
