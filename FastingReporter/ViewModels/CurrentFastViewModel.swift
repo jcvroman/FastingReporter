@@ -71,4 +71,8 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
     func showAbout() {
         alertItem = AlertContext.about
     }
+
+    func showHelp() {
+        alertItem = AlertContext.help
+    }
 }

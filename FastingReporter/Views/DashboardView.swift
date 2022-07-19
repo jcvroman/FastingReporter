@@ -18,19 +18,25 @@ struct DashboardView: View {
     @StateObject private var carbsDailyListVM = CarbsDailyListViewModel()
 
     var body: some View {
-        VStack {
-            // TODO: Handle empty lists.
-            currentFastView
-            fastListMainView
-            carbsEntryListMainView
-            carbsDailyListMainView
-        }
-        .onChange(of: scenePhase) { newPhase in         // NOTE: Fetch on change to/back to app.
-            if newPhase == .active {
-                // print("DEBUG: DashboardView.body: Active")
-                fetchHealthRepository()
+        NavigationView {
+            VStack {
+                // TODO: Handle empty lists.
+                currentFastView
+                fastListMainView
+                carbsEntryListMainView
+                carbsDailyListMainView
             }
+            .onChange(of: scenePhase) { newPhase in         // NOTE: Fetch on change to/back to app.
+                if newPhase == .active {
+                    // print("DEBUG: DashboardView.body: Active")
+                    fetchHealthRepository()
+                }
+            }
+            .navigationTitle("\(Constants.appName)")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: toolbarView)
         }
+        .navigationViewStyle(.stack)
     }
 
     // MARK: - Sub Views.
@@ -55,7 +61,7 @@ struct DashboardView: View {
             }
         }
         .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
-        .overlay(aboutButton, alignment: .topTrailing)
+        // .overlay(aboutButton, alignment: .topTrailing)
         .alert(item: $currentFastVM.alertItem) { alertItem in
             Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
         }
@@ -170,14 +176,31 @@ struct DashboardView: View {
         .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
+    // MARK: - Others.
+    private func toolbarView() -> some View {
+        HStack {
+                aboutButton
+                helpButton
+        }
+    }
+
     // MARK: - Buttons.
     private var aboutButton: some View {
-        Button(action: showAbout, label: {
-            Image(systemName: "info.circle")
-                .font(.title)
-                .padding([.top, .trailing], 5)
+        Button(action: {
+            showAbout()
+        }) {
+            Label("About", systemImage: "info.circle")
                 .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
-        })
+        }
+    }
+
+    private var helpButton: some View {
+        Button(action: {
+            showHelp()
+        }) {
+            Label("Help", systemImage: "questionmark.circle")
+                .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
+        }
     }
 
     // MARK: - Actions.
@@ -210,6 +233,11 @@ struct DashboardView: View {
     private func showAbout() {
         currentFastVM.showAbout()
         // print("DEBUG: DashboardView: showAbout: button tapped")
+    }
+
+    private func showHelp() {
+        currentFastVM.showHelp()
+        // print("DEBUG: DashboardView: showHelp: button tapped")
     }
 }
 
