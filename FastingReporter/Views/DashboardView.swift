@@ -47,9 +47,9 @@ struct DashboardView: View {
                 Rectangle()
                     .fill(Color.secondary.opacity(0.1))
                     .cornerRadius(10.0)
-                    .frame(minHeight: 90, idealHeight: 90, maxHeight: 90, alignment: .center)
+                    .frame(minHeight: 60, idealHeight: 60, maxHeight: 60, alignment: .center)
                     .shadow(color: Color.primary.opacity(0.5), radius: 10, x: 10, y: 10)
-                    .padding(20)
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             }
             VStack {
                 Text("Fast: ")
