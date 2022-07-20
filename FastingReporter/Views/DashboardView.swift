@@ -98,7 +98,7 @@ struct DashboardView: View {
             Text("Fast")
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
         }
-        .font(.system(size: 18).lowercaseSmallCaps())       // NOTE: Use set size so no resizing per System Settings.
+        .font(.system(size: 16).lowercaseSmallCaps())   // NOTE: Use fixed font size so not resized like dynamic ones.
         .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
@@ -136,7 +136,7 @@ struct DashboardView: View {
             Text("Fast")
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
         }
-        .font(.system(size: 18).lowercaseSmallCaps())
+        .font(.system(size: 16).lowercaseSmallCaps())
         .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
@@ -171,7 +171,7 @@ struct DashboardView: View {
             Text("Carbs")
                 .frame(minWidth: 30, alignment: .leading)
         }
-        .font(.system(size: 18).lowercaseSmallCaps())
+        .font(.system(size: 16).lowercaseSmallCaps())
         .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
     }
 
