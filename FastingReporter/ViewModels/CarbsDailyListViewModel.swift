@@ -19,10 +19,10 @@ final class CarbsDailyListViewModel: ObservableObject {
     @Published var isLoading = false
 
     private var carbsList: [CarbModel] = []             // NOTE: Private list to receive data from the repository.
-    private let healthRepository: HealthRepositoryProtocol
+    private let healthUseCases: HealthUseCasesProtocol
 
-    init(healthRepository: HealthRepositoryProtocol = HealthRepository()) {     // NOTE: Dependency Injection.
-        self.healthRepository = healthRepository
+    init(healthUseCases: HealthUseCasesProtocol = HealthUseCases()) {     // NOTE: Dependency Injection.
+        self.healthUseCases = healthUseCases
     }
 
     func deint() {
@@ -36,7 +36,7 @@ final class CarbsDailyListViewModel: ObservableObject {
 extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
     // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
-        healthRepository.requestAuthorization(completion: completion)
+        healthUseCases.requestAuthorization(completion: completion)
     }
 
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch & sort tasks
@@ -52,7 +52,7 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
 
         dispatchQueue.async { [weak self] in
             print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: Completed")
-            self?.healthRepository.fetchDailyCarbs(daysBack: defaultDaysBack) { [weak self] hCarbsList in
+            self?.healthUseCases.fetchDailyCarbs(daysBack: defaultDaysBack) { [weak self] hCarbsList in
                 self?.carbsList = hCarbsList
                 semaphore.signal()
             }

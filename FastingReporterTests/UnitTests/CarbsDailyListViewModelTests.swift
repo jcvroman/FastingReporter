@@ -29,7 +29,7 @@ class CarbsDailyListViewModelTests: XCTestCase {
     override func setUpWithError() throws {
         super.setUp()
         // healthRepositoryMock = HealthRepositoryMock(items: nil)
-        // sut = .init(healthRepository: healthRepositoryMock)
+        // sut = .init(healthUseCases: healthRepositoryMock)
     }
 
     override func tearDownWithError() throws {
@@ -42,7 +42,9 @@ class CarbsDailyListViewModelTests: XCTestCase {
     private func makeSUT(items: [CarbModel], itemsCVM: [CarbViewModel]) -> CarbsDailyListViewModel {
         var sut = CarbsDailyListViewModel()
         let healthRepositoryMock = HealthRepositoryMock(items: items, itemsCVM: itemsCVM)
-        sut = .init(healthRepository: healthRepositoryMock)
+        // TODO: Is this how I want to mock here?
+        // sut = .init(healthRepository: healthRepositoryMock)
+        sut = .init(healthUseCases: HealthUseCases(healthRepository: healthRepositoryMock))
         return sut
     }
 

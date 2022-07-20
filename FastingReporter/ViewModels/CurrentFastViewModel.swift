@@ -18,10 +18,10 @@ final class CurrentFastViewModel: ObservableObject {
     @Published var carbsFirst: CarbModel?
     @Published var alertItem: AlertItem?
 
-    private let healthRepository: HealthRepositoryProtocol
+    private let healthUseCases: HealthUseCasesProtocol
 
-    init(healthRepository: HealthRepositoryProtocol = HealthRepository()) {     // NOTE: Dependency Injection.
-        self.healthRepository = healthRepository
+    init(healthUseCases: HealthUseCasesProtocol = HealthUseCases()) {     // NOTE: Dependency Injection.
+        self.healthUseCases = healthUseCases
     }
 
     func deint() {
@@ -35,7 +35,7 @@ final class CurrentFastViewModel: ObservableObject {
 extension CurrentFastViewModel: CurrentFastViewModelProtocol {
     // NOTE: Async func.
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
-        healthRepository.requestAuthorization(completion: completion)
+        healthUseCases.requestAuthorization(completion: completion)
     }
 
     // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch 1st entry carb via
@@ -50,7 +50,7 @@ extension CurrentFastViewModel: CurrentFastViewModelProtocol {
 
         dispatchQueue.async { [weak self] in
             print("DEBUG: CurrentFastViewModel.fetchEntryCarbsFirst: fetchEntryCarbs: Completed")
-            self?.healthRepository.fetchEntryCarbs(daysBack: defaultDaysBack, limit: defaultLimit) { hCarbsList in
+            self?.healthUseCases.fetchEntryCarbs(daysBack: defaultDaysBack, limit: defaultLimit) { hCarbsList in
                 carbsList = hCarbsList
                 semaphore.signal()
             }

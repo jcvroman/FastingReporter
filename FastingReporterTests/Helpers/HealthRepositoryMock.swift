@@ -37,12 +37,4 @@ extension HealthRepositoryMock: HealthRepositoryProtocol {
     func fetchDailyCarbs(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
         completion(items)
     }
-
-    func updateEntryCarbs(carbsList: [CarbModel]) -> [CarbModel] {
-        return items
-    }
-
-    func createFastList(carbsListCVM: [CarbViewModel]) -> [CarbViewModel] {
-        return itemsCVM
-    }
 }
