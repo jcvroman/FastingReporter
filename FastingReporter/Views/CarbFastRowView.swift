@@ -25,6 +25,7 @@ struct CarbFastRowView: View {
     }
 }
 
+// MARK: - Previews.
 struct CarbFastRowView_Previews: PreviewProvider {
     static var previews: some View {
         CarbFastRowView(carb: CarbViewModel(carb: CarbModel.init(carbs: 70, date: Date())))

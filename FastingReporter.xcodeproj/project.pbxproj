@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		990F9C012889D46900D0B700 /* CurrentFastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990F9C002889D46900D0B700 /* CurrentFastView.swift */; };
+		990F9C032889DC0900D0B700 /* FastListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990F9C022889DC0900D0B700 /* FastListView.swift */; };
+		990F9C052889DF9600D0B700 /* CarbsEntryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990F9C042889DF9600D0B700 /* CarbsEntryListView.swift */; };
+		990F9C072889E28600D0B700 /* CarbsDailyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990F9C062889E28600D0B700 /* CarbsDailyListView.swift */; };
 		99226583288312360050321D /* CarbEntryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99226582288312360050321D /* CarbEntryRowView.swift */; };
 		992265852883166B0050321D /* CarbDailyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992265842883166B0050321D /* CarbDailyRowView.swift */; };
 		992800672884C63E0069DFDE /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992800662884C63E0069DFDE /* Sequence+Extension.swift */; };
@@ -54,6 +58,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		990F9C002889D46900D0B700 /* CurrentFastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFastView.swift; sourceTree = "<group>"; };
+		990F9C022889DC0900D0B700 /* FastListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastListView.swift; sourceTree = "<group>"; };
+		990F9C042889DF9600D0B700 /* CarbsEntryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsEntryListView.swift; sourceTree = "<group>"; };
+		990F9C062889E28600D0B700 /* CarbsDailyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsDailyListView.swift; sourceTree = "<group>"; };
 		99226582288312360050321D /* CarbEntryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbEntryRowView.swift; sourceTree = "<group>"; };
 		992265842883166B0050321D /* CarbDailyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbDailyRowView.swift; sourceTree = "<group>"; };
 		992800662884C63E0069DFDE /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
@@ -285,6 +293,10 @@
 			isa = PBXGroup;
 			children = (
 				99DE2ACE266D949F003230CA /* DashboardView.swift */,
+				990F9C062889E28600D0B700 /* CarbsDailyListView.swift */,
+				990F9C042889DF9600D0B700 /* CarbsEntryListView.swift */,
+				990F9C002889D46900D0B700 /* CurrentFastView.swift */,
+				990F9C022889DC0900D0B700 /* FastListView.swift */,
 				99226582288312360050321D /* CarbEntryRowView.swift */,
 				9928006A2884CE7D0069DFDE /* CarbFastRowView.swift */,
 				992265842883166B0050321D /* CarbDailyRowView.swift */,
@@ -442,7 +454,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				99DA593B2880902C00192896 /* AlertItem.swift in Sources */,
+				990F9C072889E28600D0B700 /* CarbsDailyListView.swift in Sources */,
 				99DE2ACF266D949F003230CA /* DashboardView.swift in Sources */,
+				990F9C052889DF9600D0B700 /* CarbsEntryListView.swift in Sources */,
 				992800672884C63E0069DFDE /* Sequence+Extension.swift in Sources */,
 				992800692884C6900069DFDE /* Array+Extension.swift in Sources */,
 				99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */,
@@ -458,6 +472,8 @@
 				9928006B2884CE7D0069DFDE /* CarbFastRowView.swift in Sources */,
 				999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */,
 				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,
+				990F9C032889DC0900D0B700 /* FastListView.swift in Sources */,
+				990F9C012889D46900D0B700 /* CurrentFastView.swift in Sources */,
 				99E3EA2D288109E8007BE830 /* LoadingView.swift in Sources */,
 				99DA593D2880B27800192896 /* Constants.swift in Sources */,
 				992265852883166B0050321D /* CarbDailyRowView.swift in Sources */,

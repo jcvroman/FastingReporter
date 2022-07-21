@@ -24,6 +24,7 @@ struct CarbDailyRowView: View {
     }
 }
 
+// MARK: - Previews.
 struct CarbDailyRowView_Previews: PreviewProvider {
     static var previews: some View {
         CarbDailyRowView(carb: CarbViewModel(carb: CarbModel.init(carbs: 270, date: Date())))
