@@ -99,10 +99,12 @@ final class HealthStore: HealthStoreProtocol {
 
         var carbsList = [CarbModel]()
 
+        // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
         let sampleQuery = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: limit,
                           sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)])
         { (query: HKSampleQuery, querySamples: [HKSample]?, error: Error?) in
-            // TODO: Verify this is a robust fix for warning about publishing changes from main thread.
+            // print("DEBUG: HealthStore.fetchEntryCarbs: querySamples: \(String(describing: querySamples))")
+
             if let querySamples = querySamples {
                 for sample in querySamples {
                     if let hkQuanitySample = sample as? HKQuantitySample {

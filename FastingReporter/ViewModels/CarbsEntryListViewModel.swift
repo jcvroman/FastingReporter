@@ -52,7 +52,7 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
         let defaultDaysBack = -10
         let semaphore = DispatchSemaphore(value: 0)
-        let dispatchQueue = DispatchQueue.global(qos: .background)
+        let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
 
         isLoading = true
 
@@ -60,10 +60,13 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
             print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: fetchEntryCarbs: Completed")
             self?.healthUseCases.fetchEntryCarbs(daysBack: defaultDaysBack, limit: myHKObjectQueryNoLimit)
             { [weak self] hCarbsList in
+                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: fetchEntryCarbs: hCarbsList: \(hCarbsList)")
                 self?.carbsList = hCarbsList
                 semaphore.signal()
             }
-            semaphore.wait()
+            // NOTE: Can be an empty list above, so have a timeout on the semaphore wait.
+            // TODO: BUG: Works most of time if not empty list. Works all the time for empty list. Fun with semaphores.
+            _ = semaphore.wait(timeout: .now() + .seconds(Int(1)))
 
             DispatchQueue.main.async { [weak self] in
                 print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbs: Completed")

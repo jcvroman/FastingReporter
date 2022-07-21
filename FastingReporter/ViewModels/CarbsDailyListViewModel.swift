@@ -53,11 +53,12 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
         dispatchQueue.async { [weak self] in
             print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: Completed")
             self?.healthUseCases.fetchDailyCarbs(daysBack: defaultDaysBack) { [weak self] hCarbsList in
+                    print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchDailyCarbs: hCarbsList: \(hCarbsList)")
                 self?.carbsList = hCarbsList
                 semaphore.signal()
             }
+            // NOTE: Never an empty list above, so no need for a timeout on the semaphore wait.
             semaphore.wait()
-            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: carbsList: \(String(describing: self?.carbsList))")
 
             DispatchQueue.main.async { [weak self] in
                 print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: populateDailyCarbsCVM: Completed")
