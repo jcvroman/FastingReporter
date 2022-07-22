@@ -7,6 +7,7 @@
 
 import Foundation
 
+// BUG: TODO: carbs should be a Double.
 struct CarbModel: Identifiable {
     var id = UUID()
     var carbs: Int
