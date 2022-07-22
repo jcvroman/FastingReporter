@@ -11,7 +11,10 @@ import Foundation
 protocol CarbsDailyListViewModelProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
     func fetchDailyCarbs()
-    func sortDailyCarbsCVM()
+    func fetchPopulateSortDailyCarbs(daysBack: Int, completion: @escaping ([CarbViewModel]) -> Void)
+    func fetchDailyCarbsCM(daysBack: Int, completion: @escaping ([CarbModel]) -> Void)
+    func populateDailyCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void)
+    func sortDailyCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void)
 }
 
 final class CarbsDailyListViewModel: ObservableObject {
@@ -39,55 +42,53 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
         healthUseCases.requestAuthorization(completion: completion)
     }
 
-    // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch & sort tasks
-    //       for the carbs daily list for CarbModel (carbsList). Additionally, via dispatch (as noted above),
-    //       continue with tasks to populate and sort carbs entry list for CarbViewModel (carbsListCVM).
+    // NOTE: Manage the async calls to fetch, populate and sort the daily carbs list.
+    // NOTE: Mange async calls by nested closures. Furthermore, pass each method as a closure agrument in a managing
+    //       method to improve readability.
     // NOTE: Async func.
     func fetchDailyCarbs() {
-        let defaultDaysBack = -100
-        let semaphore = DispatchSemaphore(value: 0)
-        let dispatchQueue = DispatchQueue.global(qos: .background)
+        let defaultDaysBack = -999
 
         isLoading = true
 
-        dispatchQueue.async { [weak self] in
-            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: Completed")
-            self?.healthUseCases.fetchDailyCarbs(daysBack: defaultDaysBack) { [weak self] hCarbsList in
-                    print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchDailyCarbs: hCarbsList: \(hCarbsList)")
-                self?.carbsList = hCarbsList
-                semaphore.signal()
-            }
-            // NOTE: Never an empty list above, so no need for a timeout on the semaphore wait.
-            semaphore.wait()
-
-            DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: populateDailyCarbsCVM: Completed")
-                self?.populateDailyCarbsCVM()
-                semaphore.signal()
-            }
-            semaphore.wait()
-            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: populateDailyCarbsCVM: carbsListCVM: Unsorted: ")
-            print("\(String(describing: self?.carbsListCVM))")
-
-            DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: sortDailyCarbsCVM: Completed")
-                self?.sortDailyCarbsCVM()
-                self?.isLoading = false
-                semaphore.signal()
-            }
-            semaphore.wait()
-            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: sortDailyCarbsCVM: carbsListCVM: Sorted:")
-            print("\(String(describing: self?.carbsListCVM))")
+        print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchPopulateSortDailyCarbs: Starting...")
+        fetchPopulateSortDailyCarbs(daysBack: defaultDaysBack) { [weak self] dataList in
+            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchPopulateSortDailyCarbs: Completed")
+            self?.carbsListCVM = dataList
+            self?.isLoading = false
         }
-        print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: Starting...")
     }
 
-    func populateDailyCarbsCVM() {
+    // NOTE: Async func.
+    func fetchPopulateSortDailyCarbs(daysBack: Int, completion: @escaping ([CarbViewModel]) -> Void) {
+        fetchDailyCarbsCM(daysBack: daysBack) { [weak self] dataList in
+            self?.populateDailyCarbsCVM() { dataList in
+                self?.sortDailyCarbsCVM() { dataList in
+                    // self?.isLoading = false
+                    completion(dataList)
+                }
+            }
+        }
+    }
+
+    // NOTE: Async func.
+    func fetchDailyCarbsCM(daysBack: Int, completion: @escaping ([CarbModel]) -> Void) {
+        healthUseCases.fetchDailyCarbs(daysBack: daysBack) { [weak self] dataList in
+            self?.carbsList = dataList
+            completion(dataList)
+        }
+    }
+
+    // NOTE: Async func.
+    func populateDailyCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void) {
         carbsListCVM = carbsList.map(CarbViewModel.init)
+        completion(carbsListCVM)
     }
 
-    func sortDailyCarbsCVM() {
-        // carbsList.sort(by: {$0.date.compare($1.date) == .orderedAscending})
+    // NOTE: Async func.
+    func sortDailyCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void) {
+        // carbsListCVM.sort(by: {$0.date.compare($1.date) == .orderedAscending})
         carbsListCVM.sort()
+        completion(carbsListCVM)
     }
 }
