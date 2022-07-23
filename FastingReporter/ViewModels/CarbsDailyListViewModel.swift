@@ -51,20 +51,20 @@ extension CarbsDailyListViewModel: CarbsDailyListViewModelProtocol {
 
         isLoading = true
 
-        print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchPopulateSortDailyCarbs: Starting...")
+        print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchUpdatePopulateEntryCarbs: Starting...")
         fetchPopulateSortDailyCarbs(daysBack: defaultDaysBack) { [weak self] dataList in
-            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchPopulateSortDailyCarbs: Completed")
+            print("DEBUG: CarbsDailyListViewModel.fetchDailyCarbs: fetchUpdatePopulateEntryCarbs: Completed")
             self?.carbsListCVM = dataList
             self?.isLoading = false
         }
     }
 
+    // NOTE: Fetch, populate and sort the daily carbs list.
     // NOTE: Async func.
     func fetchPopulateSortDailyCarbs(daysBack: Int, completion: @escaping ([CarbViewModel]) -> Void) {
         fetchDailyCarbsCM(daysBack: daysBack) { [weak self] dataList in
             self?.populateDailyCarbsCVM() { dataList in
                 self?.sortDailyCarbsCVM() { dataList in
-                    // self?.isLoading = false
                     completion(dataList)
                 }
             }
