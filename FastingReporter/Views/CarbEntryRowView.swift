@@ -17,7 +17,9 @@ struct CarbEntryRowView: View {
                 Text(carb.dateDateStr)
                 Text(carb.dateTimeStr)
             }
+            .font(.caption)
             .frame(minWidth: 190, alignment: .leading)
+
             Text("\(carb.carbs)")
                 .frame(minWidth: 30, alignment: .leading)
             Spacer(minLength: 10)

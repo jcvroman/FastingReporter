@@ -32,20 +32,33 @@ struct CarbsEntryListView: View {
         }
     }
 
-    private var carbsEntryListHeader: some View {
+    private var carbsEntryListTitle: some View {
         // NOTE: Used frame w/ minWidth & alignment to get table like columns.
         HStack {
-            Text("Date")
-                .frame(minWidth: 190, alignment: .leading)
-                .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
-            Text("Carbs")
-                .frame(minWidth: 30, alignment: .leading)
-            Spacer(minLength: 10)
-            Text("Fast")
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
+            Text("Carbs Entry List")
         }
-        .font(.system(size: 16).lowercaseSmallCaps())
+        .font(.system(size: 16).bold())   // NOTE: Use fixed font size so not resized like dynamic ones.
         .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
+    }
+
+    private var carbsEntryListHeader: some View {
+        VStack {
+            carbsEntryListTitle
+
+            // NOTE: Used frame w/ minWidth & alignment to get table like columns.
+            HStack {
+                Text("Date")
+                    .frame(minWidth: 190, alignment: .leading)
+                    .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+                Text("Carbs")
+                    .frame(minWidth: 30, alignment: .leading)
+                Spacer(minLength: 10)
+                Text("Fast")
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
+            }
+            .font(.system(size: 16).lowercaseSmallCaps())
+            .shadow(color: Color.primary.opacity(0.5), radius: 5, x: 5, y: 5)
+        }
     }
 
     // MARK: - Actions.
