@@ -10,8 +10,16 @@ import Foundation
 // NOTE: Protocol: A blueprint of methods, properties & other requirements that suit a task or piece of functionality.
 protocol CarbsEntryListViewModelProtocol {
     func requestAuthorization(completion: @escaping (Bool) -> Void)
-    func sortEntryCarbs()
-    func updateEntryCarbs()
+    func fetchEntryCarbs()
+    func fetchFastList()
+    func fetchUpdatePopulateEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbViewModel]) -> Void)
+    func fetchCreateFastList(daysBack: Int, limit: Int, completion: @escaping ([CarbViewModel]) -> Void)
+    func fetchEntryCarbsCM(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void)
+    func sortEntryCarbsCM(completion: @escaping ([CarbModel]) -> Void)
+    func updateEntryCarbsCM(completion: @escaping ([CarbModel]) -> Void)
+    func populateEntryCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void)
+    func sortEntryCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void)
+    func createFastListCVM(completion: @escaping ([CarbViewModel]) -> Void)
 }
 
 final class CarbsEntryListViewModel: ObservableObject {
@@ -43,96 +51,113 @@ extension CarbsEntryListViewModel: CarbsEntryListViewModelProtocol {
         healthUseCases.requestAuthorization(completion: completion)
     }
 
-    // NOTE: Via dispatch queues (background & main) & semaphores, manage the completion of fetch, sort & update tasks
-    //       for the carbs entry list for CarbModel (carbsList). Additionally, via dispatch (as noted above),
-    //       continue with tasks to populate and sort carbs entry list for CarbViewModel (carbsListCVM).
+    // NOTE: Manage the async calls to fetch, sort, update and populate the entry carbs list.
+    // NOTE: Mange async calls by nested closures. Furthermore, pass each method as a closure agrument in a managing
+    //       method to improve readability.
     // NOTE: Async func.
-    func fetchUpdateEntryCarbs() {
+    func fetchEntryCarbs() {
         // TODO: Find elegant place for constants like this.
         let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
         let defaultDaysBack = -10
-        let semaphore = DispatchSemaphore(value: 0)
-        let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
 
         isLoading = true
 
-        dispatchQueue.async { [weak self] in
-            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: fetchEntryCarbs: Completed")
-            self?.healthUseCases.fetchEntryCarbs(daysBack: defaultDaysBack, limit: myHKObjectQueryNoLimit)
-            { [weak self] hCarbsList in
-                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: fetchEntryCarbs: hCarbsList: \(hCarbsList)")
-                self?.carbsList = hCarbsList
-                semaphore.signal()
-            }
-            // NOTE: Can be an empty list above, so have a timeout on the semaphore wait.
-            // TODO: BUG: Works most of time if not empty list. Works all the time for empty list. Fun with semaphores.
-            _ = semaphore.wait(timeout: .now() + .seconds(Int(1)))
-
-            DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbs: Completed")
-                // NOTE: Force a sort: I've observed quick delete of latest carb entry & back to app leads to bad sort.
-                self?.sortEntryCarbs()
-                semaphore.signal()
-            }
-            semaphore.wait()
-
-            DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: updateEntryCarbs: Completed")
-                self?.updateEntryCarbs()
-                semaphore.signal()
-            }
-            semaphore.wait()
-
-            DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: populateEntryCarbsCVM: Completed")
-                self?.populateEntryCarbsCVM()
-                semaphore.signal()
-            }
-            semaphore.wait()
-            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: populateEntryCarbsCVM: carbsListCVM: ")
-            print("Unsorted: \(String(describing: self?.carbsListCVM))")
-
-            DispatchQueue.main.async { [weak self] in
-            // DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
-                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbsCVM: Completed")
-                self?.sortEntryCarbsCVM()
-                semaphore.signal()
-            }
-            semaphore.wait()
-            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: sortEntryCarbsCVM: carbsListCVM: Sorted: ")
-            print("\(String(describing: self?.carbsListCVM))")
-
-            DispatchQueue.main.async { [weak self] in
-                print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: createFastList: Completed")
-                self?.createFastList()
-                self?.isLoading = false
-                semaphore.signal()
-            }
-            semaphore.wait()
-            print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: createFastList: fastList: ")
-            print("Unsorted: \(String(describing: self?.fastList))")
-
+        print("DEBUG: CarbsEntryListViewModel.fetchEntryCarbs: fetchUpdatePopulateSortEntryCarbs: Starting...")
+        fetchUpdatePopulateEntryCarbs(daysBack: defaultDaysBack, limit: myHKObjectQueryNoLimit) { [weak self] dataList in
+            print("DEBUG: CarbsEntryListViewModel.fetchEntryCarbs: fetchUpdatePopulateEntryCarbs: Completed")
+            self?.carbsListCVM = dataList
+            self?.isLoading = false
         }
-        print("DEBUG: CarbsEntryListViewModel.fetchUpdateEntryCarbs: Starting...")
     }
 
-    func sortEntryCarbs() {
+    // NOTE: Manage the async calls to fetch, sort, update, populate, sort and creat the fast list.
+    // NOTE: Mange async calls by nested closures. Furthermore, pass each method as a closure agrument in a managing
+    //       method to improve readability.
+    // NOTE: Async func.
+    func fetchFastList() {
+        // TODO: Find elegant place for constants like this.
+        let myHKObjectQueryNoLimit = 0      // NOTE: My constant for HealthKit constant HKObjectQueryNoLimit (i.e. 0).
+        let defaultDaysBack = -10
+
+        isLoading = true
+
+        print("DEBUG: CarbsEntryListViewModel.fetchFastList: fetchCreateFastList: Starting...")
+        fetchCreateFastList(daysBack: defaultDaysBack, limit: myHKObjectQueryNoLimit) { [weak self] dataList in
+            print("DEBUG: CarbsEntryListViewModel.fetchFastList: fetchCreateFastList: Completed")
+            self?.fastList = dataList
+            self?.isLoading = false
+        }
+    }
+
+    // NOTE: Fetch, sort, update and populate the entry carbs list.
+    // NOTE: Async func.
+    func fetchUpdatePopulateEntryCarbs(daysBack: Int, limit: Int, completion: @escaping ([CarbViewModel]) -> Void) {
+        fetchEntryCarbsCM(daysBack: daysBack, limit: limit) { [weak self] dataList in
+            self?.sortEntryCarbsCM() { dataList in
+                self?.updateEntryCarbsCM() { dataList in
+                    self?.populateEntryCarbsCVM() { dataList in
+                        completion(dataList)
+                    }
+                }
+            }
+        }
+    }
+
+    // NOTE: Fetch, sort, update, populate, sort and creat the fast list.
+    // NOTE: Async func.
+    func fetchCreateFastList(daysBack: Int, limit: Int, completion: @escaping ([CarbViewModel]) -> Void) {
+        fetchEntryCarbsCM(daysBack: daysBack, limit: limit) { [weak self] dataList in
+            self?.sortEntryCarbsCM() { dataList in
+                self?.updateEntryCarbsCM() { dataList in
+                    self?.populateEntryCarbsCVM() { dataList in
+                        self?.sortEntryCarbsCVM() { dataList in
+                            self?.createFastListCVM() { dataList in
+                                completion(dataList)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // NOTE: Async func.
+    func fetchEntryCarbsCM(daysBack: Int, limit: Int, completion: @escaping ([CarbModel]) -> Void) {
+        healthUseCases.fetchEntryCarbs(daysBack: daysBack, limit: limit) { [weak self] dataList in
+            self?.carbsList = dataList
+            completion(dataList)
+        }
+    }
+
+    // NOTE: Async func.
+    func sortEntryCarbsCM(completion: @escaping ([CarbModel]) -> Void) {
+        // carbsListCVM.sort(by: {$0.date.compare($1.date) == .orderedAscending})
         carbsList.sort()
+        completion(carbsList)
     }
 
-    func updateEntryCarbs() {
+    // NOTE: Async func.
+    func updateEntryCarbsCM(completion: @escaping ([CarbModel]) -> Void) {
         carbsList = healthUseCases.updateEntryCarbs(carbsList: carbsList)
+        completion(carbsList)
     }
 
-    func populateEntryCarbsCVM() {
+    // NOTE: Async func.
+    func populateEntryCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void) {
         carbsListCVM = carbsList.map(CarbViewModel.init)
+        completion(carbsListCVM)
     }
 
-    func sortEntryCarbsCVM() {
+    // NOTE: Async func.
+    func sortEntryCarbsCVM(completion: @escaping ([CarbViewModel]) -> Void) {
+        // carbsListCVM.sort(by: {$0.date.compare($1.date) == .orderedAscending})
         carbsListCVM.sort()
+        completion(carbsListCVM)
     }
 
-    func createFastList() {
+    // NOTE: Async func.
+    func createFastListCVM(completion: @escaping ([CarbViewModel]) -> Void) {
         fastList = healthUseCases.createFastList(carbsListCVM: carbsListCVM)
+        completion(fastList)
     }
 }

@@ -14,7 +14,7 @@ struct FastListView: View {
         ZStack {
             if #available(iOS 15.0, *) {
                 fastListListView
-                    .refreshable() { fetchUpdateEntryCarbs() }
+                    .refreshable() { fetchFastList() }
             } else {
                 // NOTE: Fallback on earlier versions.
                 fastListListView
@@ -47,10 +47,10 @@ struct FastListView: View {
     }
 
     // MARK: - Actions.
-    private func fetchUpdateEntryCarbs() {
+    private func fetchFastList() {
         carbsEntryListVM.requestAuthorization { success in
             if success {
-                carbsEntryListVM.fetchUpdateEntryCarbs()
+                carbsEntryListVM.fetchFastList()
             }
         }
     }

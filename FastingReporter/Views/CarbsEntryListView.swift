@@ -14,7 +14,7 @@ struct CarbsEntryListView: View {
         ZStack {
             if #available(iOS 15.0, *) {
                 carbsEntryListListView
-                    .refreshable() { fetchUpdateEntryCarbs() }
+                    .refreshable() { fetchEntryCarbs() }
             } else {
                 // NOTE: Fallback on earlier versions.
                 carbsEntryListListView
@@ -49,10 +49,10 @@ struct CarbsEntryListView: View {
     }
 
     // MARK: - Actions.
-    private func fetchUpdateEntryCarbs() {
+    private func fetchEntryCarbs() {
         carbsEntryListVM.requestAuthorization { success in
             if success {
-                carbsEntryListVM.fetchUpdateEntryCarbs()
+                carbsEntryListVM.fetchEntryCarbs()
             }
         }
     }
