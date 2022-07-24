@@ -15,9 +15,10 @@ import SwiftUI
 struct FastingReporterApp: App {
     var body: some Scene {
         WindowGroup {
-             DashboardView(currentFastVM: CurrentFastViewModel(),
-                           carbsEntryListVM: CarbsEntryListViewModel(),
-                           carbsDailyListVM: CarbsDailyListViewModel())
+            DashboardView(currentFastVM: CurrentFastViewModel(),
+                          fastListVM: FastListViewModel(),
+                          carbsEntryListVM: CarbsEntryListViewModel(),
+                          carbsDailyListVM: CarbsDailyListViewModel())
         }
     }
 }

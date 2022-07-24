@@ -16,6 +16,7 @@ struct DashboardView: View {
     // NOTE: Use ObservedObject when an object is created elsewhere.
     // NOTE: Use @StateObject where you create an object.
     @ObservedObject var currentFastVM: CurrentFastViewModel
+    @ObservedObject var fastListVM: FastListViewModel
     @ObservedObject var carbsEntryListVM: CarbsEntryListViewModel
     @ObservedObject var carbsDailyListVM: CarbsDailyListViewModel
 
@@ -24,7 +25,7 @@ struct DashboardView: View {
             VStack {
                 // TODO: Display of empty lists.
                 CurrentFastView(currentFastVM: currentFastVM)
-                FastListView(carbsEntryListVM: carbsEntryListVM)
+                FastListView(fastListVM: fastListVM)
                 CarbsEntryListView(carbsEntryListVM: carbsEntryListVM)
                 CarbsDailyListView(carbsDailyListVM: carbsDailyListVM)
             }
@@ -75,7 +76,7 @@ struct DashboardView: View {
             if success {
                 currentFastVM.fetchEntryCarbsFirst()
                 carbsEntryListVM.fetchEntryCarbs()
-                carbsEntryListVM.fetchFastList()
+                fastListVM.fetchFastList()
                 carbsDailyListVM.fetchDailyCarbs()
             }
         }
@@ -96,7 +97,8 @@ struct DashboardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         DashboardView(currentFastVM: CurrentFastViewModel(),
-                     carbsEntryListVM: CarbsEntryListViewModel(),
-                     carbsDailyListVM: CarbsDailyListViewModel())
+                      fastListVM: FastListViewModel(),
+                      carbsEntryListVM: CarbsEntryListViewModel(),
+                      carbsDailyListVM: CarbsDailyListViewModel())
     }
 }

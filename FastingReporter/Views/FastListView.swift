@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FastListView: View {
-    @ObservedObject var carbsEntryListVM: CarbsEntryListViewModel
+    @ObservedObject var fastListVM: FastListViewModel
     
     var body: some View {
         ZStack {
@@ -20,7 +20,7 @@ struct FastListView: View {
                 fastListListView
             }
 
-            if carbsEntryListVM.isLoading { LoadingView() }
+            if fastListVM.isLoading { LoadingView() }
         }
         // .overlay(fastListTitle, alignment: .top)
         .overlay(fastListHeader, alignment: .topLeading)
@@ -28,7 +28,7 @@ struct FastListView: View {
 
     // MARK: - Sub Views.
     private var fastListListView: some View {
-        List(carbsEntryListVM.fastList) { carb in
+        List(fastListVM.fastList) { carb in
             CarbFastRowView(carb: carb)
         }
     }
@@ -62,9 +62,9 @@ struct FastListView: View {
 
     // MARK: - Actions.
     private func fetchFastList() {
-        carbsEntryListVM.requestAuthorization { success in
+        fastListVM.requestAuthorization { success in
             if success {
-                carbsEntryListVM.fetchFastList()
+                fastListVM.fetchFastList()
             }
         }
     }
@@ -73,6 +73,6 @@ struct FastListView: View {
 // MARK: - Previews.
 struct FastListView_Previews: PreviewProvider {
     static var previews: some View {
-        FastListView(carbsEntryListVM: CarbsEntryListViewModel())
+        FastListView(fastListVM: FastListViewModel())
     }
 }

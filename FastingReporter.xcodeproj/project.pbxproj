@@ -20,6 +20,7 @@
 		99346C6726867CF800BFA3FB /* CarbModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C6626867CF800BFA3FB /* CarbModel.swift */; };
 		99346C6A2687EE1A00BFA3FB /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99346C692687EE1A00BFA3FB /* HealthStore.swift */; };
 		99346C6E2687F3D900BFA3FB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99346C6D2687F3D900BFA3FB /* HealthKit.framework */; };
+		9957DDDF288DCA9E0040B343 /* FastListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9957DDDE288DCA9E0040B343 /* FastListViewModel.swift */; };
 		995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */; };
 		999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999E8D77287E2E3E00A1D828 /* DateFormatter+Extension.swift */; };
 		99A4899D286E5C33006ECF8F /* HealthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A4899C286E5C33006ECF8F /* HealthRepository.swift */; };
@@ -72,6 +73,7 @@
 		99346C692687EE1A00BFA3FB /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
 		99346C6B2687F3D900BFA3FB /* FastingReporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FastingReporter.entitlements; sourceTree = "<group>"; };
 		99346C6D2687F3D900BFA3FB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		9957DDDE288DCA9E0040B343 /* FastListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastListViewModel.swift; sourceTree = "<group>"; };
 		995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarbsEntryListViewModel.swift; sourceTree = "<group>"; };
 		9989F960269519EA00FB91C5 /* UnitTests_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests_iOS.xctestplan; sourceTree = "<group>"; };
 		9989F96126951A5900FB91C5 /* AcptTests_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AcptTests_iOS.xctestplan; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				99F7F6DF2686653C0092FFF7 /* CarbsDailyListViewModel.swift */,
 				995F9D41284A872100E41397 /* CarbsEntryListViewModel.swift */,
 				99B9CDED2874DAB6001720EA /* CurrentFastViewModel.swift */,
+				9957DDDE288DCA9E0040B343 /* FastListViewModel.swift */,
 				99F1AA69287E12AB005D40AC /* CarbViewModel.swift */,
 			);
 			path = ViewModels;
@@ -472,6 +475,7 @@
 				9928006B2884CE7D0069DFDE /* CarbFastRowView.swift in Sources */,
 				999E8D78287E2E3E00A1D828 /* DateFormatter+Extension.swift in Sources */,
 				995F9D42284A872100E41397 /* CarbsEntryListViewModel.swift in Sources */,
+				9957DDDF288DCA9E0040B343 /* FastListViewModel.swift in Sources */,
 				990F9C032889DC0900D0B700 /* FastListView.swift in Sources */,
 				990F9C012889D46900D0B700 /* CurrentFastView.swift in Sources */,
 				99E3EA2D288109E8007BE830 /* LoadingView.swift in Sources */,
