@@ -64,6 +64,7 @@ struct CarbViewModel: Identifiable {
         return Constants.notApplicableStr
     }
 
+    // TODO: Best Practice: The use of Color requires import of SwiftUI here, but best to just use SwiftUI in views.
     var fastFontColor: Color {
         if let seconds = carb.diffSeconds {
             if seconds >= Constants.fastColorLevelA * 60 * 60 { return Constants.fastColorLevelAColor }
