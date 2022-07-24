@@ -19,7 +19,7 @@ struct CurrentFastView: View {
                     .cornerRadius(10.0)
                     .frame(minHeight: 60, idealHeight: 60, maxHeight: 60, alignment: .center)
                     .shadow(color: Color.primary.opacity(0.5), radius: 10, x: 10, y: 10)
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                    .padding(EdgeInsets(top: 5, leading: 20, bottom: 0, trailing: 20))
             }
             VStack {
                 Text("Fast: ")

@@ -29,6 +29,7 @@ struct DashboardView: View {
                 CarbsEntryListView(carbsEntryListVM: carbsEntryListVM)
                 CarbsDailyListView(carbsDailyListVM: carbsDailyListVM)
             }
+            .background(Color.secondary.opacity(0.1))
             .onChange(of: scenePhase) { newPhase in         // NOTE: Fetch on change to/back to app.
                 if newPhase == .active {
                     // print("DEBUG: DashboardView.body: Active")
